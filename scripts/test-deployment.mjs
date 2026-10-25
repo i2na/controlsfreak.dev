@@ -41,7 +41,7 @@ try {
     assert.match(ko, /hreflang="x-default" href="https:\/\/korean\.example\/ko\/"/);
     assert.match(ko, /<meta name="robots" content="noindex">/);
     assert.match(ko, /href="https:\/\/controlsfreak\.dev\/"/);
-    assert.match(ko, /한국의 전문 제어·설비 엔지니어가 번역하거나 검수한 자료가 아닙니다/);
+    assert.match(ko, /한국의 전문 제어·설비 엔지니어의 번역·검수를 거치지 않았습니다/);
     assert.match(ko, /property="og:image" content="https:\/\/korean\.example\/assets\/og-image-ko\.png"/);
     assert.equal(read('en/index.html'), read('index.html'));
     assert.match(read('en/index.html'), /<html lang="en">/);

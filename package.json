@@ -1,6 +1,6 @@
 {
   "name": "controlsfreak-ko",
-  "version": "3.91.0",
+  "version": "3.91.1",
   "private": true,
   "description": "Independent AI-assisted Korean edition of Controls Freak, with engineering calculators, lessons, and practice quizzes.",
   "scripts": {

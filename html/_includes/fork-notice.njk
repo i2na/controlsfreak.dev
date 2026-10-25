@@ -1,9 +1,17 @@
 <aside class="fork-notice" aria-label="{% if locale == 'ko' %}한국어판 안내{% else %}About this fork{% endif %}">
     {% if locale == 'ko' %}
-    <p><strong>독립 운영 한국어판</strong> · <a href="https://controlsfreak.dev/" lang="en">Controls Freak 원본</a>을 포크하여 i2na가 한국어 지원을 추가했습니다. 원작자와 별도로 운영합니다.</p>
-    <p>한국어 번역은 AI를 활용해 작성했으며, 한국의 전문 제어·설비 엔지니어가 번역하거나 검수한 자료가 아닙니다. 오역이나 기술적 오류가 있을 수 있으므로 실제 설계·시공·운전에는 원문과 제조사 문서, 적용 기준을 함께 확인하세요. <a href="{{ '/contact.html' | localePath(locale) }}">번역 오류 제보</a></p>
+    <div class="fork-notice-heading">
+        <strong>한국어판 안내</strong>
+        <a href="{{ '/contact.html' | localePath(locale) }}">번역 오류 알려주기 <span aria-hidden="true">→</span></a>
+    </div>
+    <p><a href="https://controlsfreak.dev/" lang="en">Controls Freak</a>에 한국어 번역을 더한 비공식 한국어판입니다. i2na가 원작자와 별도로 운영합니다.</p>
+    <p class="fork-notice-review">AI의 도움으로 번역했으며, 한국의 전문 제어·설비 엔지니어의 번역·검수를 거치지 않았습니다. 실제 업무에 적용하기 전에는 영문 원문, 제조사 문서와 관련 기준을 함께 확인해 주세요.</p>
     {% else %}
-    <p><strong>Independent Korean edition</strong> · Forked from <a href="https://controlsfreak.dev/">Controls Freak</a>, with Korean support maintained by i2na. This fork is independently operated.</p>
-    <p>Korean translations are AI-assisted and have not been translated or reviewed by a professional Korean controls or HVAC engineer. Verify technical details against the original, manufacturer documentation, and applicable standards before field use. <a href="/ko/" lang="ko">한국어로 보기</a> · <a href="/contact.html">Report a translation issue</a></p>
+    <div class="fork-notice-heading">
+        <strong>About this Korean edition</strong>
+        <a href="/contact.html">Report a translation issue <span aria-hidden="true">→</span></a>
+    </div>
+    <p>This is an unofficial Korean edition of <a href="https://controlsfreak.dev/">Controls Freak</a>, maintained by i2na separately from the original author.</p>
+    <p class="fork-notice-review">Korean translations are AI-assisted and have not been translated or reviewed by a professional Korean controls or HVAC engineer. Before using them in practice, check the English original, manufacturer documentation, and relevant standards.</p>
     {% endif %}
 </aside>

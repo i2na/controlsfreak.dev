@@ -1,7 +1,7 @@
 ---
-title: 한국어판 문의 — controlsfreak.dev
-description: 독립 운영되는 Controls Freak 한국어판의 번역 오류, 계산기 문제와 버그를 제보하는 방법을 안내합니다. 해당 페이지 주소, 입력값과 재현 절차를 함께 알려 주세요.
-sourceContentHash: 1926d64f62d4577ed202b7da2a5a6172bbae293e9837a75c90a562fb8f8c5b20
+title: 한국어판 문의·오류 제보 — controlsfreak.dev
+description: Controls Freak 한국어판의 번역 오류나 도구 사용 중 발견한 문제를 알려 주세요. GitHub에서 운영자에게 의견을 보내는 방법과 함께 적으면 도움이 되는 내용을 안내합니다.
+sourceContentHash: 5f658bb2f7be17072b5aef0fbb0ebc8e5245f5b71e42a692d3c8648ab55d9573
 canonical: https://controlsfreak.dev/ko/contact.html
 nav: contact
 ---
@@ -10,14 +10,26 @@ nav: contact
 {% block content %}
 <main id="main">
     <div class="section-header"><span class="section-label">문의</span><div class="section-line"></div></div>
-    <div class="tool-card">
-        <div class="tool-card-header"><h1 class="tool-card-title">한국어판 문의 <span class="tool-tag">의견 보내기</span></h1></div>
+    <div class="tool-card fork-contact">
+        <div class="tool-card-header"><h1 class="tool-card-title">문의·오류 제보 <span class="tool-tag">한국어판</span></h1></div>
         <div class="tool-body fork-prose">
-            <p>이 독립 한국어판은 i2na가 운영합니다. 번역 오류나 이 한국어판의 문제는 포크 저장소의 GitHub 이슈로 제보해 주세요.</p>
-            <p><a class="fork-action" href="https://github.com/i2na/controlsfreak.dev/issues/new/choose">GitHub에 문제 제보하기</a></p>
-            <p>페이지 주소, 원문과 번역 문구, 수정이 필요한 내용을 함께 적어 주세요. 계산기 문제라면 입력값, 단위계, 예상 결과와 재현 절차도 알려 주세요.</p>
-            <p>GitHub 이슈는 공개됩니다. 비밀번호, 비공개 건물 정보, 개인 연락처 등 민감한 정보를 적지 마세요. 이슈를 작성하려면 GitHub 계정이 필요합니다.</p>
-            <p>원본 프로젝트는 <a href="https://controlsfreak.dev/">Controls Freak</a>가 제작했습니다. 이 포크는 메시지를 원작자에게 전달하지 않습니다.</p>
+            <p>번역이 어색하거나 도구가 제대로 작동하지 않나요? 한국어판 운영자 i2na에게 알려 주세요.</p>
+            <div class="fork-contact-action">
+                <a class="fork-action" href="https://github.com/i2na/controlsfreak.dev/issues/new/choose">GitHub에서 의견 보내기 <span aria-hidden="true">↗</span></a>
+                <p class="fork-contact-hint">GitHub 계정이 필요합니다.</p>
+            </div>
+            <section class="fork-contact-details" aria-labelledby="feedback-details">
+                <h2 id="feedback-details">함께 알려 주세요</h2>
+                <ul>
+                    <li><strong>페이지 주소</strong> — 문제가 있는 페이지의 링크</li>
+                    <li><strong>번역 오류</strong> — 원문과 번역 문구, 수정 의견</li>
+                    <li><strong>도구 오류</strong> — 입력값과 단위, 예상한 결과와 실제 결과, 문제가 발생한 순서</li>
+                </ul>
+            </section>
+            <div class="fork-contact-note">
+                <p><strong>작성한 내용은 누구나 볼 수 있습니다.</strong> 비밀번호, 개인 연락처, 비공개 현장 정보는 적지 마세요.</p>
+            </div>
+            <p class="fork-contact-credit">이 문의는 한국어판 운영자에게 전달됩니다. 원본 <a href="https://controlsfreak.dev/">Controls Freak</a>는 원작자가 별도로 운영합니다.</p>
         </div>
     </div>
 </main>

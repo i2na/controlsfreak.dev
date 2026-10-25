@@ -1,22 +1,117 @@
-/* Fork-specific presentation stays separate from upstream's design system. */
+/* Fork-specific presentation uses the upstream colors and panel geometry. */
 .fork-notice {
-    max-width: 1180px;
-    margin: 1.25rem auto;
+    width: calc(100% - 4rem);
+    max-width: 1056px;
+    margin: 1.5rem auto 0;
     padding: 1rem 1.25rem;
     border: 1px solid var(--border);
     border-left: 3px solid var(--accent);
-    border-radius: 6px;
     background: var(--surface);
     color: var(--text);
     font-size: .875rem;
     line-height: 1.75;
 }
+.fork-notice-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .25rem 1rem;
+    margin-bottom: .35rem;
+}
+.fork-notice-heading strong { color: var(--text-bright); }
+.fork-notice-heading a { font-size: .8125rem; }
 .fork-notice p { margin: 0; }
-.fork-notice p + p { margin-top: .4rem; }
-.fork-notice a, .fork-prose a { text-decoration: underline; text-underline-offset: .2em; }
-.fork-prose { max-width: 850px; line-height: 1.9; }
+.fork-notice p + p { margin-top: .35rem; }
+.fork-notice .fork-notice-review { color: var(--text-dim); }
+.fork-notice a,
+.fork-prose a {
+    color: var(--accent-ink);
+    text-decoration: underline;
+    text-underline-offset: .2em;
+    text-decoration-thickness: 1px;
+}
+.fork-notice a:hover,
+.fork-prose a:hover { color: var(--text-bright); }
+.fork-notice a:focus-visible,
+.fork-prose a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+}
+.fork-notice:lang(ko),
+.fork-prose:lang(ko) {
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+}
+.fork-prose { max-width: 850px; line-height: 1.8; }
+.fork-prose > * + * { margin-top: 1.25rem; }
 .fork-prose section + section { margin-top: 1.5rem; }
-.fork-action { display: inline-block; padding: .7rem 1rem; border: 1px solid currentColor; border-radius: 4px; }
+.fork-contact .tool-card-title { flex-wrap: wrap; }
+.fork-contact .tool-tag { white-space: nowrap; }
+.fork-contact-action {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .65rem 1rem;
+}
+.fork-prose .fork-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .75rem;
+    min-height: 44px;
+    max-width: 100%;
+    padding: .65rem 1rem;
+    border: 1px solid var(--accent);
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    font-size: .9rem;
+    font-weight: 600;
+    line-height: 1.5;
+    text-decoration: none;
+}
+.fork-prose .fork-action:hover { background: var(--accent-dim); }
+.fork-prose .fork-contact-hint,
+.fork-prose .fork-contact-credit {
+    color: var(--text-dim);
+    font-size: .8125rem;
+}
+.fork-contact-details {
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border-faint);
+}
+.fork-contact-details h2 {
+    margin: 0 0 .6rem;
+    color: var(--text-bright);
+    font-size: .95rem;
+    font-weight: 600;
+}
+.fork-contact-details ul { padding-left: 1.2rem; }
+.fork-contact-details li + li { margin-top: .4rem; }
+.fork-contact-details li::marker { color: var(--accent); }
+.fork-contact-note {
+    padding: .85rem 1rem;
+    border-left: 2px solid var(--border);
+    background: var(--surface-2);
+}
+.fork-contact-note p { font-size: .875rem; }
 footer .footer-left { flex-wrap: wrap; }
-@media (max-width: 1240px) { .fork-notice { margin: 1rem 1rem; } }
-@media print { .fork-notice { background: none; border: 1px solid #777; font-size: 9pt; } }
+@media (max-width: 620px) {
+    .fork-notice {
+        width: calc(100% - 2rem);
+        margin-top: 1rem;
+        padding: .9rem 1rem;
+    }
+    .fork-contact .tool-card-header,
+    .fork-contact .tool-body { padding: 1.1rem; }
+}
+@media print {
+    .fork-notice {
+        width: 100%;
+        max-width: none;
+        margin: 0 0 1rem;
+        background: none;
+        border: 1px solid #777;
+        font-size: 9pt;
+    }
+}
