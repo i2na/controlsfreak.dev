@@ -77,7 +77,7 @@ brief): the site's identity is controls-first but the signals/IO
 shelf was the thinnest — the foundation PR seeded the `signals`
 category with controller-wiring as the boundary lesson, and the
 chapter now builds out from the
-`[future: education/analog-sensing.html]` marker the forced-air
+`[future: education/analog-sensing.html]` *(shipped)* marker the forced-air
 buildout left behind. Per-page contracts below, one at a time as
 lanes open. Chapter reading order (final, once all lanes land):
 controller-wiring → analog-sensing → temperature-sensors →
@@ -631,7 +631,7 @@ site's identity is controls-first, so the thinnest shelf for the core
 audience was signals/IO and function-block programming. The telling
 detail: the function-block wiresheet sim existed as **a capstone with
 no lessons behind it**, and the analog-sensing lesson had sat as a
-`[future:]` marker since the forced-air buildout. Lessons are cheap
+`[future:]` marker since the forced-air buildout *(shipped)*. Lessons are cheap
 relative to a flagship sim and run well as parallel lanes. Shipped:
 ten lessons across the two chapter entries above, each with a paired
 quiz, plus the issue appetizer. A `/controls/` hub was floated as a
@@ -722,6 +722,11 @@ Still open on it, in rough priority order:
 * **the fogging marker is ONE candidate** (codebase-issues #240),
   built cheap and reversible so the owner can redesign it after
   looking at it.
+
+*(2026-10-05: the first two bullets are stale — the second AHU sheet,
+`econ-2stage-lowlimits`, shipped 2026-08-02 (PR #468) with `mat` and
+`dat` wired. The current statement is `docs/air-side-sim.md`, the
+paragraph beginning "The **second AHU sheet SHIPPED 2026-08-02**".)*
 
 **The named next flagship: the air-side simulator.** Deliberately
 sequenced after this arc so it inherits field feedback on the
@@ -1436,7 +1441,7 @@ build time. Decisions worth remembering:
   no rich-result payoff; the page carries FAQPage +
   SoftwareApplication + BreadcrumbList instead. The SEO surface is the
   build-time-rendered rows themselves (~35 KB gzipped, the accepted
-  cost of full crawlability).
+  cost of full crawlability). ⟨2026-10-05: Google dropped FAQ rich results for sites like this one in Aug 2023 — kept for answer engines, see codebase-issues #317⟩
 - **Decode box + filter are separate inputs** — exact-ID decode gives
   status semantics a substring filter can't ("260" as a filter also
   matches 1260), and the four pill states (registered / reserved /
@@ -1941,9 +1946,61 @@ chips went HVAC 7→8, All 25→26). v3.37.0. Design notes:
   says "roughly in order"), and the freeze-band full-flow text now
   splits HW (preheat-coil condition, warn) from CHW (no heat to
   bring — error).
-- `[future: education/coil-freeze-protection.html]` — the lesson this
-  tool will eventually pair with; the protection-stack reference row
-  is its outline.
+- `[future: education/coil-freeze-protection.html]` *(shipped
+  2026-10-05, PR #620)* — the lesson this tool pairs with; the
+  protection-stack reference row was its outline, and now carries a
+  one-sentence pointer back to the lesson's mass-vs-volume beat.
+
+### Warm-climate freeze-protection copy — P1 / P4 / P5 blessed 2026-08-09 *(pointer planted 2026-10-05)* *(shipped in the lesson 2026-10-05, PR #620)*
+
+The research record is **`docs/warm-climate-freeze-protection.md`** —
+§5 holds the prose proposals; 8 claims, 8 survived adversarial
+refutation (its §3 demotions and traps are what future copy must not
+fall into). The owner **blessed P1, P4 and P5** on 2026-08-09:
+
+- **P1 — the two cold surfaces.** Cold air is a hazard in both
+  climates, on opposite sides of the duct wall: a wet coil bursting up
+  north, a duct sweating in a hot attic down south.
+- **P4 — freeze exposure = design OA temperature × OA fraction × a wet
+  coil.** Gives the reader the multiplication instead of inventing a
+  southern setpoint.
+- **P5 — why the economizer sequence differs down south.** ⚠️ Must
+  carry **T7** (the code constrains only the warm end of the band, and
+  still contemplates economizing into freeze-risk air).
+
+P2 and P3 are provisional ("may earn their place"), not rejected.
+
+**Why it stalled.** The blessing was passive — draw on it when a lane
+next touches relevant copy — and the only pointer to it lived in the
+rolling handoff, retired 2026-08-21. No ledger or friction entry named
+it, so no lane ever went looking.
+
+**Natural homes.** P1 / P4 → `tools/coil-freeze-risk.html` (the entry
+above) or the coil-freeze-protection lesson (tracked by the roadmap
+marker that closes the entry above); P5 → the reference section of
+`tools/economizer-ratio.html`, carrying T7.
+
+**Ruling (2026-10-05, owner).** *"Pointer now plus a small lane, good
+calls all around."* This entry is the pointer. The lane is **one small
+content lane after the mechanical cleanup**, absorbed by the arc if the
+arc picks the coil-freeze-protection lesson. Live pages → owner merges
+the lane; this heading takes a `*(shipped …)*` note when it lands.
+
+**Shipped in the lesson (2026-10-05, PR #620).** The arc picked the
+lesson, so all three blessed directions landed in
+`education/coil-freeze-protection.html` rather than on the tool pages:
+P1 closes the *What Actually Freezes* section (as the site's own
+framing, no citation — §4), P4 is the *Exposure Has Three Terms*
+section (Atlanta 100 %-OA vs Boston minimum-OA, the DX rooftop with
+no water coil to burst), and P5 opens *Why the Sequence Looks
+Different by Climate* with the T7 caveat spelled out in its own
+paragraph (warm end only; the 45 °F leaving-air line). **P2 and P3
+shipped too, as pattern-reading** — one paragraph of "the answer
+lives in this job's specification" (UFGS unconditional vs G36
+optional vs owner-standard silence) plus Texas 2021 as the
+silence-is-not-a-rule case — never as a rule and never as "southern
+jobs omit the stat". `tools/economizer-ratio.html` did **not** take a
+P5 twin; the lesson is the one home.
 
 ### Equipment Airflow Check *(shipped 2026-07-11)*
 
@@ -2394,7 +2451,7 @@ region (the metrics-announcer precedent). `[future: a "load these into
 the sliders" affordance was considered and skipped — user gains on the
 toy process would misread as a simulation of their loop]`
 
-### PID basics — surface direct vs reverse acting? *(idea, noted 2026-07-14)*
+### PID basics — surface direct vs reverse acting? *(idea, noted 2026-07-14)* *(ruled 2026-10-05 — one-sentence aside in the P callout)* *(shipped 2026-10-05, PR #616)*
 *Surfaced by the codebase-issues #154 sim/tool physics diff — an
 observation, not a defect: the physics on the page is correct.* The P
 callout's only worked example is a **chilled-water valve** (PV above SP,
@@ -2409,6 +2466,31 @@ parameter for (it's fixed reverse-acting). Candidate: a one-line aside in
 the P callout naming acting direction, or switch the worked example to a
 heating valve so it matches the sims. Low priority; the arithmetic is
 sound either way.
+
+**Ruling (2026-10-05, owner).** *"The aside."* One sentence after the
+worked example in `education/pid-basics.html`'s P callout (the
+chilled-water example is the `<p>` at `:48`), naming **controller
+action** explicitly — a cooling loop is direct-acting (output rises as
+PV rises); the sims below are heating loops, reverse-acting, driving up
+from below. Say *controller* action, not bare "acting": the site uses
+direct/reverse in a second sense too — actuator signal-to-stroke on
+`education/commanding-actuators.html:184-185` — so the aside says which
+one it means. Link the two terms to
+`education/comparators-and-deadband.html`, where controller action is
+taught (`:435-436`); the page exists, so the forward-link convention is
+satisfied. **Keep the chilled-water worked example** rather than
+swapping it for a heating valve: its 12.8 / 15.6 / 2.8 °C figures are
+CLAUDE.md's metric-rounding exemplar. Live lesson → owner merges; this
+heading takes a `*(shipped …)*` note when it lands. By-catch logged, not
+ruled: the tuner's cheat-sheet row is now `codebase-issues` #324 (its
+"flip acting" advice names a control the tuner does not have). Shipped as PR #616.
+
+*Correction (2026-10-05):* the premise above that every mini-sim is a
+heating loop is wrong. Each mini-sim's **Fast** chip is a duct
+static-pressure loop (`scripts/pid-engine.js` preset: SP 1.5 in. w.c.);
+only Medium and Slow are warming loops (°F). All three ARE
+reverse-acting (more output raises PV), so the shipped aside names
+reverse action and drops the "heating loops" wording.
 
 ### PID tuner — live process visualization + tune-it-blind spoiler *(shipped 2026-06-08)*
 *The interactive home hero sells a live loop, then links to the tuner —
@@ -2783,14 +2865,18 @@ In scope (sections shipped):
   reset prose + Widget 2 (mode toggle, demand slider, valve cells,
   readouts, deadhead anecdote at demand=0)
 - *Lead/lag and parallel pumps — a note* — short forward-link to
-  `[future: sequencing.html]`; user explicitly said "sequencing
+  `[future: sequencing.html]` *(partly shipped 2026-05-21 — lead/lag
+  and staging as `education/equipment-staging.html`)*; user explicitly said "sequencing
   should get a lot of attention" so this page deliberately stays
   shallow on it
 - *Tying it together* — closing payoff to load-piping + VFDs
 
 Out of scope (forward links, not content):
 - Pump staging / lead-lag rotation / end-of-curve protection /
-  bumpless transitions — [future: sequencing.html]
+  bumpless transitions — [future: sequencing.html] *(partly shipped
+  2026-05-21 — staging and lead/lag rotation as
+  `education/equipment-staging.html`; end-of-curve protection and
+  bumpless transitions are still unbuilt)*
 - Hydronic balancing — [future: balancing.html] *(shipped 2026-05-16)*
   (reachable from load-piping)
 - Open-loop systems with static head (cooling towers, sumps) —
@@ -3283,7 +3369,7 @@ flat site-style keypad" decisions above — the face is now fully
 equipment-register.
 
 
-### Refrigerant cycle — Education section, possibly with calculator *(parked 2026-05-29 — revisit when the topic is next picked up)*
+### Refrigerant cycle — Education section, possibly with calculator *(parked 2026-05-29 — revisit when the topic is next picked up)* *(shipped — lessons 2026-05-27, Refrigerant Loop sim 2026-07-15, refrigeration hub 2026-07-18)*
 
 **Parked 2026-05-29.** The user is happy with where the refrigerant
 section sits. Shipped so far: the P-T / superheat tool
@@ -3350,7 +3436,7 @@ tool whose job is to be more correct than a pocket P-T card, not less.
 `/tools/refrigerant-pt.html` as a two-tab `.tool-body-2col` tool
 (page-id prefix `rf-`), the calculator half of this idea; the
 Education pages above stay future work (no forward-links, since the
-target pages don't exist yet).
+target pages don't exist yet). *(shipped 2026-05-27 — all three lessons; noted 2026-10-05)*
 
 Decisions settled during scoping:
 - *Two tabs* — P-T (saturation) with a Pressure ↔ Temperature
@@ -3400,7 +3486,8 @@ Out of scope / parked:
 - The P-T calculator and a future refrigerant-cycle animation might
   share saturation-curve / state-point math. Or not — wait until the
   second piece exists before deciding, same logic as the engines
-  question.
+  question. *(the animation shipped 2026-07-15 as
+  `simulators/refrigerant-loop.html`; noted 2026-10-05)*
 
 ### PID tuner — explicit loop speed numbers *(shipped 2026-05-16)*
 The original ask was to put concrete time-constant numbers somewhere
@@ -5556,7 +5643,9 @@ In scope (sections shipped):
 Out of scope (forward links, not content):
 - The commissioning procedure itself — proportional-balancing
   walk-through, sign-off documentation, tooling — [future:
-  commissioning.html], referenced in the closing forward callout
+  commissioning.html] *(partly shipped 2026-07-14 — the controls half
+  as `education/controls-commissioning.html`; the proportional-balancing
+  walk-through is still unbuilt)*, referenced in the closing forward callout
 - System-level DPBV — covered on `load-piping.html` (cross-link)
 - Reverse return as a passive balancing approach — covered on
   `hydronic-loops.html` d2 (cross-link from closing section)
@@ -5714,7 +5803,7 @@ the same session:
    without an animation pass, every arrow on a complex diagram
    benefits from a tracing-the-flow walk-through during review.
 
-### Protocol education pages — Modbus shipping, BACnet to follow
+### Protocol education pages — Modbus shipping, BACnet to follow *(both shipped — `modbus-basics.html` and `bacnet-basics.html`, 2026-05-23)*
 
 The site's education footprint was HVAC + hydronics heavy through
 2026-05; building-controls work is at least as protocol-heavy. The
@@ -6297,9 +6386,33 @@ of a real reader; do not open it as a general affordance.
 > thin entries (**pump-head**, **valve-authority**, **manual-reset**,
 > **apparatus-dew-point**) re-pitch at the §7.2 surface, not before.
 
+> **RULED 2026-10-05 — `balancing.html:497` "floating-point input."**
+> Drop the floating mention and say proportional. Owner: *"I would
+> rather say proportional at that point, a tri state is driven with 2
+> DOs, so we would either be adding confusion or trading one inaccuracy
+> for another."* A floating actuator has no 0–100 % command input (two
+> DOs inch it; position is inferred from run time), so naming it in a
+> sentence built on *"tell the PICV to be 50 % open"* is wrong under
+> either spelling. Proposed sentence — the owner tweaks it on the
+> live-page PR: *"The actuator on top is the same kind a BMS would
+> drive on any other control valve — a proportional analog input,
+> 0–100 % open."* Shipped PR #621.
+
+> **RULED 2026-10-05 — fail-to-start: parked into §7.2.** Owner: *"Park
+> it with the pointer."* Measured 2026-10-05: **zero markable sites
+> outside the two owners** — the wiresheet hit is an `<h3>`, three are
+> `navCard()` desc args, eight are quiz-bank uses — so its only consumer
+> is the quiz surface. **Decide it with the §7.2 design;** this line is
+> the tracking pointer the re-triage reads. A code comment in
+> `html/_data/glossary.js` rides the next approved `html/_data` PR (that
+> directory needs owner approval, so it is not in the docs PR that
+> recorded this ruling). Note there is no `fail-to-start` entry today —
+> the term appears only inside the `proof-window` entry's `def` — so the
+> comment lands beside that entry.
+
 ---
 
-### Quiz expansion — grow the banks + new quizzes *(owner direction 2026-08-14; candidate for the post-glossary re-triage)*
+### Quiz expansion — grow the banks + new quizzes *(owner direction 2026-08-14; candidate for the post-glossary re-triage)* *(wave 2 opened 2026-10-05 — air-handlers, economizers, pid-basics; see rulings.md item 17)* *(wave 3 opened 2026-10-06 — six banks in two batches, building-pressure / duct-static-control / vav-systems then psychrometrics-basics / hydronic-loops / load-piping; see rulings.md §19)*
 
 The owner's CEO was shown the site by a third party and was "VERY
 impressed," singling out **the quizzes** as what he liked most. Owner
@@ -6321,7 +6434,7 @@ the 2026-07-30 date belongs to the bank-growth direction, not the
 engine change; a grown bank starts varying with no code change)*;
 growing a bank quietly grows
 its FAQPage JSON-LD too, so the CEO's favorite feature and the SEO
-trajectory feed each other; and the quiz-bank gloss-component lane
+trajectory feed each other; ⟨2026-10-05: Google dropped FAQ rich results for sites like this one in Aug 2023 — kept for answer engines, see codebase-issues #317⟩ and the quiz-bank gloss-component lane
 (§7.2, ruled IN scope 2026-08-12) is sequenced in the same
 post-phase-3 window — bank *content* growth and that engine lane
 barely conflict (data files vs engine), but sequence them
@@ -6329,7 +6442,7 @@ deliberately.
 
 ---
 
-### The owner's dev-arc brief (2026-08-07) — triaged 2026-08-12, PARKED *(re-triage when glossary phases 2–3 are done)*
+### The owner's dev-arc brief (2026-08-07) — triaged 2026-08-12, PARKED *(re-triage when glossary phases 2–3 are done)* *(re-triaged 2026-10-05 — arc = freeze season + quizzes; F4 one mockup lane at the arc's end; A1/A4/C4/D2/D4/E2, §0 N2 and the LON go/no-go to a short sitting of their own; see docs/audits/2026-10-reentry/rulings.md item 17)*
 
 An owner-authored, deliberately broad brief (~30 items across seven
 themes: bus/physical-layer reality, gateway quirks, platform
@@ -6405,9 +6518,20 @@ are one workstream. The pipeline supports a new content type
 trivially; the cost is taxonomy (and the sharp-shelves preference),
 not plumbing.
 
+**Re-triaged 2026-10-05 (owner, the evening after the decision
+sitting):** the arc is **freeze season + quizzes** — the
+coil-freeze-protection lesson first, quiz-bank growth wave 2
+alongside, #228 as the background tax lane — with the F4 case-file
+type as ONE mockup lane at the arc's end (stories owner-supplied only
+after he has seen a shape) and the glossary §7.2 quiz-bank component
+after that. The remaining brief items (A1, A4, C4, D2, D4, E2, the
+§0 N2 gap and the LON go/no-go on C2/C3) go to a short sitting of
+their own, with the banked analysis above as its input — record:
+`docs/audits/2026-10-reentry/rulings.md` item 17.
+
 ---
 
-### Mixed air, mass basis vs volume basis *(measured 2026-07-28 — owner ruled the sim's basis; the teaching beat is unbuilt)*
+### Mixed air, mass basis vs volume basis *(measured 2026-07-28 — owner ruled the sim's basis)* *(ruled 2026-10-05 — reference row on coil-freeze-risk.html)* *(shipped in the lesson 2026-10-05, PR #620 — the tool row shrank to a pointer)*
 
 The AHU's mixing box weights **volumetrically** — `%OA × OAT + %RA × RAT`,
 the arithmetic a tech actually does and the form `coil-freeze-risk.html`
@@ -6454,6 +6578,40 @@ Related: `codebase-issues` #228 (engine standardisation — the three
 disagreeing inline MAT forms) and #236 (the `mixStreams` fog branch).
 Rewiring the four public consumers onto the shared helper belongs to
 #228, not here.
+
+**Ruling (2026-10-05, owner).** *"The tool row."* The beat ships as a
+new `.tool-body-row` section on `tools/coil-freeze-risk.html`, beside
+the existing "Why …" rows (*Why steam coils split*, *Why coils split
+while the trend looks fine*) — working title *"Why hand mixed-air math
+runs warm on a cold day"*. Content: the bias direction (cold OA is
+denser, so a volumetric % understates the outdoor air by mass and the
+hand MAT reads warm) and the 0 °F / 75 °F / 20 % example — 20 % →
+22.8 % by mass; 60.0 → 58.1 °F, ~2 °F optimistic against the tool's
+35–38 °F band. Link to `tools/air-mixing.html`, whose mass-basis FAQ
+(*"Why weight by mass flow instead of CFM?"*) already exists. Metric
+twins per the rounding policy. ⚠️ **Re-derive every number from
+`Psychro.mixStreams` at authoring time** — do not copy them from this
+note (the 60.00 vs 60.20 °F aside above shows how easily the linear and
+enthalpy forms get conflated). Small content lane, queued after the
+mechanical cleanup; live tool page carrying a damage-stakes note →
+owner merges. **If the arc picks the coil-freeze-protection lesson, the
+beat moves there and this row shrinks to a pointer.** This heading
+takes a `*(shipped …)*` note when it lands.
+
+**Shipped in the lesson (2026-10-05, PR #620).** The arc picked the
+lesson, so the beat is the *Why the Hand Math Runs Warm on a Cold Day*
+section of `education/coil-freeze-protection.html`, and the
+coil-freeze-risk protection-stack row carries a one-sentence pointer
+to it instead of a section of its own. Every figure was re-derived
+from `Psychro.mixStreams` at authoring time, as ruled, and reproduced
+this note to the decimal: v 11.594 / 13.679 ft³/lb (18 % spread),
+22.78 % by mass, 58.132 °F mass-weighted against 60.0 linear, and the
+60.195 °F cp-weighted aside. Printed as 22.8 %, 58.1 vs 60.0 °F, about
+1.9 °F (1.1 °C — the delta from the displayed metric operands 15.6 and
+14.5). The lesson states the direction (a volume share understates
+the outdoor air by mass, so the hand number reads warm) and links
+`tools/air-mixing.html` for the mass basis. #228 (the inline MAT
+forms) is unchanged by this.
 
 ---
 

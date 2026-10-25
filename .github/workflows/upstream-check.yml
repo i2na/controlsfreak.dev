@@ -1,0 +1,48 @@
+name: Check upstream for Korean translation updates
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Monday 06:17 Asia/Seoul (Sunday 21:17 UTC).
+    - cron: '17 21 * * 0'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: upstream-translation-check
+  cancel-in-progress: true
+
+jobs:
+  report:
+    if: github.repository == 'i2na/controlsfreak.dev'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: '22'
+
+      - name: Fetch upstream and generate a review report
+        run: node scripts/upstream-check.mjs --output "$RUNNER_TEMP/upstream-report"
+
+      - name: Show the report in the workflow summary
+        if: always()
+        run: |
+          if [ -f "$RUNNER_TEMP/upstream-report/upstream-report.md" ]; then
+            cat "$RUNNER_TEMP/upstream-report/upstream-report.md" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload Markdown and JSON review reports
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: upstream-translation-review
+          path: ${{ runner.temp }}/upstream-report/
+          if-no-files-found: warn
+          retention-days: 30

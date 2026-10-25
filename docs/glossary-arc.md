@@ -448,7 +448,8 @@ operational state; these two are the whole of what was lost.)*
   extend the arm vs accept). Remaining arc phases per §9: multi-benign
   (§5) with written matching rules, then the collision tier (§4) with
   per-context handling, then the §7.2 quiz-bank component lane — the
-  brief re-triage follows.
+  brief re-triage follows. ⟨2026-10-05: sequenced AFTER the
+  freeze-season + quizzes arc — rulings.md item 17⟩
 
 - **2026-08-15 — §5 multi-benign SHIPPED; the close's decision batch
   cleared.** One session, five merged PRs: #576 (ledger marker
@@ -492,6 +493,8 @@ operational state; these two are the whole of what was lost.)*
   deliverable) → **the §7.2 quiz-bank component lane** → the brief
   re-triage (the friction file's quiz-expansion entry — owner
   direction 2026-08-14 — carries the CEO signal into that pick).
+  ⟨2026-10-05: sequenced AFTER the freeze-season + quizzes arc —
+  rulings.md item 17⟩
 
 - **2026-08-20 — the §4 collision tier RULED; the disambiguation
   component will NOT be built.** One session: the 4-lane inventory
@@ -588,7 +591,10 @@ operational state; these two are the whole of what was lost.)*
   state again. Still open from the §4 round's routing:
   balancing:497's 'floating-point input' (field usage or copy
   defect?) and the fail-to-start re-triage candidate — both owner
-  items.
+  items. ⟨2026-10-05: both ruled — balancing:497 → "proportional", the
+  floating mention drops; fail-to-start parked into §7.2 with a
+  tracking line in the friction file's glossary-arc entry. Record:
+  `docs/audits/2026-10-reentry/rulings.md`. Shipped PR #621.⟩
 
 - **2026-08-27 — §4 MARKING COMPLETE at 27 marks; the yield band
   was a hedge stripped in transit.** Both lanes merged owner-cleared
@@ -635,11 +641,15 @@ operational state; these two are the whole of what was lost.)*
   outside that list drifted** — worth a standing rider line on the
   next phase's execution PR.
   Next per §9: **the §7.2 quiz-bank component lane** → the brief
-  re-triage. Owner items still open, unchanged: balancing:497's
+  re-triage. ⟨2026-10-05: sequenced AFTER the freeze-season + quizzes
+  arc — rulings.md item 17⟩ Owner items still open, unchanged: balancing:497's
   'floating-point input', and the fail-to-start re-triage candidate
   — which is tracked **only** here and in the §4 proposal, i.e. not
   in the friction file or `codebase-issues.md`, the ledgers the
-  re-triage will actually read.
+  re-triage will actually read. ⟨2026-10-05: both ruled — balancing:497 → "proportional", the
+  floating mention drops; fail-to-start parked into §7.2 with a
+  tracking line in the friction file's glossary-arc entry. Record:
+  `docs/audits/2026-10-reentry/rulings.md`. Shipped PR #621.⟩
 
 ## Open questions
 

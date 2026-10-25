@@ -149,9 +149,11 @@ const DDCWAhuUnit = (function () {
     // at the corners. That is outside the psych engine's validity
     // envelope as well as the machine's — above 212 °F at sea level a
     // saturation humidity ratio does not exist, satHumRatio returns a
-    // NEGATIVE value, and buildState silently zeroes W, which breaks
-    // this file's own "a heating coil leaves W alone" invariant on the
-    // published bag with no error anywhere.
+    // NEGATIVE value, and buildState used to silently zero W, which
+    // broke this file's own "a heating coil leaves W alone" invariant on
+    // the published bag with no error anywhere. (buildState now refuses
+    // such a point with ok:false — codebase-issues #238 — and the coil
+    // block below treats that refusal as the ceiling binding.)
     const HW_LEAVE_MAX  = 180;                     // °F — design hot-water supply
     const P             = P_STD;                   // psia (from psychro-engine)
 
@@ -757,15 +759,21 @@ const DDCWAhuUnit = (function () {
             const heated = Psychro.invertProcess(mixState, {
                 type: 'heat', cfm: cfm, qSens: hwFrac * HW_QSENS_MAX,
             });
-            if (heated.ok) {
-                // Leaving-air ceiling (see HW_LEAVE_MAX). Never below the
-                // entering air: on a day already hotter than the water,
-                // a heating coil does nothing — it does not cool.
-                const leaveMax = Math.max(mixState.tdb, HW_LEAVE_MAX);
-                afterHeat = heated.tdb > leaveMax
-                    ? Psychro.buildState(leaveMax, mixState.W, P)
-                    : heated;
-            }
+            // Leaving-air ceiling (see HW_LEAVE_MAX). Never below the
+            // entering air: on a day already hotter than the water,
+            // a heating coil does nothing — it does not cool.
+            //
+            // A failed inversion binds the ceiling too. With a valid
+            // inlet and positive airflow, a heating inversion can only
+            // fail by landing at or above the boiling point, which
+            // buildState refuses (codebase-issues #238) — and that is
+            // necessarily past leaveMax, since the entering air is not
+            // boiling. A starved fan reaches it: the fixed coil load over
+            // too little air drives the unclamped leaving air past 212 °F.
+            const leaveMax = Math.max(mixState.tdb, HW_LEAVE_MAX);
+            afterHeat = !heated.ok || heated.tdb > leaveMax
+                ? Psychro.buildState(leaveMax, mixState.W, P)
+                : heated;
             // qHeat is what the AIR actually absorbed, read back off the
             // leaving state, so the published load and the published
             // temperatures cannot disagree once the ceiling binds. Below
@@ -2044,8 +2052,22 @@ const DDCWAhuUnit = (function () {
             cls = 'error'; txt = text('unit.verdict.simultaneousHeatCool', null,
                 'Heating valve open under a running compressor — the unit is fighting itself');
         } else if (d.stage > 0 && d.fault === 'low-charge') {
+            // Symptom first, charge as ONE candidate — never the finding.
+            // `d.fault` is injected ground truth the graphic never draws:
+            // the scenario button knows which fault was set, the graphic
+            // does not. These readings cannot separate low charge from a
+            // plugged condenser, a dead compressor or a plugged metering
+            // device, so a verdict that says "low charge" reports what the
+            // MODEL knows, not what the SCREEN shows. Naming the instrument
+            // that WOULD settle it is the honest close — the FCU's
+            // disposition-3 wording (codebase-issues #247), hedged here
+            // per #323 (owner ruling 2026-10-05). "Across the machine",
+            // not "across coil": this ΔT is discharge minus mixed air over
+            // the whole unit, fan heat included. No `.ref-note` — the
+            // FCU's note explains an asymmetry with a neighbouring verdict
+            // the AHU does not have.
             cls = 'error'; txt = text('unit.verdict.lowCharge', null,
-                'No ΔT across the machine — low charge, not cooling');
+                'No ΔT across the machine — air moving; low charge is one candidate, gauges settle it');
         } else if (d.stage > 0 && d.matT < FREEZE_WATCH) {
             // ENTERING AIR ALREADY NEAR FREEZING. This branch sits ABOVE
             // the no-ΔT one because it names the same symptom's real

@@ -1,7 +1,7 @@
 ---
 title: BACnet 기초 — controlsfreak.dev
 description: BACnet 통신의 자기 기술형 객체 모델, 속성을 읽고 쓰는 서비스, 우선순위 배열, Who-Is / I-Am 장치 탐색을 설명합니다.
-sourceContentHash: bc16c148640685aef01d7c527fc0bf3b59e77491fc71bf14fda6e3e8434141a3
+sourceContentHash: c46895e37f674ea6eb7bb3b8baff4c0a884f02f8659e333199c372d503ed2f21
 canonical: https://controlsfreak.dev/ko/education/bacnet-basics.html
 nav: education
 category: protocols
@@ -303,7 +303,7 @@ keywords: 객체 인스턴스 장치 av bv ai ao 탐색 who-is cov 우선순위
                 빈 배열이 아니라 실제로 운전 중인 장비에서 같은 결정 규칙을 확인하려면 <a href="/ko/simulators/ddc-workbench.html">DDC 워크벤치</a>를 사용하세요. 기능 블록 프로그램으로 공기조화기(AHU)를 운전하며 모든 명령 가능 포인트에 개별 우선순위 배열을 제공합니다. 각 포인트는 세 단계로 명령됩니다. 제어 시퀀스는 슬롯 16에, 사용자의 수동 조작은 슬롯 8에 쓰며, 프로그램에 해당 블록이 없는 포인트는 <code><button type="button" data-gloss="relinquish-default">Relinquish_Default</button></code>로 넘어갑니다. <em>NULL — 해제됨</em> 상자의 선택을 해제한 채 두면, 하위 제어 시퀀스가 계속 올바르게 값을 써도 포인트가 고장 난 것처럼 보입니다. 이 절에서 설명한 장애를 실제 장비가 연결된 형태로 재현하는 것입니다. 먼저 더 작은 장비인 <a href="/ko/simulators/ddc-workbench-fcu.html">FCU 워크벤치</a>에서 시험해 볼 수 있습니다.
             </p>
 
-            <h2 class="subhead">Who-Is / I-Am — 장치가 자신을 알리는 방법</h2>
+            <h2 class="subhead" id="who-is-i-am">Who-Is / I-Am — 장치가 자신을 알리는 방법</h2>
 
             <p>
                 두 비확인형 서비스가 장치 탐색을 처리합니다. 클라이언트(BMS, 엔지니어링 도구, JACE)가 <code>Who-Is</code> 요청을 네트워크 전체에 브로드캐스트합니다. 요청의 의미는 <em>이 범위에 포함되는 인스턴스 번호의 장치는 자신을 식별하라</em>는 것입니다. 요청에 특정 범위, 즉 장치 인스턴스의 하한과 상한을 넣을 수도 있고 범위를 생략해 "네트워크의 모든 장치는 응답하라"고 요청할 수도 있습니다.

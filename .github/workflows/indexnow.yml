@@ -30,6 +30,7 @@ permissions:
 
 jobs:
   submit:
+    if: github.repository == 'EWH2000/controlsfreak.dev'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd  # v5

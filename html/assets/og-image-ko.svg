@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-    <title>controlsfreak.dev — HVAC 자동제어를 위한 도구와 참고 자료</title>
+    <title>Controls Freak — Independent Korean Edition</title>
 
-    <!-- Keep the locale variants visually identical to the primary social card. -->
+    <!-- Independent fork identity; preserve credit to the original project. -->
     <rect width="1200" height="630" fill="#eef1ec"/>
     <rect x="24" y="24" width="1152" height="582" fill="none" stroke="#ccd7c8" stroke-width="1.5"/>
 
@@ -11,6 +11,8 @@
         <circle cx="0" cy="0" r="11" fill="#eef1ec"/>
     </g>
 
-    <text x="166" y="315" font-family="'IBM Plex Mono', 'Menlo', 'Consolas', 'Courier New', monospace" font-size="96" font-weight="600" fill="#38423a" letter-spacing="1">controlsfreak<tspan fill="#43881c">.dev</tspan></text>
-    <text x="600" y="400" text-anchor="middle" font-family="'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif" font-size="34" font-weight="400" fill="#666e66">HVAC 자동제어를 위한 도구와 참고 자료</text>
+    <text x="166" y="315" font-family="Menlo, Consolas, monospace" font-size="76" font-weight="600" fill="#38423a">Controls Freak<tspan fill="#43881c"> · KO</tspan></text>
+    <text x="600" y="400" text-anchor="middle" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="34" fill="#666e66">HVAC 자동제어 도구와 학습 자료 · 독립 운영 한국어판</text>
+<text x="600" y="470" text-anchor="middle" font-family="Apple SD Gothic Neo, sans-serif" font-size="24" fill="#666e66">AI 보조 번역 · 전문 엔지니어 미검수</text>
+    <text x="600" y="558" text-anchor="middle" font-family="Menlo, monospace" font-size="21" fill="#38423a">Original: controlsfreak.dev  /  Korean fork: i2na</text>
 </svg>

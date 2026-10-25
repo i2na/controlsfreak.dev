@@ -1,7 +1,7 @@
 ---
 title: DDC 워크벤치 — 팬코일유닛 — controlsfreak.dev
 description: 기능 블록 와이어시트로 구동되는 DX 팬코일유닛을 실시간 DDC 그래픽으로 보여 줍니다. 샘플 제어 프로그램을 불러오거나 직접 배선한 뒤 장치가 운전되는 모습을 확인하세요.
-sourceContentHash: e1939986e8e8b8c2b47e21168820bc0c86d60e6bbcd3d3e34d90cd1da6fcaa93
+sourceContentHash: 63b9ae231ec294bfc0fdd46bd88f49159e2b3b6934d0cc8fcae6cf486f9c4271
 sourceMessageHash: e3e58cb7d4e4164487f64938e0ead84d6335b1f1ec8752c4a9fad859b352b1a8
 canonical: https://controlsfreak.dev/ko/simulators/ddc-workbench-fcu.html
 nav: simulators
@@ -521,7 +521,7 @@ pageMessages:
                              (top y 188); the stem reaches the airstream
                              near the drop centerline (x 120), clear of the
                              static down arrow (y 205-213).
-                             Each sensor group carries a .fcu-forced-mark rect
+                             Each sensor group carries a .ddcw-forced-mark rect
                              matching its hit area — the dashed accent ring
                              renderUnit lights while that point's override is
                              active (space-temp is the only one a control
@@ -529,7 +529,7 @@ pageMessages:
                         <g class="ddcw-sensor" id="fcu-sensor-rat" data-point="rat">
                             <title>회기온도 센서 — 회기 덕트 삽입형 센서</title>
                             <rect class="ddcw-sensor-hit" x="76" y="141" width="34" height="44"/>
-                            <rect class="fcu-forced-mark" x="76" y="141" width="34" height="44"/>
+                            <rect class="ddcw-forced-mark" x="76" y="141" width="34" height="44"/>
                             <line class="ddcw-sensor-stem" x1="97" y1="163" x2="116" y2="163"/>
                             <rect class="ddcw-sensor-body" x="85" y="158" width="12" height="10"/>
                         </g>
@@ -546,7 +546,7 @@ pageMessages:
                         <g class="ddcw-sensor" id="fcu-sensor-dat" data-point="dat">
                             <title>토출공기온도 센서 — 급기 덕트 삽입형 센서</title>
                             <rect class="ddcw-sensor-hit" x="478" y="174" width="28" height="44"/>
-                            <rect class="fcu-forced-mark" x="478" y="174" width="28" height="44"/>
+                            <rect class="ddcw-forced-mark" x="478" y="174" width="28" height="44"/>
                             <line class="ddcw-sensor-stem" x1="492" y1="195" x2="492" y2="214"/>
                             <rect class="ddcw-sensor-body" x="486" y="185" width="12" height="10"/>
                         </g>
@@ -560,7 +560,7 @@ pageMessages:
                         <g class="ddcw-sensor" id="fcu-sensor-space-temp" data-point="space-temp">
                             <title>실내온도 센서 — 존 내부 벽면 센서</title>
                             <rect class="ddcw-sensor-hit" x="666" y="156" width="34" height="44"/>
-                            <rect class="fcu-forced-mark" x="666" y="156" width="34" height="44"/>
+                            <rect class="ddcw-forced-mark" x="666" y="156" width="34" height="44"/>
                             <rect class="ddcw-sensor-body" x="683" y="166" width="14" height="24"/>
                             <line class="ddcw-sensor-slot" x1="686.5" y1="173" x2="693.5" y2="173"/>
                             <line class="ddcw-sensor-slot" x1="686.5" y1="178" x2="693.5" y2="178"/>

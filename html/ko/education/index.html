@@ -1,7 +1,7 @@
 ---
 title: 학습 — controlsfreak.dev
 description: HVAC 빌딩 자동제어 기술자를 위한 실무 해설입니다. 업계 입문자와 제어 개념을 빠르게 복습하려는 분을 위해 쉽게 구성했습니다.
-sourceContentHash: 14b1429533e9961fd5222dcdfb1ff5ba36f77a4ad31bd29ceacb680d8ac3c4ef
+sourceContentHash: c2f25598537d507a46925dceedcf89b5123e1d0df8d19cff21f1252b624fe9dd
 canonical: https://controlsfreak.dev/ko/education/
 nav: education
 ---
@@ -23,7 +23,7 @@ nav: education
 
     <div class="filter-chips" role="group" aria-label="범주별 학습 자료 필터">
         <button type="button" class="filter-chip active" data-category="all" aria-pressed="true">
-            전체 <span class="filter-chip-count">40</span>
+            전체 <span class="filter-chip-count">41</span>
         </button>
         <button type="button" class="filter-chip" data-category="fundamentals" aria-pressed="false">
             기초 <span class="filter-chip-count">5</span>
@@ -38,7 +38,7 @@ nav: education
             냉매 <span class="filter-chip-count">3</span>
         </button>
         <button type="button" class="filter-chip" data-category="forced-air" aria-pressed="false">
-            강제순환식 공조 시스템 <span class="filter-chip-count">8</span>
+            강제순환식 공조 시스템 <span class="filter-chip-count">9</span>
         </button>
         <button type="button" class="filter-chip" data-category="programming" aria-pressed="false">
             프로그래밍 <span class="filter-chip-count">6</span>
@@ -236,6 +236,15 @@ nav: education
             titleFull:  '외기냉방',
             desc:       '공기조화기가 코일 대신 외기를 이용해 냉방해야 하는 조건을 알아봅니다. 연동 댐퍼 조립체, 대화형 탐색 위젯을 이용한 건구온도·엔탈피 절환, 통합 냉방 대수제어, 현장 고장 유형을 다룹니다.',
             pills:      ['공기 시스템', '외기냉방', '절환', '탐색 위젯'],
+            category:   'forced-air'
+        }) }}
+        {{ navCard({
+            section:    'education',
+            href:       '/ko/education/coil-freeze-protection.html',
+            titleShort: '코일 동결',
+            titleFull:  '코일 동결 방지',
+            desc:       '물 코일이 파열되는 이유와 추운 아침에 관 파열을 막는 보호 수단을 알아봅니다. 물이 든 코일의 위험, 노출을 결정하는 세 요소, 추운 날 혼합공기 간이 계산이 높게 나오는 이유, 동결방지 온도조절기부터 글리콜까지의 보호 체계를 다룹니다.',
+            pills:      ['공기 시스템', '동결방지 온도조절기', '노출 요인', '보호 체계'],
             category:   'forced-air'
         }) }}
         {{ navCard({

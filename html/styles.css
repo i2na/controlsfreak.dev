@@ -1269,10 +1269,16 @@ h2.section-label[data-stage]::before {
     overflow: hidden;
     margin-bottom: 1.5rem;
 }
-/* :nth-of-type counts tool-card siblings independently of a leading
-   .section-header div; nth-child counts all siblings and would shift
-   indices by one on every content page. Four indices covers the longest
-   tool-card stack today (4 on pid-basics: page topic + 3 mini-sims). */
+/* Entrance stagger — approximate by design. :nth-of-type counts DIV
+   siblings of ANY class, not .tool-card siblings, so every interleaved
+   div.section-header (and any other sibling div) takes an index and
+   shifts which cards match: a lone card behind its section-header
+   lands at index 2 (the 0.16s step), and on a multi-card page later
+   cards can fall past index 4 and get no fade at all (pid-basics
+   today), so the order is not a clean 1-2-3-4. Accepted as such
+   (2026-10-05, codebase-issues #309): it is a cosmetic 0.5s fade, so
+   the selector stays and this comment records the quirk rather than
+   claiming a four-step stagger. */
 .tool-card:nth-of-type(1) { animation: fadeUp 0.5s 0.08s ease both; }
 .tool-card:nth-of-type(2) { animation: fadeUp 0.5s 0.16s ease both; }
 .tool-card:nth-of-type(3) { animation: fadeUp 0.5s 0.24s ease both; }
@@ -1696,6 +1702,28 @@ button[data-gloss].gloss-open {
 .tab-btn:hover:not(.active) { color: var(--text); }
 .tab-pane { display: none; }
 .tab-pane.active { display: block; }
+/* Print reaches every pane, not just the active one (codebase-issues
+   #286). Paper has no tab buttons to click, so a hidden pane is content
+   the reader cannot get at all; details-print.js opening a fold inside an
+   inactive pane was moot until this lifted. Panes stack in DOM order with
+   a hairline seam between them. The .tabs button row still prints as-is —
+   it reads as a table of contents for the stacked panes.
+   One exception: the DDC workbench's live Function-Block Editor
+   (.fbe-live) mounts LAZILY, on the first Wiresheet open
+   (ensureEditor() in ddcw-shell.js). In a pane that is not active it has
+   usually never been built, so lifting the pane would print its simbar
+   and ~1000px of empty palette / canvas / inspector frames. Keep it off
+   paper there; the pane's prose and folds still print. A Wiresheet the
+   reader is ON has a mounted editor and prints as rendered. */
+@media print {
+    .tab-pane { display: block !important; }
+    .tab-pane + .tab-pane {
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border);
+    }
+    .tab-pane:not(.active) .fbe-live { display: none !important; }
+}
 
 /* ── FORM ── */
 .form-row {
@@ -4167,17 +4195,8 @@ p.ref-note.compact {
     line-height: 1.7;
 }
 .widget-try .lbl { letter-spacing: 0.05em; text-transform: uppercase; margin-right: 0.6rem; }
-.widget-try a {
-    color: var(--accent-ink);
-    text-decoration: none;
-    margin-right: 0.85rem;
-    cursor: pointer;
-    border-bottom: 1px dashed var(--accent-dim);
-}
-.widget-try a:hover { color: var(--text-bright); border-bottom-color: var(--accent); }
-/* Button twin of the anchor row — same look, real <button> semantics
-   for keyboard/AT reach (the anchors above predate the #142/#143
-   audit finding; new try-rows should use buttons). */
+/* Try-row chips are real <button>s for keyboard/AT reach (#142/#143);
+   every row on the site uses them, so new try-rows should too. */
 .widget-try button {
     font: inherit;
     color: var(--accent-ink);
@@ -5471,6 +5490,18 @@ p.ddcw-sheet-mobile-note { display: none; }
 .ddcw-sensor:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
+}
+/* FORCED-SENSOR MARKER — a dashed ring around a glyph whose point is
+   being forced; renderUnit toggles .is-forced per override-map entry.
+   ACCENT, NOT AMBER: inside the workbench SVGs amber means damper,
+   permanently, and the accent ring is reserved for exactly this job.
+   Hidden until the class lands, so an unforced drawing carries no extra
+   ink. Graduated from the two page heads (codebase-issues #273). */
+.ddcw-forced-mark { fill: none; stroke: none; }
+.ddcw-sensor.is-forced .ddcw-forced-mark {
+    stroke: var(--accent);
+    stroke-width: 1.5;
+    stroke-dasharray: 3 2;
 }
 
 @media (prefers-reduced-motion: reduce) {

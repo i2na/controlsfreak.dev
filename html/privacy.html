@@ -1,199 +1,23 @@
 ---
-title: Privacy — controlsfreak.dev
-description: What controlsfreak.dev does with your data — what the contact form collects, what Cloudflare processes to serve the page, and the rights you have.
+title: Privacy information — controlsfreak.dev
+description: How the independent Korean fork of Controls Freak uses browser storage, Vercel hosting, and public GitHub issues, with information about feedback and site data.
 canonical: https://controlsfreak.dev/privacy.html
 ---
 {% extends "layouts/page.njk" %}
 
 {% block content %}
 <main id="main">
-
-    <div class="section-header">
-        <span class="section-label">Privacy</span>
-        <div class="section-line"></div>
-    </div>
-
+    <div class="section-header"><span class="section-label">Privacy information</span><div class="section-line"></div></div>
     <div class="tool-card">
-        <div class="tool-card-header">
-            <h1 class="tool-card-title">
-                Privacy policy
-                <span class="tool-tag">Privacy</span>
-            </h1>
-        </div>
-        <div class="tool-body">
-
-            <p class="tool-preamble">Last updated: 2026-06-10</p>
-
-            <p>
-                controlsfreak.dev is run by one person. There are no
-                analytics, no ads, no user accounts, and nothing on the
-                page that tries to identify you. The contact form is
-                the only place the site asks for any information. This
-                page covers what happens with that information, and
-                what the few third-party services involved in serving
-                the page can see.
-            </p>
-
-            <section>
-                <h2 class="subhead">Contact form</h2>
-                <p>
-                    The contact form takes a name (optional), an email
-                    address (required), and a message. A Cloudflare
-                    Worker receives the submission at
-                    <code>/api/contact</code> and hands it to
-                    <a href="https://resend.com/legal/privacy-policy" rel="noopener">Resend</a>,
-                    which delivers it to my inbox as an email.
-                </p>
-                <p>
-                    That message is read only by me. It is not added
-                    to any mailing list, not shared with anyone else,
-                    and not used for anything other than replying.
-                    Resend and my email provider keep the message in
-                    their systems for as long as a delivered email
-                    normally lives there. The chain will be removed
-                    from my inbox once any discussion has concluded.
-                </p>
-            </section>
-
-            <section>
-                <h2 class="subhead">Cloudflare</h2>
-                <p>
-                    The site sits behind Cloudflare, which serves the
-                    pages, blocks abusive traffic, and absorbs attacks.
-                    To do that, Cloudflare processes the standard
-                    request data your browser sends — including your
-                    IP address, the URL you requested, your
-                    User-Agent string, and similar headers. See
-                    <a href="https://www.cloudflare.com/privacypolicy/" rel="noopener">Cloudflare's privacy policy</a>
-                    for what they retain and for how long.
-                </p>
-            </section>
-
-            <section>
-                <h2 class="subhead">Cloudflare Turnstile</h2>
-                <p>
-                    The contact form uses
-                    <a href="https://www.cloudflare.com/application-services/products/turnstile/" rel="noopener">Cloudflare Turnstile</a>
-                    to keep bots out. Turnstile loads a small script
-                    from <code>challenges.cloudflare.com</code> and
-                    runs a silent check in your browser before the
-                    form will submit — there is no puzzle to solve.
-                    It shares minimal browser data with Cloudflare to
-                    evaluate that check.
-                </p>
-            </section>
-
-            <section>
-                <h2 class="subhead">No tracking; what the site stores on your device</h2>
-                <p>
-                    There is no analytics platform on this site, no
-                    advertising script, no fingerprinting, and no
-                    cookie set by the site itself. Nothing on the
-                    page tries to identify you across visits.
-                </p>
-                <p>
-                    The site does keep a few small preference and
-                    progress values in your browser's
-                    <code>localStorage</code> so a page can remember
-                    your choices between visits: whether you have the
-                    US or Metric units toggle selected; whether you
-                    have the Dark or Light theme selected; the
-                    temperature range you picked on the psychrometric
-                    chart; the refrigerant you last used on the
-                    refrigerant P-T calculator and the refrigerant
-                    loop simulator (they share one memory) and the
-                    sensor type you last used on the thermistor
-                    calculator; and, on the practice quizzes, your
-                    best score and its time, how many times you have
-                    attempted each one, and when you last played it.
-                </p>
-                <p>
-                    The two DDC Workbench simulators keep one more
-                    value each, in
-                    <code>sessionStorage</code> rather than
-                    <code>localStorage</code>: the keys
-                    <code>cf_ddcw_ahu</code> and
-                    <code>cf_ddcw_fcu</code> hold the simulation you
-                    have set up on that unit — the commands you have
-                    written by hand, the sensors you have forced, the
-                    control sheet you have loaded, and the conditions
-                    you have dialled in — so that clicking a component
-                    to open the simulator behind it does not throw
-                    your work away on the way back. Session storage is
-                    per tab: it is gone when you close the tab, and
-                    the workbench's own Start fresh button clears it
-                    on the spot.
-                </p>
-                <p>
-                    All of that stays on your device. It is never sent
-                    to me or to anyone else, and it is not used to
-                    identify you or track you across visits. Clearing
-                    your browser's site data for controlsfreak.dev
-                    removes it.
-                </p>
-                <p>
-                    Cloudflare may set its own cookies for security
-                    and bot protection, independently of anything on
-                    this site. Those are covered by their privacy
-                    policy linked above.
-                </p>
-            </section>
-
-            <section>
-                <h2 class="subhead">Your rights</h2>
-                <p>
-                    If you are in the EU or the UK, the GDPR (or the
-                    UK GDPR) gives you a few rights over data that
-                    identifies you. In the case of this site, the
-                    data that identifies you is whatever you put into
-                    the contact form. You can ask me to send you a
-                    copy of what you submitted, correct it, or delete
-                    it. To make a request, send a note through the
-                    <a href="/contact.html">contact form</a> from the
-                    same email address you used originally so I can
-                    match it up. I will reply as soon as possible.
-                    With the current number of emails, that normally
-                    means within 24 to 48 hours.
-                </p>
-                <p>
-                    Request data that Cloudflare sees as part of
-                    delivering the page is handled under its own
-                    policy; if you want to exercise rights against
-                    Cloudflare, you would need to contact them
-                    directly. (Fonts are served from this site's own
-                    domain — no font request leaves it.)
-                </p>
-            </section>
-
-            <section>
-                <h2 class="subhead">Children</h2>
-                <p>
-                    The site is not directed at children under 13 and
-                    does not knowingly collect information from them.
-                </p>
-            </section>
-
-            <section>
-                <h2 class="subhead">Changes to this policy</h2>
-                <p>
-                    If something material changes — a new third-party
-                    service appears on a page, the contact form
-                    starts collecting something new — this page will
-                    be updated and the "Last updated" date at the top
-                    will move.
-                </p>
-            </section>
-
-            <section>
-                <h2 class="subhead">Questions</h2>
-                <p>
-                    For any privacy-related question, send a note
-                    through the <a href="/contact.html">contact form</a>.
-                </p>
-            </section>
-
+        <div class="tool-card-header"><h1 class="tool-card-title">Privacy information <span class="tool-tag">Korean fork</span></h1></div>
+        <div class="tool-body fork-prose">
+            <p>Last updated: <time datetime="2026-10-25">2026-10-25</time></p>
+            <section><h2 class="subhead">About this site</h2><p>This independent Korean fork is maintained by i2na. It has no user accounts, advertising, analytics scripts, or contact form. Calculators and simulators run in your browser.</p></section>
+            <section><h2 class="subhead">Browser storage</h2><p>The site stores preferences such as language-independent unit and theme choices, quiz progress, and saved simulator work in your browser. You can remove these records using your browser’s site-data settings. The site does not send calculator inputs or saved work to the maintainer.</p></section>
+            <section><h2 class="subhead">Hosting</h2><p>This fork is configured for Vercel hosting. The hosting provider processes network requests, including IP addresses and request metadata, to deliver and protect the site. Fonts and application assets are served from this site. See <a href="https://vercel.com/legal/privacy-policy">Vercel’s privacy policy</a> for its data practices.</p></section>
+            <section><h2 class="subhead">Feedback and external links</h2><p>Feedback is handled through <a href="https://github.com/i2na/controlsfreak.dev/issues">public GitHub issues</a>. Information you choose to submit is handled by GitHub and is visible to others. Do not post private information. External sites, including the original project, have their own privacy practices.</p></section>
+            <section><h2 class="subhead">Questions and changes</h2><p>For questions about this fork, use the <a href="/contact.html">contact page</a>. This notice will be updated when the site’s data handling changes.</p></section>
         </div>
     </div>
-
 </main>
 {% endblock %}

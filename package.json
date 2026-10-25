@@ -1,25 +1,29 @@
 {
-  "name": "controlsfreak.dev",
+  "name": "controlsfreak-ko",
   "version": "3.91.0",
   "private": true,
-  "description": "Open calculators and reference tools for building-controls engineers — BACnet, Modbus, HVAC, and building automation work. No login, no ads, just tools that are actually useful on a job site.",
+  "description": "Independent AI-assisted Korean edition of Controls Freak, with engineering calculators, lessons, and practice quizzes.",
   "scripts": {
-    "build": "eleventy",
+    "build": "node scripts/clean.mjs && eleventy",
     "dev": "eleventy --serve --port=8000",
-    "publish:preview": "node .github/scripts/publish-preview.mjs",
     "test": "playwright test",
     "screenshots": "node tests/screenshot-diagrams.mjs",
     "perf-profile": "node tests/perf-profile.mjs",
-    "indexnow": "node .github/scripts/indexnow.mjs",
     "prose-lint": "node .github/scripts/prose-lint.mjs",
     "metric-lint": "node .github/scripts/metric-lint.mjs",
+    "status": "node .github/scripts/project-status.mjs",
+    "dashboard": "node .github/scripts/build-dashboard.mjs",
     "import-vendor-ids": "node .github/scripts/import-bacnet-vendor-ids.mjs",
     "import-bacnet-units": "node .github/scripts/import-bacnet-units.mjs",
-    "import-bacnet-errors": "node .github/scripts/import-bacnet-errors.mjs"
+    "import-bacnet-errors": "node .github/scripts/import-bacnet-errors.mjs",
+    "upstream:check": "node scripts/upstream-check.mjs",
+    "upstream:prepare": "node scripts/upstream-prepare.mjs",
+    "test:upstream": "node --test scripts/upstream-sync.test.mjs",
+    "test:deployment": "node scripts/test-deployment.mjs"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/EWH2000/controlsfreak.dev.git"
+    "url": "git+https://github.com/i2na/controlsfreak.dev.git"
   },
   "keywords": [
     "bacnet",
@@ -33,12 +37,20 @@
   "author": "Controls Freak",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/EWH2000/controlsfreak.dev/issues"
+    "url": "https://github.com/i2na/controlsfreak.dev/issues"
   },
-  "homepage": "https://github.com/EWH2000/controlsfreak.dev#readme",
+  "homepage": "https://github.com/i2na/controlsfreak.dev#readme",
   "devDependencies": {
-    "@11ty/eleventy": "^3.0.0",
-    "@playwright/test": "1.59.1",
-    "wrangler": "^4.90.0"
+    "@11ty/eleventy": "^3.1.6",
+    "@playwright/test": "1.63.0"
+  },
+  "contributors": [
+    {
+      "name": "i2na",
+      "url": "https://github.com/i2na"
+    }
+  ],
+  "engines": {
+    "node": "22.x"
   }
 }

@@ -9,6 +9,7 @@ const { execFileSync } = require("child_process");
 const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
+const { deploymentUrl } = require("./lib/site-config.js");
 const i18nData = require("./html/_data/i18n.js");
 const i18nStatus = require("./html/_data/i18nStatus.js");
 const bacnetEnumsData = require("./html/_data/bacnetEnums.js");
@@ -70,6 +71,15 @@ module.exports = function(eleventyConfig) {
         lstripBlocks: true
     });
 
+    // Keep the English home reachable when Vercel sends the entry URL to /ko/.
+    eleventyConfig.on("eleventy.after", async ({ results }) => {
+        const home = results.find(result => result.inputPath.replace(/^\.\//, "") === "html/index.html");
+        if (!home) return;
+        const output = path.dirname(home.outputPath);
+        fs.mkdirSync(path.join(output, "en"), { recursive: true });
+        fs.copyFileSync(path.join(output, "index.html"), path.join(output, "en", "index.html"));
+    });
+
     // Shared interface copy and locale-aware URL helpers. Long-form prose
     // remains in thin locale page templates, while chrome and runtime UI use
     // stable message keys. Missing keys throw instead of silently falling
@@ -100,7 +110,7 @@ module.exports = function(eleventyConfig) {
                 return {
                     locale,
                     url: cleanCanonical(item.data.canonical),
-                    path: item.url,
+                    path: localePath(item.url, locale),
                     og: meta.og,
                     shortLabel: meta.shortLabel,
                 };
@@ -125,15 +135,11 @@ module.exports = function(eleventyConfig) {
     // lands at _site/scripts, not _site/html/scripts.
     eleventyConfig.addPassthroughCopy({ "html/scripts": "scripts" });
     eleventyConfig.addPassthroughCopy({ "html/styles.css": "styles.css" });
+    eleventyConfig.addPassthroughCopy({ "html/fork.css": "fork.css" });
     eleventyConfig.addPassthroughCopy({ "html/assets": "assets" });
-    eleventyConfig.addPassthroughCopy({ "html/robots.txt": "robots.txt" });
-    // IndexNow ownership key — a public token (NOT a wrangler secret),
-    // served at the site root so the IndexNow consortium can verify we
-    // control the domain before honoring a URL submission. Same hosting
-    // mechanism as robots.txt; see .github/workflows/indexnow.yml.
-    eleventyConfig.addPassthroughCopy({
-        "html/5ceefff6b33f4eb68bbcad4e54ce30b1.txt": "5ceefff6b33f4eb68bbcad4e54ce30b1.txt"
-    });
+
+    // The fork does not publish the upstream domain ownership token.
+
     // sitemap.xml is no longer passthrough — html/sitemap.njk renders it
     // from the sitemapPages collection (see below) with git-derived
     // <lastmod> dates. codebase-issues.md #45.
@@ -1744,8 +1750,10 @@ module.exports = function(eleventyConfig) {
     // search index and nav menus need the path only (the site's hrefs are
     // root-relative with explicit .html extensions). The home canonical
     // (".../") collapses to "/" rather than the empty string.
-    eleventyConfig.addFilter("canonicalPath", (url) =>
-        (url || "").replace("https://controlsfreak.dev", "") || "/");
+    eleventyConfig.addFilter("canonicalPath", (url) => {
+        const sourcePath = (url || "").replace("https://controlsfreak.dev", "") || "/";
+        return sourcePath === "/" ? "/en/" : sourcePath;
+    });
 
     // The crawl-facing URL form. `canonical` frontmatter carries the `.html`
     // extension (the site's documented anchor convention — CLAUDE.md), but
@@ -1763,6 +1771,7 @@ module.exports = function(eleventyConfig) {
     // the structured-data graph stays internally consistent (paired
     // hasPart/isPartOf @ids must byte-match their target's url).
     eleventyConfig.addFilter("cleanCanonical", cleanCanonical);
+    eleventyConfig.addFilter("deploymentUrl", deploymentUrl);
 
     // Pages for the site search index (html/search-index.njk → the static
     // /search-index.json the command palette fetches). Same membership as
@@ -1912,11 +1921,9 @@ module.exports = function(eleventyConfig) {
         simulators: { nameKey: "nav.simulators", path: "/simulators/" },
         education:  { nameKey: "nav.education",  path: "/education/" },
         practice:   { nameKey: "nav.practice",   path: "/practice/" },
-        // Keep the source-style path here so localization can insert `/ko`;
-        // the computed URL is cleaned below before comparison and emission.
-        // That produces `/contact` and `/ko/contact`, never the redirecting
-        // `.html` form that caused the duplicate Contact breadcrumb.
+        guides:     { nameKey: "nav.guides",     path: "/guides/" },
         contact:    { nameKey: "nav.contact",    path: "/contact.html" }
+
     };
     eleventyConfig.addFilter("breadcrumbJsonLd", (canonical, nav, title, locale) => {
         const selected = resolveLocale(locale);
@@ -1981,6 +1988,13 @@ module.exports = function(eleventyConfig) {
     // the reciprocal of the lesson's `hasPart`. Emitted from head.njk only
     // when nav: practice AND _data/quizzes/<page.fileSlug>.js exists, so the
     // practice landing (which has neither) gets nothing.
+    // WHY IT EXISTS — not a Google search win. In August 2023 Google
+    // restricted FAQ rich results to well-known government and health
+    // sites, so this markup earns no SERP treatment on this domain. It is
+    // kept because answer engines (Bing/Copilot, Perplexity, ChatGPT
+    // search) parse FAQPage even where Google renders nothing. Owner
+    // ruling 2026-10-05, codebase-issues #317 — don't re-add the SEO
+    // premise when weighing whether to keep it.
     const stripHtml = (s) =>
         String(s || "").replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
     const buildQuestionName = (q) =>
@@ -2039,7 +2053,9 @@ module.exports = function(eleventyConfig) {
     // copy. Answers may carry inline HTML for display; it's stripped for the
     // schema text. Emitted from head.njk whenever `faqs` is set; keep it off
     // practice pages so a page never emits two FAQPage nodes.
+    // Retained for consumers of FAQPage structured data.
     eleventyConfig.addFilter("faqJsonLd", (canonical, faqs, title, locale) => {
+
         if (!canonical || !Array.isArray(faqs) || !faqs.length) return "";
         return scriptSafeStringify({
             "@context": "https://schema.org",
@@ -2128,8 +2144,15 @@ module.exports = function(eleventyConfig) {
     });
 
     // TechArticle JSON-LD for education pages — establishes content type,
-    // attributes authorship to the Person entity declared on the home page
-    // (E-E-A-T), and carries datePublished / dateModified from git history.
+    // attributes authorship (E-E-A-T), and carries datePublished /
+    // dateModified from git history. The author is an INLINE Person that
+    // keeps the home page's `#author` @id, so it is the same entity the
+    // home page's @graph declares. A bare cross-document `{ "@id": … }`
+    // is valid JSON-LD, but Google reads structured data per document, so
+    // on a lesson that reference resolved to nothing — hence name /
+    // jobTitle / url are repeated here (keep them equal to html/index.html).
+    // No `publisher`: it is not on Google's recommended Article properties,
+    // and no Organization is asserted (owner ruling 2026-10-05, #320).
     // When the lesson sets `pairedQuiz:` frontmatter (a single 1:1 quiz
     // companion), the node also carries `hasPart` pointing at the quiz's
     // FAQPage node — schema.org pairing that mirrors the
@@ -2149,8 +2172,15 @@ module.exports = function(eleventyConfig) {
             "inLanguage": selected,
             "datePublished": datePublished,
             "dateModified": dateModified,
-            "author": { "@id": `${localizedRoot}#author` },
-            "publisher": { "@id": `${localizedRoot}#website` }
+            "author": {
+                "@type": "Person",
+                "@id": "https://controlsfreak.dev/#author",
+                "name": "Controls Freak",
+                "jobTitle": "Controls Programmer",
+                "url": "https://controlsfreak.dev/"
+            },
+            "isBasedOn": "https://controlsfreak.dev" + translationKey(canonical)
+
         };
         if (pairedQuiz) {
             node.hasPart = { "@type": "FAQPage", "@id": pairedQuiz };

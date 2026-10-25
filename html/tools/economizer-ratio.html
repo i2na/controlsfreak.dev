@@ -51,6 +51,7 @@ pageMessages:
             dewPointPastSaturation: 'That dew point is past saturation — more moisture than air can hold at this dry-bulb and pressure.'
             humidityRatioPastSaturation: 'That humidity ratio is past saturation — more moisture than air can hold at this dry-bulb and pressure.'
             enthalpyPastSaturation: 'That enthalpy is past saturation — more moisture than air can hold at this dry-bulb and pressure.'
+            boilingPoint: 'Dry-bulb is at or above the boiling point for this pressure — outside the psychrometric range.'
     unitText:
         outdoorDryBulb:
             us: 'Outdoor air dry-bulb (°F)'
@@ -363,6 +364,7 @@ keywords: oa oat percent outdoor air free cooling changeover mixed air damper
         ],
         lessons: [
             {href: '/education/economizers.html', label: 'Economizers'},
+            {href: '/education/coil-freeze-protection.html', label: 'Coil Freeze Protection'},
             {href: '/education/psychrometrics-basics.html', label: 'Psychrometrics Basics'}
         ],
         quizzes: [
@@ -417,6 +419,7 @@ keywords: oa oat percent outdoor air free cooling changeover mixed air damper
         let SECOND_PROP = buildSecondProp();
 
         const PSYCHRO_ERROR_KEYS = Object.freeze({
+            'Dry-bulb is at or above the boiling point for this pressure — outside the psychrometric range.': 'boilingPoint',
             'Enter numeric values.': 'numeric',
             'Relative humidity can’t be negative.': 'rhNegative',
             'Relative humidity can’t exceed 100%.': 'rhAbove100',

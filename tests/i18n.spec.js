@@ -13,14 +13,14 @@ const quizzes = Object.fromEntries(fs.readdirSync(quizDir)
     .filter(file => file.endsWith('.js'))
     .map(file => [path.basename(file, '.js'), require(path.join(quizDir, file))]));
 
-const SITE = 'https://controlsfreak.dev';
+const { SITE_ORIGIN: SITE } = require('../lib/site-config.js');
 
 function koreanPath(url) {
     return url === '/' ? '/ko/' : `/ko${url}`;
 }
 
 function cleanPath(url) {
-    return url.replace(/\.html$/, '');
+    return url === '/' ? '/en/' : url.replace(/\.html$/, '');
 }
 
 function watchErrors(page) {
@@ -107,7 +107,7 @@ test('Korean next-quiz links use labels without a duplicated title suffix', () =
     }
 });
 
-test('Korean article schema references the localized home entities', () => {
+test('Korean article schema credits the original author without claiming endorsement', () => {
     const html = fs.readFileSync(
         path.join(__dirname, '..', '_site', 'ko', 'education', 'bacnet-basics.html'),
         'utf8'
@@ -116,8 +116,10 @@ test('Korean article schema references the localized home entities', () => {
         .map(match => JSON.parse(match[1]));
     const article = nodes.find(node => node['@type'] === 'TechArticle');
 
-    expect(article.author['@id']).toBe(`${SITE}/ko/#author`);
-    expect(article.publisher['@id']).toBe(`${SITE}/ko/#website`);
+    expect(article.author['@id']).toBe('https://controlsfreak.dev/#author');
+    expect(article.author.name).toBe('Controls Freak');
+    expect(article).not.toHaveProperty('publisher');
+    expect(article.isBasedOn).toBe('https://controlsfreak.dev/education/bacnet-basics');
 });
 
 test('language switch uses compact locale codes in both languages', async ({ page }) => {
@@ -319,7 +321,7 @@ for (const { name, url } of PAGES) {
         const response = await page.goto(localized);
         expect(response.status(), localized).toBe(200);
         await expect(page.locator('html')).toHaveAttribute('lang', 'ko');
-        await expect(page).toHaveTitle(/controlsfreak\.dev/);
+        await expect(page).toHaveTitle(/Controls Freak 한국어판/);
         await expect(page.locator('main')).toContainText(/[가-힣]/);
 
         const englishClean = `${SITE}${cleanPath(url)}`;
@@ -327,8 +329,8 @@ for (const { name, url } of PAGES) {
         await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', koreanClean);
         await expect(page.locator('link[rel="alternate"][hreflang="en"]')).toHaveAttribute('href', englishClean);
         await expect(page.locator('link[rel="alternate"][hreflang="ko"]')).toHaveAttribute('href', koreanClean);
-        await expect(page.locator('link[rel="alternate"][hreflang="x-default"]')).toHaveAttribute('href', englishClean);
-        await expect(page.locator('.language-switch--desktop a[hreflang="en"]')).toHaveAttribute('href', url);
+        await expect(page.locator('link[rel="alternate"][hreflang="x-default"]')).toHaveAttribute('href', koreanClean);
+        await expect(page.locator('.language-switch--desktop a[hreflang="en"]')).toHaveAttribute('href', url === '/' ? '/en/' : url);
         await expect(page.locator('.language-switch--desktop a[hreflang="ko"]')).toHaveAttribute('aria-current', 'page');
         const wrongLocaleLinks = await page.locator('a[href^="/"]').evaluateAll(anchors =>
             anchors
@@ -374,35 +376,13 @@ test('shared Korean runtime copy survives state updates', async ({ page }) => {
     expect(errors, 'shared Korean runtime states should log no errors').toEqual([]);
 });
 
-test('contact errors preserve the English server detail without leaking it into Korean', async ({ page }) => {
-    await page.route('https://challenges.cloudflare.com/**', route => route.fulfill({
-        status: 200,
-        contentType: 'application/javascript',
-        body: '',
-    }));
-    await page.route('**/api/contact', route => route.fulfill({
-        status: 400,
-        contentType: 'application/json',
-        body: JSON.stringify({
-            ok: false,
-            code: 'UNKNOWN',
-            error: 'Legacy English detail.',
-        }),
-    }));
-
-    const submit = async (url) => {
+test('Korean fork contact uses its own repository and no original mail service', async ({ page }) => {
+    for (const url of ['/contact.html', '/ko/contact.html']) {
         await page.goto(url);
-        await page.fill('#contact-email', 'yena@example.com');
-        await page.fill('#contact-message', 'Localization test');
-        await page.click('#contact-form button[type="submit"]');
-    };
-
-    await submit('/contact.html');
-    await expect(page.locator('#contact-result-value')).toHaveText('Legacy English detail.');
-
-    await submit('/ko/contact.html');
-    await expect(page.locator('#contact-result-value')).toHaveText('문제가 발생했습니다.');
-    await expect(page.locator('#contact-result-value')).not.toContainText('Legacy English detail.');
+        await expect(page.locator('main a.fork-action')).toHaveAttribute('href',
+            'https://github.com/i2na/controlsfreak.dev/issues/new/choose');
+        await expect(page.locator('form, script[src*="turnstile"]')).toHaveCount(0);
+    }
 });
 
 test('Korean psychrometric chart localizes computed and validation states', async ({ page }) => {
@@ -421,6 +401,30 @@ test('Korean psychrometric chart localizes computed and validation states', asyn
     await expect(page.locator('label[for="ra-tdb"]')).toContainText('°C');
 
     expect(errors, 'Korean psychrometric states should log no errors').toEqual([]);
+});
+
+test('Korean heating tools explain out-of-range boiling states without runtime errors', async ({ page }) => {
+    const errors = watchErrors(page);
+
+    await page.goto('/ko/tools/coil-sizing.html');
+    await page.selectOption('#cs-coil-type', 'heat');
+    await page.fill('#cs-cap-lvg-tdb', '250');
+    await expect(page.locator('#cs-cap-status')).toContainText('출구 공기');
+    await expect(page.locator('#cs-cap-status')).toContainText('끓는점 이상');
+    await page.fill('#cs-cap-lvg-tdb', '100');
+    await expect(page.locator('#cs-cap-status')).not.toContainText('끓는점 이상');
+
+    await page.goto('/ko/tools/psychrometric-chart.html');
+    await page.click('.psy-pill[data-step="hc"]');
+    await page.check('#hc-on');
+    await page.selectOption('#hc-mode', 'dt');
+    await page.fill('#hc-val', '200');
+    await expect(page.locator('#psy-msg')).toContainText('HC:');
+    await expect(page.locator('#psy-msg')).toContainText('끓는점 이상');
+    await page.fill('#hc-val', '10');
+    await expect(page.locator('#psy-msg')).not.toContainText('끓는점 이상');
+
+    expect(errors, 'Korean boiling-range errors should be translated without throwing').toEqual([]);
 });
 
 test('Korean FCU workbench localizes live faults, overrides, and parameter errors', async ({ page }) => {
@@ -454,7 +458,7 @@ test('Korean AHU workbench localizes faults, overrides, and field-device states'
 
     await expect(page.locator('#ddcw-io')).toContainText('존 온도');
     await page.click('[data-preset="lowcharge"]');
-    await expect(page.locator('#ahu-verdict')).toContainText('냉매 부족으로 냉방하지 못합니다');
+    await expect(page.locator('#ahu-verdict')).toContainText('냉매 부족은 가능한 원인 중 하나');
 
     const coolingSetpoint = page.locator('#ahu-p-cool-sp');
     await coolingSetpoint.fill('10');

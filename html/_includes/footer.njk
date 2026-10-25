@@ -2,6 +2,8 @@
     <span class="footer-left">
         <span class="ok-pill">OK</span>
         <span class="footer-text">{{ "footer.tagline" | t(locale) }}</span>
+        <a class="footer-text" href="https://controlsfreak.dev/">{% if locale == 'ko' %}원본{% else %}Original{% endif %}</a>
+        <a class="footer-text" href="{{ site.repository }}">{% if locale == 'ko' %}포크 · MIT{% else %}Fork · MIT{% endif %}</a>
         <a class="footer-text" href="{{ "/privacy.html" | localePath(locale) }}">{{ "footer.privacy" | t(locale) }}</a>
     </span>
     <span class="footer-right">

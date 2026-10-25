@@ -1,25 +1,47 @@
 name: test
 
-# Runs the Playwright suite on every PR to main, inside the official
-# Playwright container image — browsers and their system libraries are
-# baked in, so CI never downloads a browser from cdn.playwright.dev.
+# Runs the Playwright suite on every PR to main and on every push to
+# main, inside the official Playwright container image — browsers and
+# their system libraries are baked in, so CI never downloads a browser
+# from cdn.playwright.dev.
 # That download was hanging *at 100%* (post-transfer, during extraction
 # / connection-close) deterministically on the GitHub-hosted runners,
 # across full-Chrome and headless-shell alike, and blocking merges.
 #
 # The image tag MUST track the @playwright/test version in
-# package.json / package-lock.json (currently pinned 1.59.1, browser
-# revision v1217) — a mismatch makes Playwright try to fetch the right
+# package.json / package-lock.json (currently pinned 1.63.0, browser
+# revision v1243) — a mismatch makes Playwright try to fetch the right
 # revision at runtime, reintroducing the very download this avoids.
 # Bump the tag and the dependency together.
 #
 # playwright.config.js's webServer block builds the site and serves
 # _site/ with python3 (the guard step below ensures it's present);
 # GitHub Actions sets CI so reuseExistingServer stays off. The deploy
-# pipeline (Cloudflare Workers Build) is untouched.
+# pipeline is Vercel, configured independently in vercel.json.
+#
+# Why two triggers (codebase-issues #331). A child PR in a stack opens
+# against its parent's branch, so the `branches: [main]` filter skips
+# it; when the parent merges, GitHub retargets the child to main with
+# an `edited` event — not one of pull_request's default activity types
+# (opened / synchronize / reopened) — so the child showed no `test`
+# check at all, `mergeStateStatus` read CLEAN, and it merged untested.
+# Two chain PRs did exactly that on 2026-10-06. So:
+#   - pull_request also listens for `edited`, and the job's `if:` lets
+#     an edit through ONLY when it changed the base branch
+#     (`github.event.changes.base` is present on a retarget, absent on
+#     a title/body edit) — a retarget runs the suite, a typo fix in the
+#     PR description does not;
+#   - push to main runs the suite on main itself after every merge, so
+#     whatever reached main by any route (a retarget missed some other
+#     way, a direct push, a merge of two individually green PRs that
+#     conflict semantically) is tested where it actually lives.
 
 on:
+  workflow_dispatch:
   pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, edited]
+  push:
     branches: [main]
 
 permissions:
@@ -27,9 +49,11 @@ permissions:
 
 jobs:
   test:
+    # Skip a title/body edit; run a base-branch retarget (see header).
+    if: github.event_name != 'pull_request' || github.event.action != 'edited' || github.event.changes.base != null
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.59.1-noble
+      image: mcr.microsoft.com/playwright:v1.63.0-noble
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd  # v5
         # Full history — sitemap.njk derives <lastmod> from `git log` per
@@ -47,7 +71,7 @@ jobs:
 
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444  # v5
         with:
-          node-version: lts/*
+          node-version: 22
           cache: npm
 
       - run: npm ci
@@ -56,6 +80,12 @@ jobs:
       # No-op if the image already ships python3; installs it otherwise.
       - name: Ensure python3 for the static file server
         run: command -v python3 || (apt-get update && apt-get install -y --no-install-recommends python3)
+
+      - name: Check upstream maintenance tooling
+        run: npm run test:upstream
+
+      - name: Verify fork deployment configuration
+        run: npm run test:deployment
 
       - name: Run tests
         run: npm test

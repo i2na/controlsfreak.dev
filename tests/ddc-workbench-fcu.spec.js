@@ -28,6 +28,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { test, expect } = require('@playwright/test');
+const { name: SITE_NAME } = require('../lib/site-config.js');
 const { expectTouchFloor } = require('./touch-floor.js');
 
 const URL = '/simulators/ddc-workbench-fcu.html';
@@ -1387,7 +1388,7 @@ test.describe('DDC Workbench — the unit selector', () => {
         // The AHU page's own title — the "Air Handler" qualifier is what
         // tells it apart from this page's, so it is the cheapest proof we
         // did not just reload.
-        await expect(page).toHaveTitle('DDC Workbench — Air Handler — controlsfreak.dev');
+        await expect(page).toHaveTitle(`DDC Workbench — Air Handler — ${SITE_NAME}`);
 
         // …and the pair over there marks AHU, so the two halves are wired
         // to each other rather than both to one page.
@@ -1424,7 +1425,7 @@ test.describe('DDC Workbench — the unit selector', () => {
 
         // And it still navigates from inside the cockpit.
         await page.click('.ddcw-unit-sel a.ddcw-unit-link:not([aria-current])');
-        await expect(page).toHaveTitle('DDC Workbench — Air Handler — controlsfreak.dev');
+        await expect(page).toHaveTitle(`DDC Workbench — Air Handler — ${SITE_NAME}`);
     });
 });
 

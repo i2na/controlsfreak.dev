@@ -37,6 +37,7 @@ pageMessages:
             dewPointPastSaturation: 'That dew point is past saturation — more moisture than air can hold at this dry-bulb and pressure.'
             humidityRatioPastSaturation: 'That humidity ratio is past saturation — more moisture than air can hold at this dry-bulb and pressure.'
             enthalpyPastSaturation: 'That enthalpy is past saturation — more moisture than air can hold at this dry-bulb and pressure.'
+            boilingPoint: 'Dry-bulb is at or above the boiling point for this pressure — outside the psychrometric range.'
     unitText:
         altitude:
             us: 'Altitude (ft)'
@@ -446,7 +447,8 @@ faqs:
         ],
         lessons: [
             {href: '/education/psychrometrics-basics.html', label: 'Psychrometrics Basics'},
-            {href: '/education/air-handlers.html', label: 'Air Handlers'}
+            {href: '/education/air-handlers.html', label: 'Air Handlers'},
+            {href: '/education/coil-freeze-protection.html', label: 'Coil Freeze Protection'}
         ],
         quizzes: [
             {href: '/practice/psychrometrics-basics.html', label: 'Psychrometrics Basics Quiz'}
@@ -503,6 +505,7 @@ faqs:
         // Exact machine-error adapter. Unknown engine text fails closed so a
         // future English message cannot silently surface in another locale.
         const PSYCHRO_ERROR_KEYS = Object.freeze({
+            'Dry-bulb is at or above the boiling point for this pressure — outside the psychrometric range.': 'boilingPoint',
             'Enter numeric values.': 'numeric',
             'Relative humidity can’t be negative.': 'rhNegative',
             'Relative humidity can’t exceed 100%.': 'rhAbove100',

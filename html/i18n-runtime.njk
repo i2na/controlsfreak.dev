@@ -66,7 +66,7 @@ eleventyExcludeFromCollections: true
         const withoutLocale = firstSegment && SUPPORTED.has(firstSegment[1])
             ? pathname.slice(firstSegment[0].length) || '/'
             : pathname || '/';
-        if (chosen === DEFAULT_LOCALE) return withoutLocale + suffix;
+        if (chosen === DEFAULT_LOCALE) return (withoutLocale === '/' ? '/en/' : withoutLocale) + suffix;
         return (withoutLocale === '/' ? `/${chosen}/` : `/${chosen}${withoutLocale}`) + suffix;
     }
 

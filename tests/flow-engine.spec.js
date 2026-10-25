@@ -162,6 +162,12 @@ test('the rAF loop starts on a visible diagram and animates particles (#113)', a
     // that a visible diagram's particle actually MOVES over a short window.
     await page.goto('/education/hydronic-loops.html');
     await expect(page.locator('main g.flow-particles circle').first()).toBeAttached();
+    // The fork attribution banner can move the first diagram below the
+    // fold. This contract is explicitly about a visible diagram: the
+    // engine correctly suspends diagrams outside the viewport.
+    const diagram = page.locator('main svg.flow-active').first();
+    await diagram.scrollIntoViewIfNeeded();
+    await expect(diagram).toBeInViewport();
 
     const posAt = () => page.evaluate(() => {
         const c = document.querySelector('main g.flow-particles circle');

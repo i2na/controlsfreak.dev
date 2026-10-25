@@ -11,9 +11,10 @@
 // Coverage spans the lesson's sections — Three addresses; the BACnet/IP
 // frame (BVLL + NPDU + APDU); BBMDs; Foreign Device Registration;
 // Reading the hex blob — with scenario questions also drawing on its
-// "When discovery silently fails" checklist (that subhead carries no
-// id, so those questions deep-link the section that teaches the
-// underlying mechanism instead).
+// "When discovery silently fails" checklist (#discovery-fails). A
+// checklist scenario deep-links the checklist only where the checklist
+// is the page's statement of the rule it tests; where a mechanism
+// section teaches that rule, the question keeps the mechanism anchor.
 
 module.exports = [
     // ── Three addresses ───────────────────────────────────
@@ -81,7 +82,7 @@ module.exports = [
             { id: 'd', text: 'Every network number must be unique across the joined internetwork.', correct: true }
         ],
         explain: 'A network number is what routing runs on: a message bound for network <code>2001</code> goes wherever the routers believe 2001 lives, and with two segments claiming the same name the choice is ambiguous — messages get thrown away or sent the wrong way, which reads on a graphic as points that come and go. Renumber one trunk. The device-instance rule is real, but nothing here points at it — instances are application-layer names and don\'t steer routing. There\'s no 127 ceiling either: that one-byte limit is the MS/TP <em>station address</em>\'s (masters run 0–127), not the network number\'s, which is a 16-bit value (1–65534) on any medium. And a BBMD manages BACnet/IP broadcast distribution — it plays no part in delivering an addressed message to a trunk.',
-        learnMore: { href: '/education/bacnet-networking.html#three-addresses', label: 'BACnet Networking — Three addresses, one device' },
+        learnMore: { href: '/education/bacnet-networking.html#discovery-fails', label: 'BACnet Networking — When discovery silently fails' },
         tags: ['bacnet', 'addressing', 'troubleshooting']
     },
 
@@ -159,7 +160,7 @@ module.exports = [
             { id: 'd', text: 'BACnet/IP is UDP — a TCP rule can never match its traffic.', correct: true }
         ],
         explain: 'Everything BACnet/IP sends — Who-Is and I-Am broadcasts, <code>ReadProperty</code> unicasts, the Forwarded-NPDUs BBMDs exchange across exactly this kind of boundary — rides <strong>UDP</strong> port 47808. A TCP rule matches none of it, which is what the zero hit counter is saying: the BACnet datagrams arrive as UDP and fall through to the default deny. The counter also acquits the mirror-rule guess — a rule that merely missed the return path would still count outbound matches — and replies come back on the port the request used, so there is nothing to open at 47809. Hex versus decimal is a non-issue: <code>0xBAC0</code> and 47808 are the same number written two ways. Rewrite the rule for UDP and the Forwarded-NPDUs start arriving.',
-        learnMore: { href: '/education/bacnet-networking.html#bvll-npdu-apdu', label: 'BACnet Networking — The BACnet/IP frame' },
+        learnMore: { href: '/education/bacnet-networking.html#discovery-fails', label: 'BACnet Networking — When discovery silently fails' },
         tags: ['bacnet', 'bacnet-ip', 'troubleshooting']
     },
 
@@ -204,7 +205,7 @@ module.exports = [
             { id: 'c', text: 'The next UDP port up — it runs on 47809 (<code>0xBAC1</code>) instead of 47808.', correct: true },
             { id: 'd', text: 'Nothing can — one subnet supports only one BACnet/IP network.' }
         ],
-        explain: 'A BACnet/IP network is a broadcast domain <em>on a port</em>: every device bound to 47808 on that wire hears every 47808 broadcast, so as long as both groups share the port they are one network, whatever the configuration sheet says. The separation that works is the sequential-port convention from ASHRAE 135 Annex J — the second network takes <code>0xBAC1</code> (47809), the next <code>0xBAC2</code>, and devices on one port neither hear nor answer Who-Is on another. Each network still gets its own network number, but that\'s the network-layer <em>name</em>, not the separator — and a reserved device-instance block organizes names too: instances are application-layer labels, so every device on the shared port would still hear every broadcast. It\'s also why a discovered hex address can end in <code>BAC1</code> instead of <code>BAC0</code>.',
+        explain: 'A BACnet/IP network is a broadcast domain <em>on a port</em>: every device bound to 47808 on that wire hears every 47808 broadcast, so as long as both groups share the port they are one network, whatever the configuration sheet says. The separation that works is a different UDP port: ASHRAE 135 Annex J makes <code>0xBAC0</code> (47808) the default and permits other ports for additional networks, and by field convention the second network takes <code>0xBAC1</code> (47809), the next <code>0xBAC2</code> — devices on one port neither hear nor answer Who-Is on another. Each network still gets its own network number, but that\'s the network-layer <em>name</em>, not the separator — and a reserved device-instance block organizes names too: instances are application-layer labels, so every device on the shared port would still hear every broadcast. It\'s also why a discovered hex address can end in <code>BAC1</code> instead of <code>BAC0</code>.',
         learnMore: { href: '/education/bacnet-networking.html#hex-blob', label: 'BACnet Networking — Reading the hex blob' },
         tags: ['bacnet', 'bacnet-ip', 'addressing']
     },

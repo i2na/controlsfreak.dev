@@ -1,7 +1,7 @@
 ---
 title: 코일 동결 위험 점검기 — controlsfreak.dev
 description: 동결방지 온도조절기 트립이 타당했는지 혼합공기 여유도, 글리콜 동결점·파열점, 유량 상태와 증기 코일의 동결 메커니즘을 함께 판정합니다.
-sourceContentHash: 35f526dceb7a77912dbf695f044a25f635d744a55b3ee9d417e09ad65d837e7a
+sourceContentHash: 39f486f679abea3b21ce3648a74b3183c29e4ef781c200b84be8d4f99872d4df
 sourceMessageHash: 4c2d6150e2143859a1d3703f96f55a9c1895b5ab6075bd61519793f52431e2d3
 canonical: https://controlsfreak.dev/ko/tools/coil-freeze-risk.html
 nav: tools
@@ -412,7 +412,14 @@ keywords: 동결방지 스위치 freezestat 트립 저온한계 혼합공기 MAT
                 <span data-us="{{ pageMessages.unitText.stratificationBand.us }}" data-metric="{{ pageMessages.unitText.stratificationBand.metric }}">10–20 °F</span> 낮은 차가운 공기층을 만듭니다. 이 때문에 트렌드가 정상이어도 코일이 파열되고, 동결방지 온도조절기의 감지부를 코일 전면 전체에 지그재그로 설치합니다. 이 온도조절기는 평균이 아니라 모세관에서 가장 차가운 지점에 트립합니다. 또한 단일 지점 <button type="button" data-gloss="mat">MA-T</button> 센서는
                 <a href="/ko/education/air-handlers.html#sensor-strip">이 모든 상황을 제대로 나타내지 못할 수 있습니다</a>. 평균 감지소자와 정확한 댐퍼 계산이 대응책입니다.
             </p>
-            <p class="ref-note"><strong>일반적인 보호 계층은 대략 다음 순서입니다.</strong></p>
+            <p class="ref-note">
+                <strong>일반적인 보호 계층은 대략 다음 순서입니다.</strong> 각 계층은
+                <a href="/ko/education/coil-freeze-protection.html">코일 동결 방지 학습 자료</a>에서
+                자세히 설명합니다. 이 자료에서는 추운 날 손으로 계산한 혼합공기 온도가 실제보다 높게 나오는 이유도 살펴봅니다.
+                오차는 약 <span data-us="1.9 °F" data-metric="1.1 °C">1.9 °F</span>이며,
+                이는 최소 외기 비율이 20 %이고 외기가 <span data-us="0 °F" data-metric="−17.8 °C">0 °F</span>일 때의 값입니다.
+                체적 비율로 계산하면 질량 기준의 외기 비율을 실제보다 작게 잡기 때문입니다.
+            </p>
             <ol class="ref-note worked-list">
                 <li><strong>동결방지 온도조절기 하드 트립</strong> — 사람이 확인한 뒤에야 팬이 다시 가동되도록 수동 복귀 방식을 사용합니다. 자동 복귀 방식은 코일이 계속 얼어 가는 동안 팬을 밤새 반복 운전합니다.</li>
                 <li><strong>저온한계 <button type="button" data-gloss="mat">MA-T</button> 오버라이드</strong> — 냉방 로직의 요구와 관계없이 혼합공기 온도가 낮아지면 댐퍼를 최소 위치 쪽으로 구동합니다.
@@ -438,6 +445,7 @@ keywords: 동결방지 스위치 freezestat 트립 저온한계 혼합공기 MAT
             {href: '/ko/tools/minimum-outdoor-air.html', label: '최소 외기량 계산기'}
         ],
         lessons: [
+            {href: '/ko/education/coil-freeze-protection.html', label: '코일 동결 방지'},
             {href: '/ko/education/air-handlers.html', label: '공기조화기(AHU)'},
             {href: '/ko/education/economizers.html', label: '외기냉방'}
         ],

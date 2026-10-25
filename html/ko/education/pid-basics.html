@@ -1,7 +1,7 @@
 ---
 title: PID 기초 — controlsfreak.dev
 description: 실제 HVAC 제어에서 비례·적분·미분 동작이 각각 무엇을 하는지 계산 예시와 세 가지 대화형 미니 시뮬레이터로 함께 설명합니다.
-sourceContentHash: 5ddaa35cd0a11e1681170d5658d99eaa9b22598a17c74d55d62adda4005488b6
+sourceContentHash: fab8e1dec95b97bc8f312b12251c021038dc0235267bc27f54554c3ff9ca3126
 sourceMessageHash: a01f4625db7069974e2b2ebef5c694f5e72a73903faa3bb5da3b22b5a6a103aa
 pageMessages:
     slider:
@@ -48,7 +48,7 @@ keywords: PID 이득 리셋 레이트 비례 적분 미분 정상상태 편차 �
                 <div class="callout">
                     <h3 id="p-term">P — 비례 <span>· 얼마나 강하게 미는가</span></h3>
                     <p>출력은 현재 오차에 비례합니다. 목표에서 두 배 멀어지면 두 배 강하게 밉니다. 이득이 높을수록 응답은 더 강하고 빠르지만, 지나치게 강하면 루프가 오버슈트하고 <button type="button" data-gloss="hunting">헌팅</button>합니다. 현장에서는 흔히 <em>비례대(proportional band)</em>로 설정합니다. PB&nbsp;=&nbsp;100&nbsp;÷&nbsp;이득이므로 20% PB에서는 입력 범위의 20%에 걸쳐 출력이 전체 범위를 움직입니다.</p>
-                    <p style="margin-top:0.6rem;"><em>계산 예시.</em> 냉수 밸브에서 SP = <span data-us="55&nbsp;°F" data-metric="12.8&nbsp;°C">55&nbsp;°F</span>, PV = <span data-us="60&nbsp;°F" data-metric="15.6&nbsp;°C">60&nbsp;°F</span>, 스팬 = <span data-us="20&nbsp;°F" data-metric="11.1&nbsp;°C">20&nbsp;°F</span>입니다. 오차는 <span data-us="5&nbsp;°F" data-metric="2.8&nbsp;°C">5&nbsp;°F</span>로 스팬의 25%입니다. 이득이 4이면 비례 출력은 4&nbsp;×&nbsp;25% = 100%이므로 밸브를 완전히 열도록 명령합니다. 급기가 차가워지고 PV가 내려가면 출력도 비례해 줄어듭니다. 문제는 P만 사용하면 작은 영구 편차인 드룹(droop)이 항상 남는다는 점입니다. 출력을 만들려면 <em>어느 정도의</em> 오차가 <em>반드시</em> 필요하므로 루프는 설정값에 조금 못 미치는 지점에서 안정됩니다.</p>
+                    <p style="margin-top:0.6rem;"><em>계산 예시.</em> 냉수 밸브에서 SP = <span data-us="55&nbsp;°F" data-metric="12.8&nbsp;°C">55&nbsp;°F</span>, PV = <span data-us="60&nbsp;°F" data-metric="15.6&nbsp;°C">60&nbsp;°F</span>, 스팬 = <span data-us="20&nbsp;°F" data-metric="11.1&nbsp;°C">20&nbsp;°F</span>입니다. 오차는 <span data-us="5&nbsp;°F" data-metric="2.8&nbsp;°C">5&nbsp;°F</span>로 스팬의 25%입니다. 이득이 4이면 비례 출력은 4&nbsp;×&nbsp;25% = 100%이므로 밸브를 완전히 열도록 명령합니다. 급기가 차가워지고 PV가 내려가면 출력도 비례해 줄어듭니다. 문제는 P만 사용하면 작은 영구 편차인 드룹(droop)이 항상 남는다는 점입니다. 출력을 만들려면 <em>어느 정도의</em> 오차가 <em>반드시</em> 필요하므로 루프는 설정값에 조금 못 미치는 지점에서 안정됩니다. <a href="/ko/education/comparators-and-deadband.html#deadband">제어기 동작 방향</a>에 주목하세요. 이 예시는 냉방 루프이므로 PV가 설정값보다 높아질수록 출력이 증가하는 정동작 제어입니다. 아래 시뮬레이터들은 PV가 설정값보다 낮아질수록 출력이 증가하는 역동작 제어이므로 낮은 쪽에서 PV를 끌어올립니다.</p>
                 </div>
                 <div class="callout">
                     <h3 id="i-term">I — 적분 / 리셋 <span>· 얼마나 끈기 있게 미는가</span></h3>
@@ -58,7 +58,7 @@ keywords: PID 이득 리셋 레이트 비례 적분 미분 정상상태 편차 �
                 <div class="callout">
                     <h3 id="d-term">D — 미분 / 레이트 <span>· 얼마나 빠르게 변하는가</span></h3>
                     <p>PV가 변하는 속도에 반응해 일찍 제동을 걸며, 지연이 큰 공정에서 오버슈트를 줄입니다. 분 단위로 설정합니다. 센서 잡음을 증폭하므로 HVAC에서는 거의 항상 작거나 0입니다. 변동이 심한 입력에서는 득보다 해가 큽니다. 사용한다면 오차가 아닌 <em>측정값</em>에 미분을 적용해야 누군가 설정값을 바꿀 때 출력이 갑자기 튀는 현상을 피할 수 있습니다.</p>
-                    <p style="margin-top:0.6rem;"><em>효과가 있는 경우.</em> 지연이 몇 분인 대형 온수 재열 코일을 생각해 보세요. P + I는 열이 아직 코일을 통과하는 중에도 계속 출력을 높여 오버슈트를 만듭니다. 시작점으로 Ti의 약 <sup>1</sup>⁄<sub>4</sub>에서 <sup>1</sup>⁄<sub>8</sub> 정도인 작은 Td를 사용하면 PV가 SP를 향해 빠르게 움직이는 것을 루프가 "보고" 일찍 출력을 줄일 수 있습니다. 덕트 압력이나 VFD 속도처럼 빠르고 깨끗한 루프에는 굳이 사용할 필요가 없습니다. 대부분의 HVAC 루프는 완전한 PID가 아니라 PI입니다.</p>
+                    <p style="margin-top:0.6rem;"><em>효과가 있는 경우 — 드뭅니다.</em> 교과서적인 사례는 지연이 몇 분인 대형 온수 재열 코일입니다. P + I는 열이 아직 코일을 통과하는 중에도 계속 출력을 높여 오버슈트를 만듭니다. 이런 경우에도 대부분의 프로그래머는 적분 시간을 늘리고 이득을 조금 낮춰 해결하며 Td를 0으로 둡니다. 재열 코일에 미분을 전혀 사용하지 않는 사람도 많습니다. 미분을 사용한다면 Ti의 약 <sup>1</sup>⁄<sub>4</sub>에서 <sup>1</sup>⁄<sub>8</sub> 정도로 작게 시작해 실제 루프에서 조정하세요. PV가 SP를 향해 빠르게 움직이는 것을 루프가 "보고" 일찍 출력을 줄일 수 있습니다. 덕트 압력이나 VFD 속도처럼 빠르고 깨끗한 루프에는 굳이 사용할 필요가 없습니다. 대부분의 HVAC 루프는 완전한 PID가 아니라 PI입니다.</p>
                 </div>
             </div>
         </div>

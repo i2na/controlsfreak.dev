@@ -1,0 +1,26 @@
+name: 한국어 번역 오류 / Translation issue
+description: 한국어 번역의 오역, 누락 또는 용어 개선을 제보합니다.
+title: "[번역] "
+body:
+  - type: markdown
+    attributes:
+      value: "제보 감사합니다. 이 저장소는 독립 운영되는 AI 보조 한국어판입니다. 이슈는 공개되므로 비공개 정보는 입력하지 마세요."
+  - type: input
+    id: page
+    attributes:
+      label: 페이지 주소
+    validations:
+      required: true
+  - type: textarea
+    id: wording
+    attributes:
+      label: 원문과 현재 번역
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: 수정 제안과 근거
+      description: 관련 표준이나 제조사 문서가 있다면 링크를 알려 주세요.
+    validations:
+      required: true

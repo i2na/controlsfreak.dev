@@ -16,21 +16,20 @@ nav: home
                 "@type": "WebSite",
                 "@id": "{{ canonical | cleanCanonical }}#website",
                 "url": "{{ canonical | cleanCanonical }}",
-                "name": "controlsfreak.dev",
+                "name": {{ site.name | safeScriptJson | safe }},
                 "description": {{ "seo.siteDescription" | t(locale) | safeScriptJson | safe }},
                 "inLanguage": "{{ locale }}"
             },
             {
                 "@type": "Person",
-                "@id": "{{ canonical | cleanCanonical }}#author",
+                "@id": "https://controlsfreak.dev/#author",
                 "name": "Controls Freak",
                 "jobTitle": {{ "seo.authorJobTitle" | t(locale) | safeScriptJson | safe }},
                 "knowsAbout": ["BACnet", "Modbus", "HVAC", {{ "seo.buildingAutomation" | t(locale) | safeScriptJson | safe }}, "Niagara", "EBO", {{ "seo.psychrometrics" | t(locale) | safeScriptJson | safe }}, {{ "seo.pidControl" | t(locale) | safeScriptJson | safe }}],
-                "url": "{{ canonical | cleanCanonical }}",
-                "inLanguage": "{{ locale }}",
+                "url": "https://controlsfreak.dev/",
                 "contactPoint": {
                     "@type": "ContactPoint",
-                    "url": "{{ "/contact.html" | localizedCanonical(locale) | cleanCanonical }}",
+                    "url": "https://controlsfreak.dev/contact",
                     "contactType": {{ "seo.contactType" | t(locale) | safeScriptJson | safe }}
                 }
             }
@@ -371,7 +370,7 @@ nav: home
      strip were invisible to landmark navigation (audit-2026-06 polish). -->
 <section class="hero hero-seam" aria-label="Live demo and quick tools">
     <div class="console-titlebar">
-        <span>controlsfreak.dev <span class="titlebar-dots">///</span> FIELD REFERENCE</span>
+        <span>Controls Freak Korean Fork <span class="titlebar-dots">///</span> FIELD REFERENCE</span>
         <span class="ok-pill">LIVE</span>
     </div>
 
@@ -389,8 +388,8 @@ nav: home
     </div>
 
     <div class="hero-copy">
-        <h1>Field tools for those in building automation/controls, advanced HVAC, and many other adjacent fields. Built by a building automation programmer.</h1>
-        <p>The math you don't want to redo in the mechanical room, on the roof, or at the panel — airflow and duct sizing, coils and psychrometrics, valve and pump sizing, signal scaling, BACnet/IP, and Modbus — plus explainers that walk a whole system end-to-end. No login, no ads, no tracking; view-source still works, and these pages will still run ten years from now.</p>
+        <h1>Controls Freak field tools, with independently maintained Korean support.</h1>
+        <p>The original Controls Freak tools and lessons were created by a building automation programmer. i2na maintains this independent fork with AI-assisted Korean translation. The math you don't want to redo in the mechanical room, on the roof, or at the panel — airflow and duct sizing, coils and psychrometrics, valve and pump sizing, signal scaling, BACnet/IP, and Modbus — plus explainers that walk a whole system end-to-end. No login, no ads, no tracking; view-source still works, and these pages will still run ten years from now.</p>
         <div class="hero-cta">
             <a class="hero-btn primary" href="/tools/">Browse tools →</a>
             <a class="hero-btn" href="/education/">Start with the explainers →</a>
@@ -510,7 +509,7 @@ nav: home
             titleShort: 'Forced Air',
             titleFull:  'The forced-air reference hub →',
             desc:       'The whole air side in one place — the lessons run from the air handler out to the VAV box and its commissioning, plus dedicated outdoor air, and the airflow, coil, and fan tools that measure, size, and check the air a system actually moves.',
-            pills:      ['Start Here', '8 Lessons', '13 Tools']
+            pills:      ['Start Here', '9 Lessons', '13 Tools']
         }) }}
         {{ navCard({
             section:    'reference',
@@ -614,7 +613,7 @@ nav: home
             titleShort: 'Education',
             titleFull:  'Learn the fundamentals →',
             desc:       'A connected set of explainers, not a glossary — lessons on the loops, systems, and protocols behind the day-to-day work, each asking one question and answering it with diagrams, worked examples, and the occasional interactive widget.',
-            pills:      ['Explainers', 'Diagrams', 'Widgets', '40 Lessons']
+            pills:      ['Explainers', 'Diagrams', 'Widgets', '41 Lessons']
         }) }}
         {# The desc below NAMES A PAGE — "Surviving Your First Months" —
            as a deliberate editorial entry-point for newcomers (owner
@@ -634,21 +633,21 @@ nav: home
     </div>
 
     <div class="section-header" style="margin-top:3rem;">
-        <h2 class="section-label" data-stage="4">About</h2>
+        <h2 class="section-label" data-stage="4">Original author · Controls Freak</h2>
         <div class="section-line"></div>
     </div>
 
     <div class="tool-card about-rebuild">
         <div class="ps-row">
-            <span class="ps-label">Role</span>
+            <span class="ps-label">Original author's role</span>
             <span class="ps-value">Controls Programmer</span>
         </div>
         <div class="ps-row">
-            <span class="ps-label">Industry</span>
+            <span class="ps-label">Original author's field</span>
             <span class="ps-value">BAS / Building Automation</span>
         </div>
         <div class="ps-row">
-            <span class="ps-label">Location</span>
+            <span class="ps-label">Original author's location</span>
             <span class="ps-value">Northeast U.S.</span>
         </div>
         <div class="ps-row">
@@ -660,10 +659,10 @@ nav: home
             <span class="ps-value live">Active</span>
         </div>
         <div class="about-prose">
-            <p>Hi, I'm a controls programmer based in the Northeast U.S. This is a side project I'm working on while exploring vibe coding. There's a genuine gap in easy reference websites and educational resources for this trade. This site started as just a way to have some easy reference tools in one place, but has expanded to include much more. Teaching those in the trade has been a passion of mine since I began to grow my own knowledge. With this project I aim to do that with a broader audience. I try to verify the accuracy of everything on this site the best that I can, but if anything is incorrect, please contact me and I will ensure I fix the accuracy issue. If there are any specific tools or topics you want to see covered, I want to hear about it!</p>
+            <p>The following biography is the original author Controls Freak's introduction, reproduced from the upstream project: “Hi, I'm a controls programmer based in the Northeast U.S. This is a side project I'm working on while exploring vibe coding. There's a genuine gap in easy reference websites and educational resources for this trade. This site started as just a way to have some easy reference tools in one place, but has expanded to include much more. Teaching those in the trade has been a passion of mine since I began to grow my own knowledge. With this project I aim to do that with a broader audience. I try to verify the accuracy of everything on this site the best that I can, but if anything is incorrect, please contact me and I will ensure I fix the accuracy issue. If there are any specific tools or topics you want to see covered, I want to hear about it!</p>
             <p>The path here was a little roundabout. I started college for electrical engineering, and pretty quickly realized that learning the theory without getting my hands on it didn't sit right — I wanted to be doing the work, not just reading about it. Between electronics, electrical, and mechanical tinkering going back to when I was a kid, controls turned out to be the place where all of that overlapped. I left school to find a controls role, and the field's been the right fit since.</p>
-            <p>Day-to-day, the work splits between new-construction programming, retro-commissioning on existing systems, and the troubleshooting calls that always seem to pile up alongside. Most of it lands on institutional and education buildings — schools, universities — and light industrial sites. The teaching impulse that ended up shaping this site started kicking in once new hires began showing up on jobs alongside me; walking somebody through their first sequence of operations, or just showing them what a real panel actually looks like behind the door, turned out to be some of the more satisfying parts of the trade.</p>
-            <p class="colophon">Bug reports, tool requests, or feedback — <a href="/contact.html">get in touch</a>.</p>
+            <p>Day-to-day, the work splits between new-construction programming, retro-commissioning on existing systems, and the troubleshooting calls that always seem to pile up alongside. Most of it lands on institutional and education buildings — schools, universities — and light industrial sites. The teaching impulse that ended up shaping this site started kicking in once new hires began showing up on jobs alongside me; walking somebody through their first sequence of operations, or just showing them what a real panel actually looks like behind the door, turned out to be some of the more satisfying parts of the trade.”</p>
+            <p class="colophon">For this fork's translations, bugs, or requests — <a href="/contact.html">contact the fork maintainer</a>.</p>
         </div>
     </div>
 

@@ -50,17 +50,13 @@ test.describe('phone (hover:none, 412×883)', () => {
     });
 
     test('the #172 tail clears the 44px floor on touch', async ({ page }) => {
-        // .field input — 38.6px natively (#164 floored .field select
-        // but never the inputs). Contact needs the contact.spec.js
-        // Turnstile treatment: route-block challenges.cloudflare.com
-        // before navigating (it errors on sandboxed localhost) and use
-        // domcontentloaded (the widget never goes network-idle).
-        await page.route('https://challenges.cloudflare.com/**', route => route.abort());
-        await page.goto('/contact.html', { waitUntil: 'domcontentloaded' });
-        const fieldInput = await page.locator('#contact-name').boundingBox();
-        expectTouchFloorHeight(fieldInput, 'contact .field input');
+        // The fork contact page directs reports to its own repository.
+        // Its primary action retains the same 44px touch target floor.
+        await page.goto('/contact.html');
+        const contactAction = await page.locator('main a.fork-action').boundingBox();
+        expectTouchFloorHeight(contactAction, 'contact report action');
 
-        // The same .field input family on the simulator sidebars.
+        // .field inputs on the simulator sidebars (originally 38.6px).
         await page.goto('/simulators/pid-tuner.html');
         const sgInput = await page.locator('#pid-sg-dco').boundingBox();
         expectTouchFloorHeight(sgInput, 'pid sidebar input');

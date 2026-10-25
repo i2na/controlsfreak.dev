@@ -1,8 +1,8 @@
 ---
 title: 혼합공기 온도 계산기 — controlsfreak.dev
 description: 최대 세 개의 공기 흐름을 질량유량 또는 질량분율로 혼합해 혼합공기의 건구온도, 습도, 엔탈피와 노점온도를 계산하는 도구입니다.
-sourceContentHash: ec5e085a069d3df00987da84895ff031663174f2fca4994a143f4814bddfd3a1
-sourceMessageHash: 6d4109a050365807938ed975aacb75876a721bbe576496dbe8061bfde271a359
+sourceContentHash: 34c35db13b8b87626caa086a9ef799cece5a7bd3838412d3394c0f9767a8d0f5
+sourceMessageHash: 7c7126310359d7e23f635222909d6f13f8d2ae6bd9223ffeecf9dcfddb9aa54e
 canonical: https://controlsfreak.dev/ko/tools/air-mixing.html
 nav: tools
 category: hvac
@@ -39,6 +39,7 @@ pageMessages:
             dewPointPastSaturation: '입력한 노점은 포화선을 벗어납니다. 이 건구온도와 압력에서 공기가 보유할 수 있는 양보다 수분이 많습니다.'
             humidityRatioPastSaturation: '입력한 절대습도(함습비, W)는 포화선을 벗어납니다. 이 건구온도와 압력에서 공기가 보유할 수 있는 양보다 수분이 많습니다.'
             enthalpyPastSaturation: '입력한 엔탈피는 포화선을 벗어납니다. 이 건구온도와 압력에서 공기가 보유할 수 있는 양보다 수분이 많습니다.'
+            boilingPoint: '건구온도가 이 압력에서의 끓는점 이상입니다 — 습공기 상태 해석 범위를 벗어났습니다.'
     unitText:
         altitude:
             us: '고도(ft)'
@@ -404,7 +405,8 @@ faqs:
         ],
         lessons: [
             {href: '/ko/education/psychrometrics-basics.html', label: '습공기 상태 해석 기초'},
-            {href: '/ko/education/air-handlers.html', label: '공기조화기(AHU)'}
+            {href: '/ko/education/air-handlers.html', label: '공기조화기(AHU)'},
+            {href: '/ko/education/coil-freeze-protection.html', label: '코일 동결 방지'}
         ],
         quizzes: [
             {href: '/ko/practice/psychrometrics-basics.html', label: '습공기 상태 해석 기초 퀴즈'}

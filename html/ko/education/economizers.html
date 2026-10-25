@@ -6,7 +6,7 @@ nav: education
 category: forced-air
 pairedQuiz: https://controlsfreak.dev/ko/practice/economizers.html
 keywords: 외기냉방 economizer 전환 건구온도 엔탈피 상한 제한 댐퍼 혼합공기 통합 냉방 동파방지
-sourceContentHash: 278fa7edb0d6f0315bd5728879129ed274ee5fb0186b89a10566e9cfa5a9daf8
+sourceContentHash: a939b143df4b2eaed5975a2d92cdb6af01800c4a8dfaf83f55613c0260fc82a6
 sourceMessageHash: 9ef4517b75ad25731c0e79d6b2ab3ae5bfcfe8d77996aa02525cb8199f4f06c2
 pageMessages:
   verdict:
@@ -57,7 +57,7 @@ pageMessages:
                 기계적으로 외기냉방 장치에 새로운 것은 없습니다. 혼합상자의 댐퍼 세 개를 더 적극적으로 사용할 뿐입니다. 일반 장비에서는 고정 위치에 머물지만 외기냉방에서는 하나의 <em>비례제어 조립체</em>가 됩니다. 외기 댐퍼가 열리면 회기 댐퍼가 그만큼 닫히고, 늘어난 공기가 빠져나가도록 배기·릴리프 댐퍼가 열립니다. 세 댐퍼는 <em>지금 급기 중 몇 퍼센트를 외기로 구성할 것인가?</em>라는 하나의 결정을 서로 다른 면에서 구현하므로 제어 신호 하나로 함께 움직입니다. 장비를 통과하는 총풍량은 거의 변하지 않고 공기의 혼합 비율만 달라집니다.
             </p>
             <p>
-                그 신호를 만드는 것은 일반적인 온도 제어 루프입니다. 무상 냉방 중에는 외기냉방 장치가 혼합 비율을 조절해 <em>혼합공기 온도</em>를 설정값으로 유지합니다. 보통 냉각 코일이 만들도록 요구받는 <span data-us="55&nbsp;°F" data-metric="12.8&nbsp;°C">55&nbsp;°F</span> 안팎입니다. 서늘한 아침에 부하가 작다면 댐퍼는 <span data-us="55&nbsp;°F" data-metric="12.8&nbsp;°C">55&nbsp;°F</span> 외기와 <span data-us="75&nbsp;°F" data-metric="23.9&nbsp;°C">75&nbsp;°F</span> 회기를 설정값에 맞는 비율로 혼합하고 코일 밸브는 열리지 않습니다. 비례제어에는 두 가지 확실한 한계가 있습니다. 재실 중 환기 하한은 포기할 수 없으므로 댐퍼는 <em>최소 개도</em> 아래로 닫히지 않으며, 반대쪽 끝의 혼합 비율은 외기 100&nbsp;%입니다. 외기 댐퍼가 추가로 들이는 공기는 모두 건물 밖으로 빠져나갈 길이 필요하므로 릴리프 댐퍼도 함께 열립니다. 릴리프 경로가 따라가지 못할 때의 결과는 이 장의 다음 글인 <a href="/ko/education/building-pressure.html">건물 압력</a>에서 다룹니다.
+                그 신호를 만드는 것은 일반적인 온도 제어 루프입니다. 무상 냉방 중에는 외기냉방 장치가 혼합 비율을 조절해 <em>혼합공기 온도</em>를 설정값으로 유지합니다. 보통 냉각 코일이 만들도록 요구받는 <span data-us="55&nbsp;°F" data-metric="12.8&nbsp;°C">55&nbsp;°F</span> 안팎입니다. 서늘한 아침에 부하가 작다면 댐퍼는 <span data-us="55&nbsp;°F" data-metric="12.8&nbsp;°C">55&nbsp;°F</span> 외기와 <span data-us="75&nbsp;°F" data-metric="23.9&nbsp;°C">75&nbsp;°F</span> 회기를 설정값에 맞는 비율로 혼합하고 코일 밸브는 열리지 않습니다. 비례제어에는 두 가지 확실한 한계가 있습니다. 재실 중 환기 하한은 포기할 수 없으므로 댐퍼는 <em>최소 개도</em> 아래로 닫히지 않으며, 반대쪽 끝의 혼합 비율은 외기 100&nbsp;%입니다. 외기 댐퍼가 추가로 들이는 공기는 모두 건물 밖으로 빠져나갈 길이 필요하므로 릴리프 댐퍼도 함께 열립니다. 릴리프 경로가 따라가지 못할 때의 결과는 이 장의 별도 글인 <a href="/ko/education/building-pressure.html">건물 압력</a>에서 다룹니다.
             </p>
 
             <svg class="edu-svg" viewBox="0 0 520 400" role="img" aria-labelledby="eco-d1-title eco-d1-desc"
@@ -340,7 +340,7 @@ pageMessages:
                 외기냉방 장치는 현장에서 평판이 좋지 않은데 이유가 있습니다. 여러 조사에서 상당수가 전혀 외기냉방을 하지 못하는 것으로 나타납니다. 고장 형태를 확실히 알아둘 필요가 있습니다. 가장 흔한 것은 <strong>고착된 댐퍼</strong>입니다. 액추에이터가 붙거나 링크가 부러지고, 오래전에 고정 나사가 풀렸을 수 있습니다. 단서는 트렌드에 있고 계산은 혼합상자와 같습니다. 댐퍼에 명령을 내리고 <em><button type="button" data-gloss="mat">MA-T</button></em>를 보세요. 서늘한 날 100&nbsp;% 명령인데 <button type="button" data-gloss="mat">MA-T</button>가 <button type="button" data-gloss="rat">RA-T</button>와 같다면 블레이드가 움직이지 않은 것입니다. 추운 아침 최소 개도 명령인데 <button type="button" data-gloss="mat">MA-T</button>가 <button type="button" data-gloss="oat">OA-T</button>를 따라간다면 열린 상태로 고착되어 난방 코일이 겨울 내내 그 대가를 치릅니다. 명령은 희망사항이고 <button type="button" data-gloss="mat">MA-T</button>가 증거입니다.
             </p>
             <p>
-                두 번째는 정착하지 않고 댐퍼가 계속 움직이는 <strong><button type="button" data-gloss="hunting">헌팅</button></strong>입니다. 보통 제어 루프가 지나치게 빠르거나 혼합공기 센서가 대표성 없는 위치의 온도를 읽을 때 생깁니다. <a href="/ko/education/air-handlers.html#sensor-strip">공기조화기 강의의 위젯</a>에는 바로 이 문제의 현장 사례가 있습니다. <strong>동파방지</strong>는 모든 로직의 기반입니다. 무상 냉방에도 한계가 있고, 몹시 추운 아침에 낮은 급기 설정값을 따라가면 혼합공기가 <a href="/ko/tools/coil-freeze-risk.html">코일 파열 위험</a>에 이를 수 있습니다. 냉방 로직의 요구와 관계없이 <button type="button" data-gloss="mat">MA-T</button>가 너무 낮아지면 댐퍼를 최소 개도로 되돌리는 하한 오버라이드와 <button type="button" data-gloss="freezestat">동결방지 온도조절기</button>의 하드 트립이 ‘안전할 때 서늘한 공기를 사용한다’는 원칙에서 ‘안전할 때’를 담당합니다. 이 기능이 없는 장비는 적극적인 것이 아니라 보호받지 못한 것입니다.
+                두 번째는 정착하지 않고 댐퍼가 계속 움직이는 <strong><button type="button" data-gloss="hunting">헌팅</button></strong>입니다. 보통 제어 루프가 지나치게 빠르거나 혼합공기 센서가 대표성 없는 위치의 온도를 읽을 때 생깁니다. <a href="/ko/education/air-handlers.html#sensor-strip">공기조화기 강의의 위젯</a>에는 바로 이 문제의 현장 사례가 있습니다. <strong>동파방지</strong>는 모든 로직의 기반입니다. 무상 냉방에도 한계가 있고, 몹시 추운 아침에 낮은 급기 설정값을 따라가면 혼합공기가 <a href="/ko/tools/coil-freeze-risk.html">코일 파열 위험</a>에 이를 수 있습니다. 냉방 로직의 요구와 관계없이 <button type="button" data-gloss="mat">MA-T</button>가 너무 낮아지면 댐퍼를 최소 개도로 되돌리는 하한 오버라이드와 <button type="button" data-gloss="freezestat">동결방지 온도조절기</button>의 하드 트립이 ‘안전할 때 서늘한 공기를 사용한다’는 원칙에서 ‘안전할 때’를 담당합니다. 이 기능이 없는 장비는 적극적인 것이 아니라 보호받지 못한 것입니다. 나머지 보호 수단인 온도조절기의 배선과 설정값, 동결 시 펌프 운전, 글리콜, 그리고 이런 추운 아침에 혼합공기 간이 계산이 실제보다 높게 나오는 이유는 이 장의 별도 페이지인 <a href="/ko/education/coil-freeze-protection.html">코일 동결 방지</a>에서 다룹니다.
             </p>
 
             <div class="callout" style="margin-top:1.5rem;">
@@ -349,7 +349,7 @@ pageMessages:
             </div>
 
             <p style="margin-top:1.25rem;">
-                외기냉방의 전체 흐름은 이렇습니다. 연동 댐퍼 조립체가 혼합 방정식을 역으로 풀고, 현열과 잠열을 모두 고려해야 하는 전환 게이트가 앞에 놓이며, 절약하려는 기계 냉방보다 먼저 대수제어됩니다. 어느 쪽에도 치우치지 않고 실제 상태를 보여 주는 <button type="button" data-gloss="mat">MA-T</button>로 결과를 확인합니다. 아직 한 가지가 남았습니다. 아침 내내 릴리프 댐퍼는 외기 댐퍼가 들인 풍량만큼 조용히 공기를 내보냈습니다. 이 균형이 틀어졌을 때 문이 닫히지 않고 로비에 바람이 불며 배기팬과 공기조화기가 서로 싸우는 현상은 다음 글인 <a href="/ko/education/building-pressure.html">건물 압력</a>에서 다룹니다.
+                외기냉방의 전체 흐름은 이렇습니다. 연동 댐퍼 조립체가 혼합 방정식을 역으로 풀고, 현열과 잠열을 모두 고려해야 하는 전환 게이트가 앞에 놓이며, 절약하려는 기계 냉방보다 먼저 대수제어됩니다. 어느 쪽에도 치우치지 않고 실제 상태를 보여 주는 <button type="button" data-gloss="mat">MA-T</button>로 결과를 확인합니다. 아직 한 가지가 남았습니다. 아침 내내 릴리프 댐퍼는 외기 댐퍼가 들인 풍량만큼 조용히 공기를 내보냈습니다. 이 균형이 틀어졌을 때 문이 닫히지 않고 로비에 바람이 불며 배기팬과 공기조화기가 서로 싸우는 현상은 이 장의 별도 글인 <a href="/ko/education/building-pressure.html">건물 압력</a>에서 다룹니다.
             </p>
 
         </div>
@@ -369,6 +369,7 @@ pageMessages:
         ],
         lessons: [
             {href: '/ko/education/air-handlers.html', label: '공기조화기'},
+            {href: '/ko/education/coil-freeze-protection.html', label: '코일 동결 방지'},
             {href: '/ko/education/building-pressure.html', label: '건물 압력'},
             {href: '/ko/education/psychrometrics-basics.html', label: '습공기 상태 해석 기초'},
             {href: '/ko/education/function-blocks.html', label: '기능 블록'}

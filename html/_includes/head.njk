@@ -1,9 +1,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }}</title>
+    <title>{{ title | replace("controlsfreak.dev", site.name) }}</title>
     <meta name="description" content="{{ description }}">
     <meta name="theme-color" content="#13161b">
-    {% if noindex %}
+    {% if noindex or site.isPreview %}
     <meta name="robots" content="noindex">
     {% endif %}
     {% set canonicalUrl = canonical | cleanCanonical %}
@@ -12,24 +12,24 @@
     {% set alternates = collections.sitemapPages | translationAlternates(canonical) %}
     {% for alternate in alternates %}
     <link rel="alternate" hreflang="{{ alternate.locale }}" href="{{ alternate.url }}">
-    {% if alternate.locale == i18n.defaultLocale %}<link rel="alternate" hreflang="x-default" href="{{ alternate.url }}">{% endif %}
+    {% if alternate.locale == "ko" %}<link rel="alternate" hreflang="x-default" href="{{ alternate.url }}">{% endif %}
     {% endfor %}
     {% endif %}
-    <meta property="og:title" content="{{ title }}">
+    <meta property="og:title" content="{{ title | replace("controlsfreak.dev", site.name) }}">
     <meta property="og:description" content="{{ description }}">
     <meta property="og:type" content="website">
     {% if canonical %}
     <meta property="og:url" content="{{ canonicalUrl }}">
     {% endif %}
     {% set currentLocaleMeta = locale | localeMeta %}
-    <meta property="og:image" content="{{ currentLocaleMeta.ogImage }}">
-    <meta property="og:site_name" content="controlsfreak.dev">
+    <meta property="og:image" content="{{ currentLocaleMeta.ogImage | deploymentUrl }}">
+    <meta property="og:site_name" content="{{ site.name }}">
     <meta property="og:locale" content="{{ currentLocaleMeta.og or "en_US" }}">
     {% if canonical %}{% for alternate in alternates %}{% if alternate.locale != locale %}<meta property="og:locale:alternate" content="{{ alternate.og }}">{% endif %}{% endfor %}{% endif %}
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ title }}">
+    <meta name="twitter:title" content="{{ title | replace("controlsfreak.dev", site.name) }}">
     <meta name="twitter:description" content="{{ description }}">
-    <meta name="twitter:image" content="{{ currentLocaleMeta.ogImage }}">
+    <meta name="twitter:image" content="{{ currentLocaleMeta.ogImage | deploymentUrl }}">
     {% set breadcrumbJson = canonicalUrl | breadcrumbJsonLd(nav, title, locale) %}
     {% if breadcrumbJson %}
     <script type="application/ld+json">{{ breadcrumbJson | safe }}</script>
@@ -63,6 +63,7 @@
        the top of styles.css, files under /assets/fonts/. No third-party
        origin: Turnstile on contact.html is now the site's only one. #}
     <link rel="stylesheet" href="/styles.css?v={{ site.version }}">
+    <link rel="stylesheet" href="/fork.css?v={{ site.version }}">
     {# CSS-generated labels have no text node to translate. Keep their values
        in the guarded message catalog and expose only quoted CSS strings here. #}
     <style>:root {

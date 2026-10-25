@@ -64,6 +64,7 @@ pageMessages:
       dewPointPastSaturation: "That dew point is past saturation — more moisture than air can hold at this dry-bulb and pressure."
       humidityRatioPastSaturation: "That humidity ratio is past saturation — more moisture than air can hold at this dry-bulb and pressure."
       enthalpyPastSaturation: "That enthalpy is past saturation — more moisture than air can hold at this dry-bulb and pressure."
+      boilingPoint: 'Dry-bulb is at or above the boiling point for this pressure — outside the psychrometric range.'
   canvas:
     dryBulbAxis: "Dry-bulb temperature · {unit}"
     humidityRatioAxis: "Humidity ratio · {unit}"
@@ -682,6 +683,7 @@ keywords: humidity enthalpy wet bulb dew point dewpoint grains mixing coil AHU O
         // Exact adapter for Psychro.solveState(). Unknown source text fails
         // closed instead of reaching a localized status region in English.
         const PSYCHRO_ERROR_KEYS = Object.freeze({
+            'Dry-bulb is at or above the boiling point for this pressure — outside the psychrometric range.': 'boilingPoint',
             'Enter numeric values.': 'numeric',
             'Relative humidity can’t be negative.': 'rhNegative',
             'Relative humidity can’t exceed 100%.': 'rhAbove100',
@@ -904,9 +906,16 @@ keywords: humidity enthalpy wet bulb dew point dewpoint grains mixing coil AHU O
                         current = null;
                     } else {
                         const hc = Psychro.buildState(tdb_hc, current.W, P);
-                        r.hc = { ...hc, enabled: true, inlet: current };
-                        stages.push({ key: 'hc', type: 'heat', inlet: current, outlet: hc });
-                        current = hc;
+                        if (!hc.ok) {
+                            const message = psychroErrorMessage(hc.error);
+                            r.hc = { ...hc, enabled: true, error: message };
+                            setErr(CFI18n.page('errors.prefix', { stage: 'HC', message }));
+                            current = null;
+                        } else {
+                            r.hc = { ...hc, enabled: true, inlet: current };
+                            stages.push({ key: 'hc', type: 'heat', inlet: current, outlet: hc });
+                            current = hc;
+                        }
                     }
                 }
             } else {

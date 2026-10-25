@@ -77,7 +77,7 @@ reference site: the shared math checked out.
 
 ## Substantive findings
 
-### 1. pid-basics.html — the derivative-action story contradicts itself
+### 1. pid-basics.html — the derivative-action story contradicts itself *(addressed 2026-05-21)*
 
 **Location:** the "D — Derivative / Rate" callout vs. the Sim 3 caption.
 **Lens:** engineer. **Status:** confirmed.
@@ -111,7 +111,7 @@ Td grows with τ, then attributes "slow HVAC loops mostly run PI" to D
 amplifying a noisy, slowly-changing measurement — consistent with the
 D callout and the pid-tuner cheat sheet.
 
-### 2. load-piping.html ↔ pump-control.html — the DPBV is framed two different ways
+### 2. load-piping.html ↔ pump-control.html — the DPBV is framed two different ways *(addressed 2026-05-21)*
 
 **Location:** load-piping "Tying it back to the twin-T" (DPBV paragraph)
 vs. pump-control §1 "Constant-Speed Pumps." **Lens:** engineer.
@@ -151,7 +151,7 @@ pump-control. `pump-control.html` keeps the DPBV as the constant-speed
 fix and no longer claims load-piping "covers" it; instead it points at
 load-piping's minimum-flow bypass as the variable-flow counterpart.
 
-### 3. vfds.html — "clogged filter" listed as a cause of motor overload
+### 3. vfds.html — "clogged filter" listed as a cause of motor overload *(addressed 2026-05-21)*
 
 **Location:** Fault-code category table, "Motor overload" row, "usual
 cause" column. **Lens:** engineer. **Status:** flagged.
@@ -178,7 +178,7 @@ curve" clause was dropped from the Motor-overload row. The cell still
 reads correctly with "Mechanical bind" and "undersized motor for the
 actual load" — both accurate causes.
 
-### 4. thermistor — type notes quote values the page's own table doesn't show
+### 4. thermistor — type notes quote values the page's own table doesn't show *(addressed 2026-05-21)*
 
 **Location:** `thermistor-data.js` 10K Type II `notes` (rendered
 on-page under the R/T table on `thermistor-calculator.html`).
@@ -209,7 +209,7 @@ canonical published values; the generated table above differs by up to
 ~1 °F — see 'About these tables'." — so the note no longer silently
 contradicts the table beside it.
 
-### 5. balancing.html — ABV compensation range: prose and widget disagree
+### 5. balancing.html — ABV compensation range: prose and widget disagree *(addressed 2026-05-21)*
 
 **Location:** "Automatic Balancing Valves" prose vs. the comparison
 widget's ABV model. **Lens:** engineer. **Status:** confirmed.
@@ -365,7 +365,7 @@ on R-410A's `blend` flag.
     when dew is omitted (single-component refrigerants). Correct.
   - One internal inconsistency drives finding #9 below.
 
-### 6. Section-heading `AV:NNN` prefix is BACnet-flavoured decoration that doesn't survive the engineer lens
+### 6. Section-heading `AV:NNN` prefix is BACnet-flavoured decoration that doesn't survive the engineer lens *(addressed 2026-05-23)*
 
 - **Where:** every `h2.section-label` carrying `data-objref` —
   `index.html` (Start Here / About: AV:001 / AV:002),
@@ -422,7 +422,7 @@ attribute name on the five h2s stays — it's an internal hook, not
 user-visible, and renaming it would touch every consuming page for
 no functional gain.
 
-### 7. Function-Block Editor's default econ example loads with the economizer disabled, while the partner lesson illustrates it enabled
+### 7. Function-Block Editor's default econ example loads with the economizer disabled, while the partner lesson illustrates it enabled *(addressed 2026-05-23)*
 
 - **Where:** `html/tools/function-block-editor.html` line 444 — the
   `EXAMPLES.econ` graph sets the OAT analog-input block to
@@ -467,7 +467,7 @@ wording ("the economizer above already built … load one, poke at
 the inputs, and see the logic respond") needs no edit — it now
 matches the editor's landing state.
 
-### 8. Function-block PID is derivative-on-error; pid-basics tells the reader to use derivative-on-measurement
+### 8. Function-block PID is derivative-on-error; pid-basics tells the reader to use derivative-on-measurement *(addressed 2026-05-23)*
 
 - **Where:** `html/scripts/fbe-engine.js` lines 305–326 — the PID
   block's `evaluate()` computes
@@ -518,7 +518,7 @@ formulation, so the existing worked PID example (which ships with
 longer produces the derivative kick that pid-basics warned against.
 Block docstring updated to record the choice.
 
-### 9. `refrigerant-data.js` marks R-410A `blend: false` but the file's own header rule says near-azeotropic blends are `blend: true`
+### 9. `refrigerant-data.js` marks R-410A `blend: false` but the file's own header rule says near-azeotropic blends are `blend: true` *(addressed 2026-05-23)*
 
 - **Where:** `html/scripts/refrigerant-data.js` line 76 — R-410A
   carries `blend: false, glide: 0.2`. Line 175 — R-404A, also a
@@ -706,7 +706,7 @@ focused on what *isn't* working:
 
 ### Substantive findings
 
-### 10. Home Browse stage is missing a Simulators card
+### 10. Home Browse stage is missing a Simulators card *(addressed 2026-05-24)*
 
 **[lens: engineer + newcomer | dimension: consistency + content]**
 
@@ -737,7 +737,7 @@ all show two Browse cards; nav has all three sections).
 (`773fb8d`); the `.card-grid.two` was kept as-is and CSS grid handles
 the three-card row without a class rename. Top-nav parity restored.
 
-### 11. "My Most Common Tools" framing is author-centric
+### 11. "My Most Common Tools" framing is author-centric *(addressed 2026-05-24)*
 
 **[lens: newcomer + engineer | dimension: content + voice]**
 
@@ -773,7 +773,7 @@ About section's "Hi, I'm…" voice is unchanged; the eyebrow now reads
 true for any visitor regardless of whether they've scrolled to the
 author paragraph. Single string edit at `html/index.html:70`.
 
-### 12. Education filter chips for singleton categories are non-features
+### 12. Education filter chips for singleton categories are non-features *(addressed 2026-05-24)*
 
 **[lens: field-tech + newcomer | dimension: UX]**
 
@@ -814,7 +814,7 @@ Fundamentals / Hydronics / Protocols). The chip-row preamble was
 reworded to "Know your way around? Jump to:" — framing the chips as
 a returning-user shortcut, not a newcomer's filter. Pairs with #17.
 
-### 13. titleShort abbreviation discipline drifts across nav cards
+### 13. titleShort abbreviation discipline drifts across nav cards *(addressed 2026-05-25)*
 
 **[lens: engineer | dimension: consistency + visual]**
 
@@ -864,7 +864,7 @@ the new bullet. Verified at 1920px viewport that the longest titles
 (`LESSON :: EQUIPMENT STAGING`, `LESSON :: BACNET NETWORKING`) still
 fit the titlebar slot without truncation.
 
-### 14. Simulators "Wiresheet" titleShort misnames the editor product
+### 14. Simulators "Wiresheet" titleShort misnames the editor product *(addressed 2026-05-25)*
 
 **[lens: newcomer + engineer | dimension: content]**
 
@@ -904,7 +904,7 @@ sibling cards' first-pill shape (subject-domain noun, cf. `'PID Loop'`
 / `'VFD'`) and the card's own `desc` copy. The `desc` keeps
 "wiresheet" as a load-bearing descriptor of the canvas type.
 
-### 15. Hero "More coming" badge reads as apologetic
+### 15. Hero "More coming" badge reads as apologetic *(addressed 2026-05-24)*
 
 **[lens: engineer + field-tech | dimension: content + voice]**
 
@@ -936,7 +936,7 @@ rather than an incomplete catalog. Matches the suggested direction
 ("replace with a concrete next badge"); the surrounding badges keep
 their illustrative-not-exhaustive set.
 
-### 16. Hero UPTIME 24×7 statline is the only beat that breaks the field-reference frame
+### 16. Hero UPTIME 24×7 statline is the only beat that breaks the field-reference frame *(addressed 2026-05-24)*
 
 **[lens: engineer | dimension: voice]**
 
@@ -972,7 +972,7 @@ version + build-date pair carries useful provenance. The field-reference
 frame the rest of the site cultivates is no longer broken by the one
 joke beat at the hero foot.
 
-### 17. Education card ordering tells one story; chip UI invites a different one
+### 17. Education card ordering tells one story; chip UI invites a different one *(addressed 2026-05-24)*
 
 **[lens: newcomer | dimension: UX + content]**
 
@@ -1015,7 +1015,7 @@ returning-user shortcut. Card-grid sequencing is unchanged; the
 prereq chain still tells its story top-to-bottom without competing
 chip-UI signals.
 
-### 18. Same lead-paragraph pattern, three different max-widths and one inline-style copy per landing
+### 18. Same lead-paragraph pattern, three different max-widths and one inline-style copy per landing *(addressed 2026-05-24)*
 
 **[lens: engineer | dimension: consistency + visual]**
 
@@ -1054,7 +1054,7 @@ the class to span the full content column rather than the audit's
 suggested ~660px cap, giving the lead paragraphs the breathing room
 the page composition needed.
 
-### 19. Education lead asks for "requests or corrections" but doesn't link to contact
+### 19. Education lead asks for "requests or corrections" but doesn't link to contact *(addressed 2026-05-24)*
 
 **[lens: field-tech + newcomer | dimension: UX + content]**
 
@@ -1174,7 +1174,7 @@ cross-link wiring.
 
 ### Substantive findings
 
-### 20. Three tools land cold; six land with a worked example — no rule
+### 20. Three tools land cold; six land with a worked example — no rule *(addressed 2026-05-24)*
 
 **[lens: newcomer + field-tech | dimension: UX + consistency]**
 
@@ -1232,7 +1232,7 @@ tabs (`dc3879b`), and `bacnet-ip-converter` defaults to a recognizable
 hex string (`6407832`). Each tool now lands with a worked example on
 the page rather than blank inputs + a muted `—`. Pairs with #21.
 
-### 21. HVAC tools carry preambles; the simpler tools don't
+### 21. HVAC tools carry preambles; the simpler tools don't *(addressed 2026-05-24)*
 
 **[lens: newcomer | dimension: content + consistency]**
 
@@ -1279,7 +1279,7 @@ gained `.tool-preamble` paragraphs in a single editorial pass
 Pairs with #20: defaults give the visitor a worked example; the
 preambles give them the framing.
 
-### 22. Psychrometric Chart's "New to Psychrometrics?" prereq link sits at the bottom
+### 22. Psychrometric Chart's "New to Psychrometrics?" prereq link sits at the bottom *(addressed 2026-05-24)*
 
 **[lens: newcomer | dimension: UX + content]**
 
@@ -1319,7 +1319,7 @@ was moved from the bottom of the page to inline near the preamble
 "New to psychrometrics? Start with the basics →" before scrolling
 past it. Matches the `fbe`/`vfd` placement shape. Pairs with #28.
 
-### 23. Modbus bit-grid cells are below the mobile tap-target threshold
+### 23. Modbus bit-grid cells are below the mobile tap-target threshold *(addressed 2026-05-24)*
 
 **[lens: field-tech | dimension: UX]**
 
@@ -1355,7 +1355,7 @@ desktop-primary intent (`7c259b0`). The mobile tap-target threshold
 is met without giving up the desktop 16-bit row layout. Adopts the
 #30 honesty-callout pattern.
 
-### 24. BACnet/IP Converter puts derived "Length" and "Format" readouts in the Input column
+### 24. BACnet/IP Converter puts derived "Length" and "Format" readouts in the Input column *(addressed 2026-05-24)*
 
 **[lens: engineer | dimension: UX + consistency]**
 
@@ -1394,7 +1394,7 @@ convention is restored, and the editable hex string sits alone in the
 Input column with its diagnostics rendered alongside the decoded
 address.
 
-### 25. Failure-state UX varies across tools — no shared idiom for "this doesn't compute"
+### 25. Failure-state UX varies across tools — no shared idiom for "this doesn't compute" *(addressed 2026-05-24)*
 
 **[lens: field-tech + engineer | dimension: UX + consistency]**
 
@@ -1439,7 +1439,7 @@ onto it — `signal-scaling` on all three tabs (`f3d1e11`),
 idiom now applies wherever a tool says "this doesn't compute"; the
 silent `—` mute path is gone from the swept tools.
 
-### 26. Copy-button labels swing between generic and task-specific
+### 26. Copy-button labels swing between generic and task-specific *(addressed 2026-05-24)*
 
 **[lens: field-tech | dimension: consistency]**
 
@@ -1585,7 +1585,7 @@ behavior.
 
 ### Substantive findings
 
-### 27. Function-Block Editor eyebrow still reads "Tools" — stale from the section move
+### 27. Function-Block Editor eyebrow still reads "Tools" — stale from the section move *(addressed 2026-05-24)*
 
 **[lens: engineer | dimension: content + consistency]**
 
@@ -1624,7 +1624,7 @@ Simulators nav-active state, and the tool-tag pill on the h1 already
 carried `Logic`, so the two markers agree. Stale-after-section-move
 artifact fully cleared.
 
-### 28. Prereq cross-link placement varies across sims — two follow fbe/vfd top-of-page model; pid-tuner mirrors the psych-chart bottom-of-page problem
+### 28. Prereq cross-link placement varies across sims — two follow fbe/vfd top-of-page model; pid-tuner mirrors the psych-chart bottom-of-page problem *(addressed 2026-05-24)*
 
 **[lens: newcomer | dimension: UX + consistency]**
 
@@ -1673,7 +1673,7 @@ from the bottom `.pid-note` paragraph to inline in the preamble
 (`880e35f`), matching the `fbe`/`vfd` placement and pairing with #22's
 twin fix on the psych chart.
 
-### 29. Sim eyebrow taxonomy is inconsistent — concept / equipment / legacy
+### 29. Sim eyebrow taxonomy is inconsistent — concept / equipment / legacy *(addressed 2026-05-24)*
 
 **[lens: engineer | dimension: consistency]**
 
@@ -1720,7 +1720,7 @@ Education's existing pattern. **Documented (2026-05-25):** the rule
 landed in CLAUDE.md under *Conventions* alongside the #13 titleShort
 sweep so the next session doesn't re-drift.
 
-### 30. Function-Block Editor's narrow-width honesty callout is a positive pattern the rest of the site could borrow
+### 30. Function-Block Editor's narrow-width honesty callout is a positive pattern the rest of the site could borrow *(addressed 2026-05-25)*
 
 **[lens: field-tech | dimension: UX + content]**
 
@@ -1882,7 +1882,7 @@ wiring, and `data-objref` numbering distribution.
 
 ### Substantive findings
 
-### 31. Education page title pattern splits 8/5 — older pages carry an em-dash subtitle, newer ones go bare
+### 31. Education page title pattern splits 8/5 — older pages carry an em-dash subtitle, newer ones go bare *(addressed 2026-05-24)*
 
 **[lens: newcomer | dimension: content + consistency]**
 
@@ -1947,7 +1947,7 @@ from the seven older education pages that carried it (`2d1753f`),
 unifying all 13 lessons on the bare-title shape. The titlecard
 inventory now reads as a single set rather than two cohorts.
 
-### 32. Cross-section eyebrow shape: Education uses `Education · Page Name`; Tools and Simulators use just the category
+### 32. Cross-section eyebrow shape: Education uses `Education · Page Name`; Tools and Simulators use just the category *(addressed 2026-05-24)*
 
 **[lens: engineer | dimension: consistency]**
 
@@ -1995,7 +1995,7 @@ education was already using. The cross-section inconsistency that
 made #29 and #32 a pair is gone. **Documented (2026-05-25):** rule
 captured in CLAUDE.md under *Conventions* alongside #29 and #13.
 
-### 33. `data-objref` SEC:NNN numbering lives on 2 pages of 13 — visual signal of "this is a curriculum sequence" doesn't extend to the rest
+### 33. `data-objref` SEC:NNN numbering lives on 2 pages of 13 — visual signal of "this is a curriculum sequence" doesn't extend to the rest *(addressed 2026-05-24)*
 
 **[lens: newcomer + engineer | dimension: consistency + content]**
 
@@ -2179,7 +2179,7 @@ exercised across the calc tools during that walk all checked out
 refrigerant-pt glide caveat, modbus byte/word-order, bacnet-ip);
 nothing new and confirmed-wrong surfaced.
 
-### 34. PID tuner's tuning cheat-sheet describes failure modes the simulator can't reach
+### 34. PID tuner's tuning cheat-sheet describes failure modes the simulator can't reach *(addressed 2026-05-30)*
 
 **Location:** `/simulators/pid-tuner.html` — the on-page tuning
 guidance ("Overshoots, then recovers → ↓ P") vs. the model's reachable
@@ -2225,7 +2225,7 @@ these entries summarize and point. Unambiguous factual corrections from
 the same audit (master #47, #48, #51, #52 + comment-level polish)
 shipped separately in the mechanical-fix sweep and are *not* re-listed.
 
-### 35. Refrigeration content cluster (3 lessons + quizzes) is imperial-only while its paired tool converts fully
+### 35. Refrigeration content cluster (3 lessons + quizzes) is imperial-only while its paired tool converts fully *(addressed 2026-06-10)*
 
 **Location:** education/superheat-subcooling, refrigerant-cycle-basics,
 metering-devices-txv-eev (zero `data-metric` spans between them); quiz
@@ -2258,7 +2258,7 @@ dual-stated with static parentheticals (the quiz DOM paints after the
 units walker runs); numeric answers stay in their stated unit. The
 rounding policy (#37) governs every converted pair.
 
-### 36. Worked-example formula/plug-in steps keep IP-only constants and numbers in metric, contradicting the converted prose around them
+### 36. Worked-example formula/plug-in steps keep IP-only constants and numbers in metric, contradicting the converted prose around them *(addressed 2026-06-10)*
 
 **Location:** coil-sizing (`ṁ = CFM × 60 ÷ v` under a dual-stated
 intro), economizer-ratio (US plug-in numbers on the metric page),
@@ -2289,7 +2289,7 @@ no IP constants), refrigerant-pt's SH/SC walkthrough and glide rules
 of thumb are dual-stated, and psychrometrics-basics names m³/kg and
 g/kg alongside the IP forms. The affinity-laws exception stands.
 
-### 37. Metric worked-example numbers don't reconcile internally — round-then-convert granularity makes the taught arithmetic fail
+### 37. Metric worked-example numbers don't reconcile internally — round-then-convert granularity makes the taught arithmetic fail *(addressed 2026-06-10)*
 
 **Location:** pid-basics in metric (SP 13 / PV 16 / error 2.8 °C — the
 subtraction being taught gives 3, not 2.8); economizer-ratio's default
@@ -2314,7 +2314,7 @@ under #35/#36 follows the policy (deltas are differences of displayed
 operands — e.g. subcooling 40.6 − 35.0 = 5.6). Census multi-pair
 lines audited; the two cited failures were the only ones.
 
-### 38. The 4–20 mA loop is taught as powered from the 24 VAC hot leg — wrong field practice, contradicted by the site's own quiz
+### 38. The 4–20 mA loop is taught as powered from the 24 VAC hot leg — wrong field practice, contradicted by the site's own quiz *(addressed 2026-07-14)*
 
 **Location:** education/controller-wiring.html (prose, inputs diagram,
 capstone loop, legend), the wiring sim's `loop` preset and engine
@@ -2353,7 +2353,7 @@ mismatch). This brings the page in line with the site's own
 `field-wiring-sensors` drill, which already teaches DC loop power.
 PR: fix/4-20ma-dc-loop-power.
 
-### 39. PID fast scene tells a physically wrong story — a "VAV damper" controlling duct static while the fan also tracks the same output
+### 39. PID fast scene tells a physically wrong story — a "VAV damper" controlling duct static while the fan also tracks the same output *(addressed 2026-06-10)*
 
 **Location:** simulators/pid-tuner.html — selector option "VAV damper
 · duct static pressure"; `updateScene` drives both the damper blades
@@ -2379,7 +2379,7 @@ AO, one actuator. The Loop Speed table row stands (it lists distinct
 fast-loop examples, not one loop). Visual-contract test updated to
 assert the fan's one-shot transform instead of a damper-blade angle.
 
-### 40. The 24 VAC leg-swap consequence is told three incompatible ways across drill, lesson, and sim
+### 40. The 24 VAC leg-swap consequence is told three incompatible ways across drill, lesson, and sim *(addressed 2026-07-14)*
 
 **Location:** surviving-first-months.js ("Cross-wiring won't damage
 equipment"), controller-wiring lesson (correctly scoped to shared
@@ -2419,7 +2419,7 @@ heads-up rather than a failure. Reversed-polarity engine test rewritten
 to the new contract + a shared-common-short test added.
 PR: fix/reversed-power-lone-runs.
 
-### 41. "Not 'around 40 °F' — at 40 °F" overshoots the site's own table
+### 41. "Not 'around 40 °F' — at 40 °F" overshoots the site's own table *(addressed 2026-06-10)*
 
 **Location:** refrigeration cluster prose; 118 psig interpolates to
 39.8 °F in the site's own P-T data, and the sibling lesson correctly
@@ -2437,7 +2437,7 @@ from the site's own R-410A table ([40, 118.8, 118.4]), so "not
 118 psig" worked-example references elsewhere in the cluster stand —
 they were already correctly hedged.
 
-### 42. TXV needle motion described in "turns"
+### 42. TXV needle motion described in "turns" *(addressed 2026-06-10)*
 
 **Location:** metering-devices-txv-eev lesson — "turns" belong to the
 adjustment screw (which the lesson states correctly elsewhere); the
@@ -2453,7 +2453,7 @@ walkthrough now reads "a sliver of lift out of the needle's total
 travel" with a parenthetical reserving "turns" for the adjustment
 screw; the screw paragraph's turn language stands (correct usage).
 
-### 43. Triac output description is imprecise — "won't switch a separate voltage"
+### 43. Triac output description is imprecise — "won't switch a separate voltage" *(addressed 2026-07-14)*
 
 **Location:** education/controller-wiring.html (outputs section, triac
 paragraph). **Lens:** content. **Verification status: verified**
@@ -2475,7 +2475,7 @@ floating/isolated contact — keeping the copy vendor-neutral (no product
 names, per the vendor-name guardrail). Shipped in
 fix/4-20ma-dc-loop-power (same file).
 
-### 44. Hydronic loop builder violates the affinity laws at reduced pump speed
+### 44. Hydronic loop builder violates the affinity laws at reduced pump speed *(addressed 2026-07-14)*
 
 **Location:** simulators/hydronic-loop-builder.html (the "How it works"
 formula) + the pump-curve model in scripts/hydronic-engine.js
@@ -2515,7 +2515,7 @@ agreement (details in codebase-issues #154). Four content-accuracy items
 surfaced and were fixed (#45-#48); two cross-widget cosmetics were logged
 to codebase-issues rather than fixed inline.
 
-### 45. pid-basics "P only" sim caption promises ringing the widget can't produce
+### 45. pid-basics "P only" sim caption promises ringing the widget can't produce *(addressed 2026-07-14)*
 
 **Location:** education/pid-basics.html (Sim 1 caption) vs. the reachable
 behavior of scripts/pid-engine.js on the fast/med/slow presets. **Lens:**
@@ -2541,7 +2541,7 @@ spec (`pure P cannot ring on the Sim 1 loops but rings on the dead-time
 loop`) pinning 0 overshoot on fast/med/slow at Kc ≤ 20 and > 5 % on vhigh.
 PR: issue-154/sim-tool-physics-audit.
 
-### 46. superheat-subcooling worked example claims the P-T tool "reads the same 10 °F back" — it interpolates to 10.2 / 9.6
+### 46. superheat-subcooling worked example claims the P-T tool "reads the same 10 °F back" — it interpolates to 10.2 / 9.6 *(addressed 2026-07-14)*
 
 **Location:** education/superheat-subcooling.html (worked example) vs.
 tools/refrigerant-pt.html + scripts/refrigerant-data.js. **Lens:** content
@@ -2565,7 +2565,7 @@ refined. (metering-devices-txv-eev.html uses the same 10 °F as a narrative
 anchor for the TXV-holds-superheat physics but makes no claim about tool
 output, so it was left unchanged.) PR: issue-154/sim-tool-physics-audit.
 
-### 47. R-454B's ~2 °F glide is labeled "negligible" by the P-T tool, contradicting the lesson that teaches it as a glide blend
+### 47. R-454B's ~2 °F glide is labeled "negligible" by the P-T tool, contradicting the lesson that teaches it as a glide blend *(addressed 2026-07-14)*
 
 **Location:** tools/refrigerant-pt.html (P-T status pill) vs.
 education/superheat-subcooling.html (blend glide). **Lens:** content
@@ -2590,7 +2590,7 @@ cleanly between R-404A (≤ 1.1 °F computed) and R-454B (≥ 1.8 °F). Added a
 data-integrity spec pinning each refrigerant into its tier. PR:
 issue-154/sim-tool-physics-audit.
 
-### 48. VAV coil-airflow widget's CFM/ton verdict disagrees with the equipment-airflow tool it links to
+### 48. VAV coil-airflow widget's CFM/ton verdict disagrees with the equipment-airflow tool it links to *(addressed 2026-07-14)*
 
 **Location:** education/vav-systems.html (coil-airflow widget) vs.
 tools/equipment-airflow.html (owner-blessed 350/400/500 bands). **Lens:**
@@ -2629,7 +2629,7 @@ the follow-up PR) and **one accepted as-is** (L2, a known/disclosed limitation).
 Full evidence, sources, and suggested fixes live in the triage doc:
 `docs/audits/2026-07-fresh-accuracy/triage.md`.
 
-### 49. R-32 mislabeled as a zeotropic glide blend in the superheat lesson
+### 49. R-32 mislabeled as a zeotropic glide blend in the superheat lesson *(addressed 2026-07-14)*
 
 **Location:** education/superheat-subcooling.html (~line 154, the glide
 footnote). **Lens:** content (refrigeration physics). **Verification status:
@@ -2651,7 +2651,7 @@ zeotropic list (R-407C and R-454B belong — R-454B's ~2 °F glide is real per
 and R-454B (R-454B's ~2 °F glide is real). PR: content/fresh-audit-cleancut-fixes.
 *(resolved 2026-07-14)*
 
-### 50. voltage-drop.html cites a false resistance-table source and temperature
+### 50. voltage-drop.html cites a false resistance-table source and temperature *(addressed 2026-07-14)*
 
 **Location:** tools/voltage-drop.html (line 158 rendered note, line 199 JS
 comment, line 200 `OHMS_PER_KFT`). **Lens:** content (electrical citation).
@@ -2671,7 +2671,7 @@ at 20 °C (standard AWG values)" and dropped the false NEC Ch. 9 Table 8
 attribution; the Ω/kft constant is unchanged. PR: content/fresh-audit-cleancut-fixes.
 *(resolved 2026-07-14)*
 
-### 51. airside-load.html Denver altitude figure understates the load over-read
+### 51. airside-load.html Denver altitude figure understates the load over-read *(addressed 2026-07-14)*
 
 **Location:** tools/airside-load.html (line 240, the "where 1.08 / 0.68 / 4.5
 come from" note). **Lens:** content (physics figure). **Verification status:
@@ -2690,7 +2690,7 @@ over-read verified against `pressFromAltitude` at 5,280 ft); kept the 3 %/1,000 
 rule. PR: content/fresh-audit-cleancut-fixes.
 *(resolved 2026-07-14)*
 
-### 52. bacnetUnits.js reactive-energy names use bacnet-stack word order
+### 52. bacnetUnits.js reactive-energy names use bacnet-stack word order *(deferred 2026-07-14)*
 
 **Location:** html/_data/bacnetUnits.js (lines 225–227 ids 203/204/205;
 264–266 ids 242/243/244); surfaced on tools/bacnet-units.html. **Lens:**
@@ -2713,7 +2713,7 @@ genuine 50/50, not worth churning the display strings; revisit only if a
 canonical-ASHRAE naming pass is done.
 *(accepted — known limitation, 2026-07-14)*
 
-### 53. modbus-functions.html exception-code table omits code 07 (NAK)
+### 53. modbus-functions.html exception-code table omits code 07 (NAK) *(addressed 2026-07-14)*
 
 **Location:** tools/modbus-functions.html (Exception-codes tab, lines
 148–159). **Lens:** content (Modbus completeness). **Verification status:
@@ -2732,7 +2732,7 @@ order (between 06 and 08); left the register-viewer's FC-only subset alone.
 PR: content/fresh-audit-cleancut-fixes.
 *(resolved 2026-07-14)*
 
-### 54. bacnet-basics.html MS/TP framing diagram collapses two CRCs into one
+### 54. bacnet-basics.html MS/TP framing diagram collapses two CRCs into one *(addressed 2026-07-14)*
 
 **Location:** education/bacnet-basics.html (MS/TP-vs-BACnet/IP framing SVG,
 ~lines 570–640, and its `<desc>` alt-text ~line 573). **Lens:** content
@@ -2753,7 +2753,7 @@ to cover both and the `<desc>` rewritten to enumerate the header and data CRCs
 and their positions. PR: content/fresh-audit-l4-l5-l2.
 *(resolved 2026-07-14)*
 
-### 55. bacnet-services.html buckets AtomicRead/WriteFile under "Data Sharing"
+### 55. bacnet-services.html buckets AtomicRead/WriteFile under "Data Sharing" *(addressed 2026-07-14)*
 
 **Location:** education/bacnet-services.html (service-families table, ~line
 114). **Lens:** content (BACnet service taxonomy). **Verification status:
@@ -2771,7 +2771,7 @@ is wrong. **Suggested direction:** relabel that row's area "File Access" (or
 PR: content/fresh-audit-l4-l5-l2.
 *(resolved 2026-07-14)*
 
-### 56. CDAB byte-order nickname inconsistent across tool, lesson, and quiz
+### 56. CDAB byte-order nickname inconsistent across tool, lesson, and quiz *(addressed 2026-07-14)*
 
 **Location:** tools/modbus-register-viewer.html (~line 181) +
 education/modbus-decoding.html (~line 292) call CDAB the "Modicon byte-swap";
@@ -2842,7 +2842,7 @@ Full evidence record, the seven refuted findings with their reasoning,
 the metric-sweep coverage note, and the guard as built:
 `docs/audits/2026-08-accuracy/triage.md`.
 
-### 57. comparators-and-deadband.html deadband swing contradicts its own painted operands
+### 57. comparators-and-deadband.html deadband swing contradicts its own painted operands *(addressed 2026-08-07)*
 
 **Location:** education/comparators-and-deadband.html line 419 (the "One
 number to be careful with" paragraph). Also logged as codebase-issues
@@ -2870,7 +2870,7 @@ Note the correct resolution of #232 is **two spans, not one** — see #58,
 which #232 does not name. PR: docs/audit-2026-08-accuracy.
 *(resolved 2026-08-07)*
 
-### 58. comparators-and-deadband.html typical-band range keeps the superseded conversion
+### 58. comparators-and-deadband.html typical-band range keeps the superseded conversion *(addressed 2026-08-07)*
 
 **Location:** education/comparators-and-deadband.html line 443 ("How
 wide should the band be?"). **Lens:** engineer (on-page consistency).
@@ -2890,7 +2890,7 @@ value. Triage: L1.
 **Resolved:** changed to `0.6–1.2 °C`. PR: docs/audit-2026-08-accuracy.
 *(resolved 2026-08-07)*
 
-### 59. comparators-and-deadband quiz bank carries the same metric defect in two questions
+### 59. comparators-and-deadband quiz bank carries the same metric defect in two questions *(addressed 2026-08-07)*
 
 **Location:** html/_data/quizzes/comparators-and-deadband.js —
 `cdb-band-edge-set-point` (prompt line 84, explain line 88) and
@@ -2913,7 +2913,7 @@ low; confidence high. Triage: L2.
 consistency with #58. PR: docs/audit-2026-08-accuracy.
 *(resolved 2026-08-07)*
 
-### 60. timers-and-delays.html calls its own eight-block sheet "seven blocks"
+### 60. timers-and-delays.html calls its own eight-block sheet "seven blocks" *(addressed 2026-08-07)*
 
 **Location:** education/timers-and-delays.html line 500 (the "Race the
 window yourself" capstone). **Lens:** engineer (prose-vs-artifact
@@ -2930,7 +2930,7 @@ they will count eight. Severity low; confidence high. Triage: L3.
 **Resolved:** "seven blocks" → "eight blocks".
 PR: docs/audit-2026-08-accuracy. *(resolved 2026-08-07)*
 
-### 61. setpoint-math-reset quiz gotcha snippet's ADD output doesn't equal its own operands
+### 61. setpoint-math-reset quiz gotcha snippet's ADD output doesn't equal its own operands *(addressed 2026-08-07)*
 
 **Location:** html/_data/quizzes/setpoint-math-reset.js,
 `smr-flipped-slope` — the `snippet` (line 131) and `explain` (line 138).
@@ -2949,7 +2949,7 @@ medium. Severity low; confidence high. Triage: L4.
 "reads 237" → "= 236.7" / "reads 236.7".
 PR: docs/audit-2026-08-accuracy. *(resolved 2026-08-07)*
 
-### 62. dedicated-outdoor-air.html capstone claims to mark five control points; it marks one
+### 62. dedicated-outdoor-air.html capstone claims to mark five control points; it marks one *(addressed 2026-08-07)*
 
 **Location:** education/dedicated-outdoor-air.html lines 313-317 (the
 claim) and the `doas-d3` SVG at lines 320-408. **Lens:** engineer +
@@ -3050,7 +3050,7 @@ further than four bolted-on markers:
 PR: docs/audit-2026-08-accuracy. *(resolved 2026-08-07; exhaust-fan
 follow-on 2026-08-07; placement + ink rulings 2026-08-08)*
 
-### 63. comparators-and-deadband.html capstone says the heating example differs only in two wires
+### 63. comparators-and-deadband.html capstone says the heating example differs only in two wires *(addressed 2026-08-07)*
 
 **Location:** education/comparators-and-deadband.html line 496 ("Walk
 the band yourself"). **Lens:** newcomer (an instruction that falsifies
@@ -3077,7 +3077,7 @@ S and R have traded places. (Its constants and block names read for
 heating; the shape underneath is identical.)"
 PR: docs/audit-2026-08-accuracy. *(resolved 2026-08-07)*
 
-### 64. reading-a-wiresheet.html says "every wire on it is grey" of a branch with a green wire
+### 64. reading-a-wiresheet.html says "every wire on it is grey" of a branch with a green wire *(deferred 2026-08-07)*
 
 **Location:** education/reading-a-wiresheet.html lines 492-493 (prose)
 and line 257 (the `raw-d1-desc` alt text). **Lens:** engineer +
@@ -3114,7 +3114,7 @@ same reason: it describes the same branch under the same scoping, so
 changing one and not the other would be the real inconsistency.
 *(accepted — reads correctly as written, 2026-08-07)*
 
-### 88. bacnet-networking lesson attributes the sequential-port convention to Annex J more firmly than the standard supports *(flagged 2026-08-20, quiz-growth wave-1 refutation round)*
+### 88. bacnet-networking lesson attributes the sequential-port convention to Annex J more firmly than the standard supports *(flagged 2026-08-20, quiz-growth wave-1 refutation round)* *(ruled 2026-10-05 — soften both surfaces in one lane with #89; owner checks the clause on the PR; fix pending)* *(addressed 2026-10-05 · PR #615)*
 
 **Location:** `html/education/bacnet-networking.html` (the Annex J
 paragraph in *Reading the hex blob*, ~L521: "ASHRAE 135 Annex J's
@@ -3134,7 +3134,41 @@ one pass — e.g. "Annex J's default 0xBAC0, then 0xBAC1, 0xBAC2 by
 convention" — the quiz was deliberately NOT fixed alone, since it must
 stay in sync with the lesson it sources.
 
-### 89. MS/TP lesson + one bank explain overstate the steady-state cost of Max_Master = 127 *(flagged 2026-08-21, quiz-growth wave-1 refutation round — mstp lane)*
+**Ruling (2026-10-05, owner).** *"Soften both, I'll check the clauses on
+the PR."* #88 and #89 ship as **one content lane**, every surface of
+each softened in the same pass so lesson and quiz bank cannot drift.
+The owner verifies the standard's text on the PR against his own copy of
+135, so **the PR body must quote the clauses it relies on** (Annex J's
+port wording for #88; Clause 9's `Npoll` / Poll-For-Master text for
+#89) — the PR is where the verification happens, not this entry. Live
+lessons + quiz banks → **owner merges**. On merge each heading takes
+`*(addressed YYYY-MM-DD — softened per the 2026-10-05 ruling, PR #NNN)*`.
+
+**#88's target wording:** Annex J's default `0xBAC0`, then
+`0xBAC1` / `0xBAC2` **by convention** (the IANA 47808–47823
+registration block) — on `html/education/bacnet-networking.html:521`
+and the `second-network-next-port` explain
+(`html/_data/quizzes/bacnet-networking.js:207`, cite by id — the line
+moves when the bank grows).
+
+**Resolution (2026-10-05, PR #615).** Softened on three surfaces, not
+two: the lesson's hex-blob paragraph, the `second-network-next-port`
+explain, and a third the entry missed — the port note in
+`html/tools/bacnet-ip-converter.html` ("Annex J describes a convention
+for additional networks on sequential ports"). All three now credit
+Annex J with the default `0xBAC0` and with *permitting* other ports for
+additional networks, and name counting up (`0xBAC1`, `0xBAC2`) as field
+convention. **The IANA 47808–47823 block named in the target wording
+does not exist**: IANA's Service Name and Transport Protocol Port
+Number Registry (checked 2026-10-05) registers `bacnet` at 47808
+(tcp/udp) only; 47809/udp is registered to PreSonus
+(`presonus-ucnet`, 2013); 47810–47999 are unassigned. The converter's
+"not IANA-registered" stands, and the sequential ports are field
+convention only — so the block stays out of reader prose on all three
+surfaces, as a settled fact rather than an open question.
+- [x] Clause text verified by the owner on the PR *(owner, 2026-10-06: "Clauses check out")*.
+
+### 89. MS/TP lesson + one bank explain overstate the steady-state cost of Max_Master = 127 *(flagged 2026-08-21, quiz-growth wave-1 refutation round — mstp lane)* *(ruled 2026-10-05 — soften both surfaces to the amortized Npoll story in one lane with #88; owner checks the clause on the PR; fix pending)* *(addressed 2026-10-05 · PR #615)*
 
 **Location:** `html/education/bacnet-mstp.html:105` ("the token holder
 dutifully Poll-For-Masters its way through a hundred-odd empty
@@ -3161,3 +3195,406 @@ the reworked `max-master-where-to-set` explain shipped in PR #592
 addresses nobody owns, over and over, and a newcomer waits longer to
 be found") was worded to be compatible with whatever softening these
 two get, so the three surfaces can converge on one mechanism.
+
+**Ruling (2026-10-05, owner).** *"Soften both, I'll check the clauses on
+the PR."* #88 and #89 ship as **one content lane**, every surface of
+each softened in the same pass so lesson and quiz bank cannot drift.
+The owner verifies the standard's text on the PR against his own copy of
+135, so **the PR body must quote the clauses it relies on** (Annex J's
+port wording for #88; Clause 9's `Npoll` / Poll-For-Master text for
+#89) — the PR is where the verification happens, not this entry. Live
+lessons + quiz banks → **owner merges**. On merge each heading takes
+`*(addressed YYYY-MM-DD — softened per the 2026-10-05 ruling, PR #NNN)*`.
+
+**#89's target story — amortized, not per-rotation:** one
+Poll-For-Master per `Npoll` = 50 token receipts, sent by the master
+sitting below the address gap; the real costs are an occasional
+`Tusage_timeout` stall as that poll goes unanswered, slower discovery of
+a newcomer, and slower ring re-formation. **The advice taught is
+unchanged** (one uniform `Max_Master`, a little above the highest MAC).
+Surfaces: `html/education/bacnet-mstp.html:105` and the
+`max-info-frames-allowance` explain (`html/_data/quizzes/bacnet-mstp.js`,
+cite by id), converging with the `max-master-where-to-set` explain PR
+#592 already reworded so all three tell one mechanism.
+
+**Correction (2026-10-05, PR #615 verifier round).** The flag misread
+`Npoll`. Clause 9's maintenance Poll-For-Master is a per-rotation
+SWEEP of the gap that begins after ~`Npoll` quiet token passes and runs
+one address per token visit until `PS`+1 == `NS`, then rests; on a
+small trunk at 127 that is a stall on most rotations. `Npoll`'s own
+definition — tokens received or used before a Poll For Master *cycle*
+is executed — gates when a sweep STARTS, not the interval between
+polls: `SendMaintenancePFM` leaves `TokenCount` untouched, and only
+`ResetMaintenancePFM` (`TokenCount` = 1, when `PS`+1 == `NS`) and
+`ReceivedReplyToPFM` (`TokenCount` = 0) reset it (checked against two
+implementations that carry the standard's transition names:
+bacnet-stack `src/bacnet/datalink/mstp.c` and BACnet4J
+`npdu/mstp/ManagerNode.java`). The "target story" above is therefore
+the error; the original passage was overstated only in the word
+"every". Correct target: soften "every rotation" to the sweep-and-rest
+mechanism; keep the sluggish-trunk framing. A second slip in the first
+pass: the whole-range walk is triggered by ring FORMATION with the
+successor unknown (trunk power-up, or the top master dropping off so
+the one below inherits the gap), not by a lost token in general — an
+ordinary lost token walks only up to the next live address.
+
+**Resolution (2026-10-05, PR #615, as corrected).** Both surfaces
+rewritten to the sweep-and-rest mechanism:
+`html/education/bacnet-mstp.html`'s Max_Master = 127 paragraph and the
+`max-info-frames-allowance` explain now say that after about fifty
+quiet token passes the master below the empty range polls it one
+Poll-For-Master per token visit, one address per rotation, until the
+gap is swept, then rests — so on a small trunk at 127 most rotations
+carry a timeout stall — and that the whole-range walk happens when the
+ring forms with that master's successor unknown. The explain keeps
+"classic sluggish-trunk miss", so the lesson paragraph, the symptom
+table ("Whole trunk online but sluggish") and the bank tell one
+mechanism. The advice (one uniform `Max_Master`, a little above the
+highest MAC) is unchanged. The `max-master-where-to-set` explain was
+left as PR #592 shipped it — "walking a hundred-odd addresses nobody
+owns, over and over" is the sweep.
+- [x] Clause text verified by the owner on the PR *(owner, 2026-10-06: "Clauses check out")* (9.5.6
+  DONE_WITH_TOKEN: does `SendMaintenancePFM` reset `TokenCount`? —
+  expected no; only `ResetMaintenancePFM` and `ReceivedReplyToPFM` do).
+
+### 90. air-handlers.html says the coils take "the same two-way valve" as any loop load — Load Piping teaches two-way and three-way *(flagged 2026-10-05, quiz-growth wave-2 refutation round)* *(addressed 2026-10-06 · PR #635)*
+
+**Location:** `html/education/air-handlers.html:362` — *"on a built-up
+unit these coils are hydronic loads — the same two-way valve, same
+supply and return piping you met in Load Piping"*. **Lens:** working
+engineer. **Issue:** absolutism. The sentence's point (an AHU coil is a
+loop load like any other) is right, but it names one valve
+arrangement as *the* arrangement, while the lesson it cites teaches
+two-way AND three-way at a load. A hot-water preheat coil with its own
+circulator and a three-way valve, piped for freeze protection, is a
+common built-up arrangement, so a reader who has seen one is told it
+does not exist. **Verification:** confirmed by reading the line; the
+air-handlers bank's `ah-coils-are-hydronic-loads` explain already says
+*"the same two-way (or three-way) valve choices Load Piping teaches"*
+(PR #609, open when this was written) — the refuter softened the bank,
+not the lesson, so the two now disagree. **Suggested direction:** bring
+the lesson to the bank's wording — "the same two-way (or three-way)
+valve choices" — so lesson and explain say one thing.
+
+**Resolution (2026-10-06, PR #635).** `html/education/air-handlers.html:362`
+now reads *"the same two-way or three-way valve, same supply and return
+piping you met in Load Piping"*. The bank's `ah-coils-are-hydronic-loads`
+was reworded in the same review (PR #609) so its false statement no longer
+implies loads elsewhere are two-way only, and its explain names the two-way
+throttling valve and the three-way mixing or diverting valve. Owner's words
+on the ruling: *"a modulating valve could still be 2 way or 3 way
+diverting/mixing."*
+
+### 91. air-handlers.html — the 38 °F freeze threshold lives only in the widget; the prose names none *(flagged 2026-10-05, quiz-growth wave-2 refutation round)* *(ruled 2026-10-06 — fix)* *(addressed 2026-10-06 · PR #640)*
+
+**Location:** `html/education/air-handlers.html` — the sensor-strip
+widget's `const FREEZE_AT = 38;` (`:676`, commented *"freeze-stat
+territory"*), used at `:754` / `:780`, and the status string *"Mixed air
+near freezing — freeze-stat territory"* (`:756`). **Lens:** reader /
+quiz author. **Issue:** the only number the lesson has for where freeze
+trouble starts is a script constant; no prose sentence on the page
+names a threshold or a freeze stat at all. A quiz question about the
+trip point has nothing in the lesson to cite, and a reader who skips
+the widget never meets the number. **Verification:** confirmed — a grep
+of the page for `freeze` and `38` finds only the script and a CSS
+comment. **Suggested direction:** do not add the number here; the
+coil-freeze-protection lesson (PR #620, open when this was written)
+states a 38 °F house setting and should own it. Once that lesson
+ships, give the air-handlers prose one pointer to it near the widget.
+Do not promise the lesson in copy before it is live (CLAUDE.md, *No
+coming-soon copy*); PR #620 currently adds it to the page's
+`relatedLinks` only.
+
+**Resolution (2026-10-06, rulings.md §19.5):** one sentence appended to
+the `#sensor-strip` intro paragraph (`air-handlers.html:~510`): once the
+preset drags the mix below 38 °F (3.3 °C) the strip raises a freeze
+fault — that figure is a freezestat setting the Coil Freeze Protection
+lesson walks through, and that lesson is the place to read where freeze
+trouble starts. The number itself stays owned by the freeze lesson. Line
+cites in the entry above have drifted (`FREEZE_AT` is at `:681`, the
+status string at `:761`, the anecdote at `:785-787`, the preset button
+at `:520`). The widget keys its fault off mixed-air (coil-entering)
+temperature while the lesson's 38 °F is a leaving-air freezestat
+setting; the sentence claims only that the figure IS a stat setting (see
+#103).
+
+### 92. air-handlers.html — the MA-T-reads-the-coil war story exists only as a script string behind the failure preset *(flagged 2026-10-05, quiz-growth wave-2 refutation round)* *(ruled 2026-10-06 — fix)* *(addressed 2026-10-06 · PR #640)*
+
+**Location:** `html/education/air-handlers.html:782` — the
+`widget-anecdote` HTML string (MA-T *"sawtoothing in lockstep with the
+compressor stage"* because the sensor sat too close to the DX coil),
+revealed only once the `damper linkage failure` preset (`:515`) drives
+MA-T below `FREEZE_AT` (`:780`). **Lens:** reader / quiz author.
+**Issue:** a reader who never presses that preset cannot find the story
+anywhere in prose. The bank's `ah-ma-t-reads-the-coil` gotcha (PR #609)
+is built on it and links `#sensor-strip`, where the prose (`:505`)
+introduces the widget but not the story. `economizers.html:398` points
+readers at it too (*"the Air Handlers lesson's widget hides a war story
+about exactly that"*), so the hiding is acknowledged, not accidental.
+**Verification:** confirmed by reading the widget code and the
+`#sensor-strip` prose. **Suggested direction:** one prose sentence near
+the widget naming the lesson (a mixed-air sensor mounted too close to
+the coil reads the coil, not the mix), leaving the war story itself in
+the widget — or accept, on the ground that the economizers page
+discloses where it is.
+
+**Resolution (2026-10-06, rulings.md §19.5):** the suggested direction's
+first option — one prose sentence after the #91 pointer: the preset also
+unlocks a field story whose point holds even if you never press it — a
+mixed-air sensor mounted too close to the coil reads the coil, not the
+mix. The war story itself stays in the widget's anecdote string. Follow-
+on nit: `coil-freeze-protection.html:118` still says the widget "hides"
+the story, which is now a slight overstatement.
+
+### 93. air-handlers.html — the worked example's "damper flow isn't linear with stroke" caveat is untested *(flagged 2026-10-05, quiz-growth wave-2 refutation round)* *(accepted 2026-10-06 — no page change; candidate question for a later air-handlers wave)*
+
+**Location:** `html/education/air-handlers.html:352`, the mixing
+worked example's aside *"calling the commanded position a flow fraction
+to keep the arithmetic readable — real damper flow isn't linear with
+stroke"*. **Lens:** practice design. **Issue:** a field-relevant
+caveat (the reason a 20 % command is not 20 % outdoor air) that no
+question in the air-handlers bank exercises; a grep of the PR #609 bank
+for `linear` / `stroke` finds nothing. Candidate beat for a later quiz
+wave, or a slightly longer prose treatment. **Verification:** confirmed
+by grep. **Dropped half of the original note:** the refuter also said
+the lesson never states the relief/exhaust damper sits upstream of the
+mixing box. It does — the opening walk (`:172`, *"Just before the unit,
+some of it is thrown away — pushed out the exhaust / relief opening —
+and the rest drops into the mixing box"*) and the first diagram's
+`<desc>` (`:178`, *"Before the mixing box, an exhaust and relief
+branch …"*). Not logged as a finding. **Suggested direction:** a
+candidate question for the next air-handlers wave; no page change
+needed.
+
+**Ruling (2026-10-06, rulings.md §19.8):** no page change. The damper-
+stroke caveat is a candidate question whenever the air-handlers bank
+grows again (it sits at 15 after wave 2); the entry stays as that
+pointer.
+
+### 94. pid-basics.html calls duct static a "fast, clean loop" — in the field it is a famously jittery signal *(flagged 2026-10-05, quiz-growth wave-2 refutation round)* *(ruled 2026-10-06 — fix)* *(addressed 2026-10-06 · PR #641)*
+
+**Location:** `html/education/pid-basics.html:58`, the D callout's
+*When it earns its keep* paragraph — *"On a fast, clean loop (duct
+pressure, VFD speed), don't bother"*. **Lens:** working engineer.
+**Issue:** "fast" is right, "clean" is not: a duct static transmitter
+reads turbulence, and the signal is often noisy enough to need input
+filtering before it is usable. The page's own D callout, one line up
+(`:57`), says D *"amplifies sensor noise"*, and the bank's
+`derivative-noise` explain says the same — so the stronger reason to
+skip D on duct static is that it is noisy, and the lesson names the
+opposite. The advice (no D on duct static) stands either way.
+**Verification:** confirmed by reading the line. **Suggested
+direction:** soften "clean" — e.g. "a fast loop (duct pressure), where D
+has little lag to anticipate and plenty of noise to amplify" — or name
+the variation (some installs filter it smooth, many don't).
+
+**Resolution (2026-10-06, rulings.md §19.6):** `pid-basics.html:58` now
+reads, in substance, "on a fast loop like duct static pressure — which
+the loop holds by commanding fan speed — don't bother: D has little lag
+to anticipate and plenty of noise to amplify." The bank's `fast-loop-
+skips-derivative` prompt and explain, which carried the same "fast,
+clean loop" wording, were reworded in the same PR so the quiz and the
+lesson agree (question id and key unchanged).
+
+### 95. pid-basics.html and the PID tuner list "VFD speed" as a loop — it is the OUTPUT of the static loop *(flagged 2026-10-05, quiz-growth wave-2 refutation round)* *(ruled 2026-10-06 — fix)* *(addressed 2026-10-06 · PR #641)*
+
+**Location:** `html/education/pid-basics.html:58` (*"duct pressure, VFD
+speed"* as examples of a fast loop) and
+`html/simulators/pid-tuner.html:383`, the Fast row of the time-constant
+table (*"Duct static pressure, mixing-box damper position, fan VFD
+speed"*). `tools/pid-parameter-translator.html` was checked and does
+not carry it. **Lens:** working engineer. **Issue:** both lists read as
+"loops whose measured variable is X", and VFD speed is normally not a
+PV — it is what the duct static loop commands. A beginner can take it
+to mean speed is controlled by its own PID. *Mixing-box damper
+position* in the tuner row has the same shape (damper position is an
+output; the loop measures mixed-air temperature). **Verification:**
+confirmed by grep. **Suggested direction:** name the measured variable
+(duct static pressure; mixed-air temperature) and, where useful, the
+output it drives ("duct static, which the loop holds by commanding fan
+speed").
+
+**Resolution (2026-10-06, rulings.md §19.6):** the lesson names the
+measured variable (above, #94), and the tuner's Fast row (`:383`) now
+lists "duct static pressure (held by commanding fan speed)" and "mixed-
+air temperature (held by the mixing-box dampers)". Walk pointer: the
+refuter questions whether mixed-air temperature belongs in the Fast
+bucket once damper stroke time is counted; if the owner agrees, drop it
+from the row rather than move it — Medium already carries three
+examples. The Medium row itself has the same output-as-loop shape
+(#100).
+
+### 96. economizers.html defines "lockout" only as the high-limit half of changeover; other surfaces use it for the cold end *(flagged 2026-10-05, quiz-growth wave-2 refutation round)* *(ruled 2026-10-06 — fix, one disclosure sentence)* *(addressed 2026-10-06 · PR #642)*
+
+**Location:** `html/education/economizers.html:219` — *"you'll also
+hear high-limit lockout for its other half — the condition that slams
+the gate shut"*; the changeover widget's pill *"Lock out — minimum OA"*
+(`:525`). **Lens:** reader / terminology. **Issue:** the page gives
+"lockout" one meaning (too warm or too humid outside to economize). The
+DDC Workbench agrees: `html/scripts/ddcw-ahu-unit.js:1838` reads
+*Locked out* only when OA-T is at or above the high limit or the
+differential, and *At minimum* otherwise. But the sequencing-scenarios
+bank's `economizer-low-limit` question uses *"low-limit / mixed-air
+lockout"* and *"an OA-temp lockout"* for the cold end
+(`html/_data/quizzes/sequencing-scenarios.js:93`, `:96`), and the field
+uses it both ways. A reader who meets the cold-end sense will ask
+"locked out by what?". **Verification:** confirmed by grep across the
+three surfaces. **Suggested direction:** one sentence on the economizers
+page saying the word is used at both ends (high-limit lockout of free
+cooling; a low-ambient lockout or low-limit at the cold end), in the
+disclosure register the deadband convention uses — name both senses,
+don't legislate one.
+
+**Resolution (2026-10-06, rulings.md §19.7):** one sentence after the
+high-limit parenthetical at `economizers.html:219`: the field uses
+*lockout* at both ends of the range — a high-limit lockout of free
+cooling when it is too warm or humid outside, and a *low-ambient* or
+*low-limit* lockout at the cold end that drives the dampers back toward
+minimum to protect the coil — so when a sequence or a tech says *locked
+out*, ask which end they mean. The following sentence's "The simplest
+version" became "The simplest changeover" so it does not read as a
+version of lockout. Drifted cites: the Workbench branch is at `ddcw-ahu-
+unit.js:1846`, the pill text at `economizers.html:526`.
+
+### 97. practice/economizers.html says "Ten questions" over a 15-question bank *(flagged 2026-10-05, quiz-growth wave-2 refutation round)* *(accepted 2026-10-05 — run claim, not a bank count; see #241)*
+
+**Location:** `html/practice/economizers.html:3` (`description`) and
+`:28` (intro, *"ten questions down the lesson walk"*), with
+`defaultCount: 10` at `:72`, against the 15-question bank PR #610 grows
+it to. **Lens:** practice design. **Issue:** none — recorded so nobody
+"fixes" it. Page copy and nav-card pills are RUN claims: a run
+presents `defaultCount` = 10 questions sampled from the bank, so
+"ten questions" stays true however large the bank grows.
+`practice/bacnet-basics.html` is the precedent (same copy, 15-question
+bank). The rule is in the friction file's *Quiz banks grow past their
+presented count* entry, set when codebase-issues #241 grew the first
+bank past ten; a FORMAT pill, unlike a count, is a bank claim and does
+have to be checked. **Verification:** confirmed by reading the page and
+the bank. **Suggested direction:** none.
+
+### 98. Two cross-bank near-overlaps in the wave-2 banks *(flagged 2026-10-05, quiz-growth wave-2 refutation round)* *(accepted 2026-10-05 — pedagogy, not a defect; the owner's own freeze-season story would differentiate the first pair)*
+
+**Location / lens:** practice design.
+
+- `eco-low-limit-override` (economizers bank, PR #610) is a near-twin of
+  `economizer-low-limit` (`html/_data/quizzes/sequencing-scenarios.js`)
+  — the same frigid-morning premise and the same answer (a low-limit
+  override drives the dampers toward minimum, with the freeze stat
+  behind it). A reader who drills both practice pages meets it twice.
+- `ah-min-oa-winter-safe` and `ah-ma-mix-calc` (air-handlers bank, PR
+  #609) solve the same blend equation for different unknowns; the
+  refuter measured them drawn together in ~43 % of 10-of-15 runs.
+
+**Issue:** neither is a defect. The economizers pair sits on two pages
+with different scopes (the lesson's drill vs a cross-topic scenario
+drill), and the air-handlers pair is inverse-problem practice on
+purpose. **Verification:** confirmed by reading the four questions.
+**Suggested direction:** none now. If the economizers twin ever
+grates, the owner's own freeze-season story is the material that
+would differentiate it.
+
+
+### 99. coil-freeze-risk.html's `bandTxt` says "Typical settings run 35–38 °F" while the Coil Freeze Protection lesson calls 35–37 °F the device band and 38 a house choice *(flagged 2026-10-06, PR #620 verifier round 3; owner's call)* *(ruled 2026-10-06 — the lesson adopts 35–38 °F; `bandTxt` stays)* *(addressed 2026-10-06 · PR #639)*
+
+**Location:** `html/tools/coil-freeze-risk.html` — the `bandTxt` string
+in the page script (pre-existing, outside PR #620) vs
+`html/education/coil-freeze-protection.html` (the freezestat band in
+*What Actually Freezes* and protection-stack item 1). **Lens:** working
+engineer. **Issue:** two surfaces, two bands. The lesson's figure is the
+research record §4's device band (Honeywell 35, HPAC "typically 37",
+EAB 35, NIH 37) with the 38 °F house setting "a degree above it"; the
+tool's line reads as "where stats get set, house choices included" and
+is not labelled a device band, so neither is wrong on its own terms,
+but a reader who opens both sees two different numbers for the same
+device. **Suggested direction:** owner picks one — either the tool's
+`bandTxt` becomes "Typical device bands run 35–37 °F; 38 °F is a common
+house setting a degree above", or the lesson adopts 35–38 as the
+practical band. Tool page → owner merges either way.
+
+**Resolution (2026-10-06, rulings.md §19.1):** the owner chose the
+second option, against the recommendation. `coil-freeze-protection.html`
+*What Actually Freezes* (`:103`) and protection-stack item 1 (`:115`)
+now state the practical freezestat band as 35–38 °F (1.7–3.3 °C); the
+sentence keeps the research record's finding that published guidance
+clusters at 35–37 °F and says field settings reach 38 °F at the top —
+that 38 rests on the owner's own practice (the record traces it to PR
+#488's Northeast house setting; no published source gives it), which is
+his claim to read on the walk. The tool's `bandTxt` is unchanged. The
+research record's device-band evidence is §2 *Freeze-stat practice*
+(Honeywell 35, HPAC 37, EAB 35, NIH 37), not "§4" as the entry says; §4
+is *Still not established*. A different string on the tool is logged as
+#102.
+
+### 100. pid-tuner.html's Medium row lists two valve outputs as loops — the #95 shape one row below the fixed one *(flagged 2026-10-06, Batch A pid-loops refuter)*
+
+**Location:** `html/simulators/pid-tuner.html:389`, the Loop Speed
+Reference table's Medium row — *"Discharge air temperature, chilled-water
+valve, hot-water valve"*. **Lens:** working engineer. **Issue:** the same
+output-named-as-loop shape content-audit #95 removed from the Fast row:
+the chilled- and hot-water valves are what the discharge-air loop
+commands, not loops of their own. **Verification:** confirmed by reading
+the row on PR #641's branch. **Suggested direction:** "Discharge-air
+temperature (held by the chilled- or hot-water valve)", matching the
+fixed Fast row's phrasing. Also noted: at 375 px the table scrolls
+sideways inside `.table-scroll` with the examples column ~70 px wide, so
+the longer Fast cell wraps to ~9 lines — pre-existing wrapper behaviour,
+cosmetic.
+
+### 101. bacnet-networking.html's not-covered intro says the topics are out of scope "across" the BACnet lessons while its first bullet says MS/TP has its own page *(flagged 2026-10-06, Batch A bacnet-scope refuter)*
+
+**Location:** `html/education/bacnet-networking.html:607-608` (the
+intro above the *What this page didn't cover* list) vs `:614-618` (the
+MS/TP bullet, *"Now its own page"*). **Lens:** reader. **Issue:** a
+one-clause contradiction — the list is out of scope on *this* page, not
+across the shelf, and the alarms bullet now says alarms are "object-model
+and services territory" while `bacnet-basics.html:714` and
+`bacnet-services.html:227` both disclaim them too, so no BACnet lesson
+owns alarms. **Verification:** confirmed by reading all three pages.
+**Suggested direction:** "deliberately out of scope on this page"; and
+note alarms/event notification as unowned across the BACnet shelf in
+the friction file rather than promising it anywhere. The promise-shaped
+copy on the two sibling lessons is codebase-issues #333.
+
+### 102. coil-freeze-risk.html's mute text calls 38 °F "the common default" while the lesson says stats ship set around 35 °F *(flagged 2026-10-06, Batch A freeze-band refuter)*
+
+**Location:** `html/tools/coil-freeze-risk.html:484`, the muted hint
+*"38 °F (3.3 °C) is the common default"*. **Lens:** working engineer.
+**Issue:** "default" reads as the device's factory setting, and the
+lesson (after #99) says the stats ship around 35 °F with field settings
+reaching 38 at the top; the tool means its own input default. The
+`bandTxt` string the owner held as-is under #99 is a different string.
+**Verification:** confirmed by grep. **Suggested direction:** "a common
+field setting" or "this tool's starting point". Tool page → owner
+merges.
+
+### 103. air-handlers.html's sensor-strip widget models a mixed-air low-limit but labels it freeze-stat territory *(flagged 2026-10-06, Batch A air-handlers refuter; owner glance)*
+
+**Location:** `html/education/air-handlers.html:759-761` — the fault
+branch keys off MA-T < 38 °F (the coil-entering mix) and the failure
+preset runs in heat mode, so the DA-T readout sits at the heating target
+while the status announces *"freeze-stat territory"*;
+`coil-freeze-protection.html:115` places the freezestat on the coil's
+leaving-air side. **Lens:** working engineer. **Issue:** the widget is
+modelling a mixed-air low-limit (a legitimate protection, the lesson's
+own protection-stack item) and naming it as the stat. PR #640's prose
+pointer was written so it claims only that 38 °F IS a stat setting the
+freeze lesson walks through, never that the widget measures what the
+stat measures. **Verification:** confirmed by reading the widget script.
+**Suggested direction:** either relabel the status string ("mixed-air
+low-limit territory") or leave the widget and let the lesson pointer
+carry the distinction — the owner's call, since the widget is his field
+story. Adjacent nit: the ref-note at `:579` ends *"and Coil Freeze
+Protection is what stands behind it when it is"* — the trailing "when it
+is" has no clear antecedent.
+
+### 104. psychrometric-chart.html's MA ref-note says the mixed point "falls on the straight line between OA and RA" — true only to ~0.8 °F *(flagged 2026-10-06, #228 step 1 verifier; LOW)*
+
+**Location:** `html/tools/psychrometric-chart.html:~337`, the MA
+ref-note's pre-existing sentence. **Lens:** working engineer. **Issue:**
+in tdb–W space the cp-weighted exact dry-bulb sits up to ~0.84 °F off
+the OA–RA chord across the design note's §1 sweep (the chart's drag
+inversion projects onto the chord, which is consistent with a mass
+fraction since W is mass-linear). Invisible at chart scale; a (b)-class
+prose claim. **Verification:** by computation in the step-1 verify
+round. **Suggested direction:** "on (very nearly) the straight line".
+Not this PR's wording; take it with step 2 of #228.

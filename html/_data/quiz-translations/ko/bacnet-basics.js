@@ -59,7 +59,7 @@ module.exports = {
         prompt: "단일 IP 서브넷에서 디스커버리 스캔을 수행했는데 디바이스 하나가 누락되었습니다. <code>device:2050</code>인 옥상형 공조기는 직접 <code>ReadProperty</code>를 보내면 정상 응답하지만 검색 결과에는 나타나지 않습니다. 무슨 일이 발생한 것입니까?",
         explain: "<code>Who-Is</code>는 범위 없이 전송해 모든 디바이스에 응답을 요청할 수도 있고, 디바이스 인스턴스의 하한과 상한을 지정해 전송할 수도 있습니다. 디바이스는 자신의 인스턴스가 그 범위 안에 있을 때만 응답합니다. 이 스캔은 1000~1999를 요청했으므로 <code>device:2050</code>은 설계대로 응답하지 않았습니다. 오프라인이거나 차단되었거나 고장 난 것이 아닙니다. <em>같은</em> 서브넷에서는 디바이스를 의심하기 전에 스캔 범위를 확인합니다. (서브넷이 다를 때 디스커버리에서 누락되는 현상은 실제로 브로드캐스트 문제이며, 이는 <a href=\"/education/bacnet-networking.html\">BACnet 네트워킹</a>에서 다룹니다.) 응답 확인이 유실되었다는 추측도 맞지 않습니다. Who-Is와 I-Am은 모두 unconfirmed 서비스이므로 확인 응답 자체가 필요하지 않습니다.",
         snippet: "<pre class=\"quiz-snippet\">디스커버리 스캔:  Who-Is 1000..1999   (세 디바이스 모두 같은 서브넷)\n네트워크 구성:     device:1001   device:1002   device:2050\n스캔 결과:         device:1001   device:1002</pre>",
-        learnMoreLabel: "BACnet 기초 — 현장에서 접하는 서비스",
+        learnMoreLabel: "BACnet 기초 — Who-Is / I-Am",
         choices: {
             "a": "RTU가 네트워크에서 이탈했습니다.",
             "b": "스캔 도구와 RTU 사이의 라우터가 브로드캐스트를 차단하고 있습니다.",

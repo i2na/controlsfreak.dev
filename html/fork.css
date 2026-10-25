@@ -1,0 +1,22 @@
+/* Fork-specific presentation stays separate from upstream's design system. */
+.fork-notice {
+    max-width: 1180px;
+    margin: 1.25rem auto;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+    font-size: .875rem;
+    line-height: 1.75;
+}
+.fork-notice p { margin: 0; }
+.fork-notice p + p { margin-top: .4rem; }
+.fork-notice a, .fork-prose a { text-decoration: underline; text-underline-offset: .2em; }
+.fork-prose { max-width: 850px; line-height: 1.9; }
+.fork-prose section + section { margin-top: 1.5rem; }
+.fork-action { display: inline-block; padding: .7rem 1rem; border: 1px solid currentColor; border-radius: 4px; }
+footer .footer-left { flex-wrap: wrap; }
+@media (max-width: 1240px) { .fork-notice { margin: 1rem 1rem; } }
+@media print { .fork-notice { background: none; border: 1px solid #777; font-size: 9pt; } }

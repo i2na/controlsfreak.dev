@@ -1,7 +1,7 @@
 ---
 title: 강제순환식 공조 — 현장 참고 자료, 도구 및 학습 — controlsfreak.dev
 description: 강제순환식 공조 현장 참고 자료입니다. 공기조화기에서 VAV 박스까지의 학습 자료와 시스템 풍량을 산정하고 점검하는 풍량·코일·팬 도구를 제공합니다.
-sourceContentHash: 962dd9af3a0dc33b23fa3ebd9baba7fcb565f31229bc52309adfb6877c51d761
+sourceContentHash: 90d3f0e7f26dfc322e37d20d7ae934f6ba38e2d082097157a2023e9ecb8848e9
 canonical: https://controlsfreak.dev/ko/forced-air/
 nav: guides
 navLabel: 강제순환식 공조
@@ -22,7 +22,7 @@ keywords: 강제순환식 공조 공기조화기 ahu rtu 외기냉방 vav 덕트
     </p>
 
     <p class="landing-intro">
-        처음 접한다면 아래 학습 자료를 순서대로 보세요. 공기조화기에서 말단 박스까지 공기 흐름을 따라가고, 설계 풍량에 맞춰 커미셔닝하는 방법과 환기용 외기를 별도로 처리하는 외기전담공조기를 알아봅니다. 장비가 이미 앞에 있다면 도구로 바로 이동해 덕트 치수를 산정하고, 트래버스 측정값을 평균내고, 최소 외기량을 계산하거나, 코일을 점검할 수 있습니다. 모든 자료는 공개되어 있으며 로그인이나 추적 기능이 없습니다.
+        처음 접한다면 아래 학습 자료를 순서대로 보세요. 공기조화기에서 말단 박스까지 공기 흐름을 따라가고, 추운 아침에 코일이 파열되지 않도록 보호하는 방법과 설계 풍량에 맞춰 커미셔닝하는 방법과 환기용 외기를 별도로 처리하는 외기전담공조기를 알아봅니다. 장비가 이미 앞에 있다면 도구로 바로 이동해 덕트 치수를 산정하고, 트래버스 측정값을 평균내고, 최소 외기량을 계산하거나, 코일을 점검할 수 있습니다. 모든 자료는 공개되어 있으며 로그인이나 추적 기능이 없습니다.
     </p>
 
     <h2 class="hub-group">여기서 시작 — 순서대로 보는 학습 자료</h2>
@@ -31,17 +31,19 @@ keywords: 강제순환식 공조 공기조화기 ahu rtu 외기냉방 vav 덕트
         <span class="hub-arrow">→</span>
         <span class="hub-step">2</span> <a href="/ko/education/economizers.html">외기냉방</a>
         <span class="hub-arrow">→</span>
-        <span class="hub-step">3</span> <a href="/ko/education/building-pressure.html">건물 압력</a>
+        <span class="hub-step">3</span> <a href="/ko/education/coil-freeze-protection.html">코일 동결 방지</a>
         <span class="hub-arrow">→</span>
-        <span class="hub-step">4</span> <a href="/ko/education/air-unit-identification.html">공조 장비 식별</a>
+        <span class="hub-step">4</span> <a href="/ko/education/building-pressure.html">건물 압력</a>
         <span class="hub-arrow">→</span>
-        <span class="hub-step">5</span> <a href="/ko/education/vav-systems.html">VAV 시스템</a>
+        <span class="hub-step">5</span> <a href="/ko/education/air-unit-identification.html">공조 장비 식별</a>
         <span class="hub-arrow">→</span>
-        <span class="hub-step">6</span> <a href="/ko/education/duct-static-control.html">덕트 정압</a>
+        <span class="hub-step">6</span> <a href="/ko/education/vav-systems.html">VAV 시스템</a>
         <span class="hub-arrow">→</span>
-        <span class="hub-step">7</span> <a href="/ko/education/air-balancing.html">공기 밸런싱</a>
+        <span class="hub-step">7</span> <a href="/ko/education/duct-static-control.html">덕트 정압</a>
         <span class="hub-arrow">→</span>
-        <span class="hub-step">8</span> <a href="/ko/education/dedicated-outdoor-air.html">외기전담공조</a>
+        <span class="hub-step">8</span> <a href="/ko/education/air-balancing.html">공기 밸런싱</a>
+        <span class="hub-arrow">→</span>
+        <span class="hub-step">9</span> <a href="/ko/education/dedicated-outdoor-air.html">외기전담공조</a>
     </p>
 
     <div class="card-grid">
@@ -63,11 +65,19 @@ keywords: 강제순환식 공조 공기조화기 ahu rtu 외기냉방 vav 덕트
         }) }}
         {{ navCard({
             section:    'education',
+            href:       '/ko/education/coil-freeze-protection.html',
+            titleShort: '코일 동결',
+            titleFull:  '코일 동결 방지',
+            desc:       '물 코일이 파열되는 이유와 추운 아침에 관 파열을 막는 보호 수단을 알아봅니다. 물이 든 코일의 위험, 세 가지 노출 요인(설계 온도 × 외기 비율 × 물이 든 코일), 동결방지 온도조절기부터 시작하는 보호 체계를 다룹니다.',
+            pills:      ['3단계', '동결방지 온도조절기', '노출 요인']
+        }) }}
+        {{ navCard({
+            section:    'education',
             href:       '/ko/education/building-pressure.html',
             titleShort: '건물 압력',
             titleFull:  '건물 압력',
             desc:       '건물이 양압 또는 음압이 되는 이유를 알아봅니다. 급기·회기·배기의 균형과 릴리프 경로, 출입문에 힘이 걸리지 않도록 건물 압력을 중립에 가깝게 유지하는 제어를 다룹니다.',
-            pills:      ['3단계', '급기 / 회기 / 릴리프', '중립 압력']
+            pills:      ['4단계', '급기 / 회기 / 릴리프', '중립 압력']
         }) }}
         {{ navCard({
             section:    'education',
@@ -75,7 +85,7 @@ keywords: 강제순환식 공조 공기조화기 ahu rtu 외기냉방 vav 덕트
             titleShort: '공조 장비 식별',
             titleFull:  '공조 장비 식별',
             desc:       '눈앞의 장비가 무엇인지 식별합니다. RTU, AHU, 팬코일유닛, 보충공기 장비와 단일 존·VAV 시스템을 구분하고 명판과 덕트 배치가 알려 주는 정보를 살펴봅니다.',
-            pills:      ['4단계', 'RTU / AHU / MAU', '명판']
+            pills:      ['5단계', 'RTU / AHU / MAU', '명판']
         }) }}
         {{ navCard({
             section:    'education',
@@ -83,7 +93,7 @@ keywords: 강제순환식 공조 공기조화기 ahu rtu 외기냉방 vav 덕트
             titleShort: 'VAV 시스템',
             titleFull:  'VAV 시스템',
             desc:       '하나의 공기조화기가 요구 조건이 서로 다른 여러 존을 제어하는 방법을 알아봅니다. VAV 박스, 압력 독립형 제어 루프, 재열, 여러 댐퍼가 움직이는 동안 공기조화기가 덕트 정압을 유지하는 원리를 다룹니다.',
-            pills:      ['5단계', 'VAV 박스', '압력 독립형']
+            pills:      ['6단계', 'VAV 박스', '압력 독립형']
         }) }}
         {{ navCard({
             section:    'education',
@@ -91,7 +101,7 @@ keywords: 강제순환식 공조 공기조화기 ahu rtu 외기냉방 vav 덕트
             titleShort: '덕트 정압',
             titleFull:  '덕트 정압 제어',
             desc:       '박스가 열리고 닫힐 때 급기 덕트 정압을 유지하는 방법을 알아봅니다. 센서 설치 위치, 설정값을 추종하는 팬 속도(VFD) 루프, 팬 에너지를 절감하는 정압 리셋을 다룹니다.',
-            pills:      ['6단계', '정압 설정값', '팬 리셋']
+            pills:      ['7단계', '정압 설정값', '팬 리셋']
         }) }}
         {{ navCard({
             section:    'education',
@@ -99,7 +109,7 @@ keywords: 강제순환식 공조 공기조화기 ahu rtu 외기냉방 vav 덕트
             titleShort: '공기 밸런싱',
             titleFull:  '공기 밸런싱',
             desc:       '공기측을 설계 풍량에 맞춰 커미셔닝합니다. 트래버스와 박스 CFM 비교, 박스 최소·최대 풍량과 재열 설정, 기준 존을 이용한 비례 밸런싱, 건물의 약양압 유지를 다룹니다.',
-            pills:      ['7단계', '유량 링 · K√VP', '비례 밸런싱']
+            pills:      ['8단계', '유량 링 · K√VP', '비례 밸런싱']
         }) }}
         {{ navCard({
             section:    'education',
@@ -107,7 +117,7 @@ keywords: 강제순환식 공조 공기조화기 ahu rtu 외기냉방 vav 덕트
             titleShort: 'DOAS',
             titleFull:  '외기전담공조',
             desc:       '신선한 공기를 공급하는 또 다른 방법을 알아봅니다. 100% 외기를 처리하는 전용 장비가 환기·잠열 부하를 현열 부하와 분리하고, 깊은 코일로 노점 설정값까지 제습한 뒤 중성 온도로 재열하며, 실내 현열은 말단장치가 처리합니다.',
-            pills:      ['8단계', '잠열 / 현열', '깊은 코일 · 재열']
+            pills:      ['9단계', '잠열 / 현열', '깊은 코일 · 재열']
         }) }}
     </div>
 

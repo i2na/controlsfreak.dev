@@ -1,3 +1,12 @@
+> **Korean fork context (i2na).** This checkout is an independent AI-assisted
+> Korean edition of EWH2000/controlsfreak.dev. Read the root README,
+> `docs/i18n.md`, and `docs/upstream-maintenance.md` first. Deployment is to
+> Vercel from `main`; the upstream Cloudflare deployment/contact instructions
+> below describe the original project, not this fork. Preserve MIT attribution,
+> the professional-review disclaimer, and the fork contact destination. Compare
+> upstream content before changing translation hashes. Do not claim engineering
+> review or original-author endorsement. Technical conventions below still apply.
+
 # controlsfreak.dev
 
 A field-reference tool site for building-controls engineers — open
@@ -538,6 +547,14 @@ section). **Category keys mirror the landing pages' `navCard()`
   marker; that marker is the tracking mechanism, page copy is not.
   Complements the forward-link convention above: that one governs
   *anchors* (never link an unbuilt page), this one governs *promises*.
+  **Amended 2026-10-05 (owner):** the ban is on PROMINENCE — a visible
+  list of unbuilt features, a "coming soon" look, a promise in body or
+  lesson prose. A brief, low-key clause at the tail of a scope
+  `.ref-note` ("a metric option is a tracked follow-up") is acceptable;
+  narrow such clauses (drop unit lists and formulas) rather than delete
+  them. Owner's words: *"coming-soon as fine buried in the page,
+  but I don't want to advertise a list of features in a large and
+  noticeable way, but it's fine in the current context."*
 - **Avoid "plain English" / "plain-English" in copy** (owner
   preference, restored 2026-07-12 after it drifted out): **"Plain
   English" is the name of Schneider Electric's EBO / Continuum
@@ -1131,10 +1148,13 @@ section headers).
    as exhaustive, and this step wasn't in the checklist — which is
    how the README drifted 24 page bullets (plus the Practice counts:
    8 quizzes and 3 drills unlisted) behind by 2026-07-01.
-6. Consider bumping the home-page hero's `Latest: <name>` badge
-   to point at the new tool — `html/index.html`, the
-   `<p class="hero-latest">` paragraph (~L382). Editorial pick; skip
-   on small revisions.
+6. Consider pointing the home-page hero's `Featured · <name>` badge
+   at the new tool — `html/index.html`, the `<p class="hero-latest">`
+   paragraph (~L400; relabelled from `Latest:` 2026-07-19, owner
+   decision). Editorial pick; skip on small revisions. As of 2026-10-06
+   it is a **seasonal pick** — the Coil Freeze Protection lesson for
+   freezestat season, with the DDC Workbench anchor preserved in an
+   HTML comment beside it for the spring revert.
 7. Bump `package.json.version` when shipping something notable; the
    footer reads it via `html/_data/site.js`. A new tool is a minor
    bump (`1.X.0`); a bug fix is a patch bump (`1.X.Y`). Bump with
@@ -1259,7 +1279,7 @@ opt-out.
 7. Add the quiz/drill to `README.md`'s Practice groups and bump its
    count sentence (same reason as tools step 5b — the tour is
    exhaustive).
-8. Same `Latest:` badge + `package.json.version` rules as tools.
+8. Same `Featured` badge + `package.json.version` rules as tools.
 
 ## Git conventions
 
@@ -1418,8 +1438,9 @@ under *Git conventions*). Stage specific file lists, not
     `package.json` version bump.
   - ⚠️ **The trap is SHARED code — "the PR is about a hidden page" is
     NOT the test.** PR #452 was about the hidden AHU but modified
-    `html/scripts/psychro-engine.js`, which **eight pages load and
-    seven of those are live**: even a purely additive function ships
+    `html/scripts/psychro-engine.js`, which **eight pages loaded and
+    seven of those were live** (nine live consumers as of 2026-10-06 —
+    derive it with a grep, never cite this count): even a purely additive function ships
     new bytes to all seven, and a parse error there breaks all seven.
   - The boundary **moved at graduation** (Phase 8, 2026-08-04): the
     workbench pages gained canonicals, entered the sitemap, and every
@@ -1467,6 +1488,31 @@ public `html/<key>.txt`). Run it by hand with `npm run indexnow`
 (changed since last commit) or `npm run indexnow -- --all` (full
 re-submit); add `--dry-run` to print the URL list without POSTing.
 
+**Stacked PRs get no CI run when they retarget.** `test.yml` fires on
+`pull_request` pushes to a PR whose base is `main`. A child in a stack
+opens against its parent's branch (no run), and when the parent merges
+GitHub retargets the child to `main` with an `edited` event (still no
+run) — so it shows **no `test` check at all**, `mergeStateStatus` reads
+CLEAN, and `gh pr merge` goes through untested. Two chain PRs merged
+that way on 2026-10-06 before anyone noticed (a full local suite on
+`main` came back clean, 1223/0/1). **Fixed on the workflow side
+2026-10-06 (PR #645, codebase-issues #331):** `pull_request` now also
+listens for `edited`, gated so only a base change runs the job, and
+`push: branches: [main]` tests `main` itself after every merge. Two
+things to know: a title or body edit still fires `edited`, the gate
+skips the job, and the rollup then shows a `test` check with conclusion
+SKIPPED **beside** the real run on the same head — read SUCCESS on the
+head SHA and ignore the SKIPPED twin. And the automatic-retarget arm
+was unproven when this was written (no stacked child had merged since),
+so the belt-and-braces **rule stands:** after a parent merges, rebase
+the child onto `origin/main` and force-push (the push is a
+`synchronize`, which runs), then merge only when
+`gh pr view N --json statusCheckRollup` shows a `test` check with
+`SUCCESS` — a green parent is not evidence about the child. Before a
+merge session, a pairwise `git merge-tree --write-tree A B` over the
+whole queue finds the adjacent-hunk ledger conflicts GitHub only
+reports once a parent has merged.
+
 ## Local preview & tests
 
 - **Preview:** `npm run dev` (`eleventy --serve --port=8000`, live
@@ -1476,8 +1522,17 @@ re-submit); add `--dry-run` to print the URL list without POSTing.
   home server's hub docroot, where a rootless Caddy serves it at
   `https://cfdev.home.arpa/`. **Owner's box only** — it is a home-lab
   convenience, not part of the deploy path, and it no-ops nowhere
-  else (the destination guard refuses any path not ending
-  `/caddy/dashboard/cfdev`). It publishes a **snapshot, not a
+  else. **The default destination is home-relative**
+  (`~/caddy/dashboard/cfdev`, since PR #646 / codebase-issues #330), so
+  it works from any checkout or worktree; `CF_PREVIEW_DIR` overrides it.
+  The guard has three checks and refuses on any of them: the path must
+  end `/caddy/dashboard/cfdev`, sit under `$HOME`, and its
+  `caddy/dashboard` parent must already exist (the script no longer
+  creates it — that third check is what catches an in-home lane
+  worktree, where the old repo-relative default passed the other two
+  and reported "live" while the hub served the old build).
+  `npm run publish:preview -- --dry-run` runs every guard and prints
+  the plan without touching the docroot. It publishes a **snapshot, not a
   server**: nothing watches, so every build you want to see needs
   another publish. It also can't exercise the Worker — clean-URL
   301s, the legacy tool redirects and `POST /api/contact` are all
@@ -1619,3 +1674,14 @@ re-submit); add `--dry-run` to print the URL list without POSTing.
 Near-term work — new tools, psych chart *floating state-point chip*,
 more Education pages — lives in `site-ideas-and-friction.md`
 (feature ideas) and `codebase-issues.md` (code-quality holds).
+
+**Session start:** `git pull --ff-only`, then `npm run status` (ledger and
+content numbers, report-only) and `docs/next-session-handoff.md` — the
+rolling brief the `/handoff` skill writes and `/verify-handoff` checks;
+every claim in it is a hypothesis until a command confirms it. Owner
+rulings live in `docs/audits/2026-10-reentry/rulings.md`. `npm run
+dashboard` renders the status dashboard to `_dashboard/dashboard.html`
+from `npm run status --json`, the open-PR list and the hand-authored
+`docs/audits/2026-10-reentry/dashboard/dashboard-extra.json`. The
+quiz-bank growth lane is a committed named Workflow,
+`.claude/workflows/quiz-bank-growth.js` (its header has the arguments).

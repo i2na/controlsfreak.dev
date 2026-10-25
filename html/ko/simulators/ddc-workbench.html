@@ -1,8 +1,8 @@
 ---
 title: DDC 워크벤치 — 공기조화기 — controlsfreak.dev
 description: 기능 블록 프로그램으로 구동되는 단일 존 공기조화기(AHU)를 실시간 DDC 그래픽으로 보여 줍니다. 외기냉방 댐퍼, 온수 코일과 2단 DX 냉방으로 구성됩니다.
-sourceContentHash: 4a1c4ff623efda011692c1b842584b8e00813ee667d0bc10d22a80560f5b547d
-sourceMessageHash: 3fcebdc5d2a1eff9b88d4e13c5327495c2ee0d16c600d1d25c29390bf9b0c901
+sourceContentHash: d49839e980c8d57d2761a36a5486d3765e73e3de3daf5c054c140f4ba287aab2
+sourceMessageHash: c1436ed97887e0ce3717b318aa40cf968863d641862cfc68973bb38f8395f7b5
 canonical: https://controlsfreak.dev/ko/simulators/ddc-workbench.html
 nav: simulators
 keywords: AHU 공기조화기 외기냉방 economizer 댐퍼 DX 냉방 DDC 그래픽 와이어시트 BACnet 우선순위 저온 제한
@@ -104,7 +104,7 @@ pageMessages:
       commandedNoAirProofDown: 팬 운전 지령이 있지만 공기가 흐르지 않습니다 — 풍량 운전 확인 신호가 없습니다
       idle: 장치 정지 — 공기가 흐르지 않습니다(대기)
       simultaneousHeatCool: 압축기가 운전 중인데 난방 밸브가 열려 있습니다 — 난방과 냉방이 서로 맞서고 있습니다
-      lowCharge: 장치 전후 ΔT가 없습니다 — 냉매 부족으로 냉방하지 못합니다
+      lowCharge: 장치 전후 ΔT가 없습니다 — 공기는 흐르며 냉매 부족은 가능한 원인 중 하나이므로 게이지로 판별해야 합니다
       nearFreezingEnteringAir: 거의 결빙 온도인 공기에 압축기가 운전 중입니다 — 더 제거할 열이 거의 없습니다
       compressorNotCooling: 압축기가 운전 중인데 ΔT가 없습니다 — 코일이 냉방하지 못합니다
       freezeWatch: 냉방 중이지만 코일 온도가 낮습니다(결빙 주의)
@@ -747,7 +747,7 @@ pageMessages:
                      absent from the accessibility tree at the same time. The activation
                      affordance is the point-mirror buttons below the drawing.
 
-                     Each group carries a .ahu-forced-mark rect matching its hit area,
+                     Each group carries a .ddcw-forced-mark rect matching its hit area,
                      painted only while that sensor's value is being forced. -->
                 <g id="ahu-sensors">
 
@@ -766,7 +766,7 @@ pageMessages:
                        transform="translate(58 266)">
                         <title>외기온도 센서 — 흡입구 외측의 차폐형 헤드</title>
                         <rect class="ddcw-sensor-hit" x="-50" y="-8" width="50" height="50"/>
-                        <rect class="ahu-forced-mark" x="-50" y="-8" width="50" height="50"/>
+                        <rect class="ddcw-forced-mark" x="-50" y="-8" width="50" height="50"/>
                         <line class="ddcw-sensor-stem" x1="0" y1="0" x2="-8" y2="0"/>
                         <line class="ddcw-sensor-stem" x1="-28" y1="3" x2="-28" y2="33"/>
                         <path class="ddcw-sensor-solid" d="M-48 3 H-8 V-3 L-28 -5 L-48 -3 Z"/>
@@ -783,7 +783,7 @@ pageMessages:
                        transform="translate(648 95)">
                         <title>회기온도 센서 — 회기 덕트의 삽입형 프로브</title>
                         <rect class="ddcw-sensor-hit" x="-14" y="-21" width="28" height="44"/>
-                        <rect class="ahu-forced-mark" x="-14" y="-21" width="28" height="44"/>
+                        <rect class="ddcw-forced-mark" x="-14" y="-21" width="28" height="44"/>
                         <line class="ddcw-sensor-stem" x1="0" y1="0" x2="0" y2="19"/>
                         <rect class="ddcw-sensor-body" x="-6" y="-10" width="12" height="10"/>
                     </g>
@@ -810,7 +810,7 @@ pageMessages:
                        transform="translate(244 250)">
                         <title>혼합공기온도 센서 — 혼합공기 플레넘을 가로지르는 평균값 감지소자</title>
                         <rect class="ddcw-sensor-hit" x="-16" y="-18" width="32" height="44"/>
-                        <rect class="ahu-forced-mark" x="-16" y="-18" width="32" height="44"/>
+                        <rect class="ddcw-forced-mark" x="-16" y="-18" width="32" height="44"/>
                         <rect class="ddcw-sensor-body" x="-7" y="-14" width="14" height="12"/>
                         <path class="ddcw-sensor-cap" d="M0 0 V97 Q0 101 4 101 H22 Q26 101 26 97 V12 Q26 8 30 8 H48 Q52 8 52 12 V97 Q52 101 56 101 H74 Q78 101 78 97 V12 Q78 8 82 8 H88"/>
                         <line class="ddcw-sensor-slot" x1="88" y1="2" x2="88" y2="16"/>
@@ -829,7 +829,7 @@ pageMessages:
                        transform="translate(704 279)">
                         <title>토출공기온도 센서 — 급기 덕트의 삽입형 프로브</title>
                         <rect class="ddcw-sensor-hit" x="-14" y="-21" width="28" height="44"/>
-                        <rect class="ahu-forced-mark" x="-14" y="-21" width="28" height="44"/>
+                        <rect class="ddcw-forced-mark" x="-14" y="-21" width="28" height="44"/>
                         <line class="ddcw-sensor-stem" x1="0" y1="0" x2="0" y2="19"/>
                         <rect class="ddcw-sensor-body" x="-6" y="-10" width="12" height="10"/>
                     </g>
@@ -844,7 +844,7 @@ pageMessages:
                        transform="translate(836 156)">
                         <title>공간온도 센서 — 존 내부의 벽면 센서</title>
                         <rect class="ddcw-sensor-hit" x="-32" y="-22" width="34" height="44"/>
-                        <rect class="ahu-forced-mark" x="-32" y="-22" width="34" height="44"/>
+                        <rect class="ddcw-forced-mark" x="-32" y="-22" width="34" height="44"/>
                         <rect class="ddcw-sensor-body" x="-15" y="-12" width="14" height="24"/>
                         <line class="ddcw-sensor-slot" x1="-11.5" y1="-5" x2="-4.5" y2="-5"/>
                         <line class="ddcw-sensor-slot" x1="-11.5" y1="0" x2="-4.5" y2="0"/>
@@ -2179,6 +2179,7 @@ pageMessages:
         lessons: [
             {href: '/ko/education/air-handlers.html', label: '공기조화기'},
             {href: '/ko/education/economizers.html', label: '외기냉방'},
+            {href: '/ko/education/coil-freeze-protection.html', label: '코일 동결 방지'},
             {href: '/ko/education/comparators-and-deadband.html', label: '비교기 및 불감대'},
             {href: '/ko/education/reading-a-wiresheet.html', label: '와이어시트 읽기'},
             {href: '/ko/education/bacnet-basics.html', label: 'BACnet 기초'}

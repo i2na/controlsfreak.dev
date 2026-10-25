@@ -35,7 +35,7 @@ test('PAGES array stays in sync with the English half of the generated sitemap',
     // local python -m http.server which needs the real .html file paths. So
     // compare membership on the extension-stripped path — a drift in the set
     // of pages still fails, but the deliberate .html-vs-clean form gap doesn't.
-    const norm = (u) => u.replace(/^https?:\/\/[^/]+/, '').replace(/\.html$/, '');
+    const norm = (u) => u.replace(/^https?:\/\/[^/]+/, '').replace(/\.html$/, '').replace(/^\/en\/$/, '/');
     const localizedPrefixes = i18n.locales
         .map(({ code }) => code)
         .filter(code => code !== i18n.defaultLocale)
@@ -55,7 +55,7 @@ for (const { name, url } of PAGES) {
         const errors = watchErrors(page);
         const res = await page.goto(url);
         expect(res.status(), `${url} should return 200`).toBe(200);
-        await expect(page).toHaveTitle(/controlsfreak\.dev/);
+        await expect(page).toHaveTitle(/Controls Freak 한국어판/);
         await expect(page.locator('nav.site-nav')).toBeVisible();
         // SEO meta: every PAGES entry has a canonical frontmatter, so it
         // must render <link rel="canonical"> + twitter:card. Non-home
@@ -63,7 +63,7 @@ for (const { name, url } of PAGES) {
         // WebSite + Person instead). The canonical attribute is checked
         // by full string match to catch typos in path/scheme.
         const canonicalHref = await page.locator('link[rel="canonical"]').getAttribute('href');
-        expect(canonicalHref, `${url} should have canonical link`).toMatch(/^https:\/\/controlsfreak\.dev\//);
+        expect(canonicalHref, `${url} should have canonical link`).toMatch(new RegExp('^' + require('../lib/site-config.js').SITE_ORIGIN.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '/'));
         await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
         if (url !== '/') {
             const jsonLd = await page.locator('script[type="application/ld+json"]').first().textContent();
@@ -84,8 +84,8 @@ test('404 page noindexes, has no canonical, and lists key sections', async ({ pa
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
     expect(await page.locator('link[rel="canonical"]').count()).toBe(0);
     await expect(page.locator('main h1')).toContainText('Page not found');
-    // Sanity-check the four key recovery links are present and resolve.
-    for (const href of ['/', '/tools/', '/simulators/', '/education/', '/contact.html']) {
+    // Sanity-check the five key recovery links, preserving the English home.
+    for (const href of ['/en/', '/tools/', '/simulators/', '/education/', '/contact.html']) {
         await expect(page.locator(`main a[href="${href}"]`)).toBeVisible();
     }
     expect(errors, '404 page should log no page / console errors').toEqual([]);
@@ -639,6 +639,92 @@ test('practice FAQPage answers join the explanation exactly once (#254)', () => 
     expect(terminalAnswers, 'some shipped answers should end in terminal punctuation').toBeGreaterThan(0);
 });
 
+// Built-page JSON-LD reader shared by the #320 / #321 guards below. Reads
+// _site the way a crawler would (per document), no browser.
+function builtJsonLd(sitePath) {
+    const fs = require('fs');
+    const html = fs.readFileSync('_site' + sitePath, 'utf8');
+    return [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+        .map(m => JSON.parse(m[1]));
+}
+
+// #320: lessons used to declare `author` / `publisher` as bare
+// `{ "@id": … }` references to nodes that exist only on the home page.
+// Valid JSON-LD, but Google reads per document, so on a lesson they
+// resolved to nothing. Guard: every author / publisher reference on an
+// education page carries a `name`, or an @id some node in the SAME
+// document actually declares — and the TechArticle has no publisher.
+test('education JSON-LD author / publisher references resolve within the page (#320)', () => {
+    const fs = require('fs');
+    const path = require('path');
+    const htmlDir = path.join(__dirname, '..', 'html');
+    const lessons = [];
+    (function walk(dir) {
+        for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+            const p = path.join(dir, e.name);
+            if (e.isDirectory()) { if (e.name !== '_includes' && e.name !== '_data') walk(p); continue; }
+            if (!e.name.endsWith('.html')) continue;
+            const fm = fs.readFileSync(p, 'utf8').match(/^---\n([\s\S]*?)\n---/);
+            if (fm && /^nav:\s*education\s*$/m.test(fm[1])) lessons.push('/' + path.relative(htmlDir, p));
+        }
+    })(htmlDir);
+    const pages = lessons.filter(u => !/\/education\/index\.html$/.test(u));
+    // Anti-vacuity: the sweep must actually reach the lesson set.
+    expect(pages.length, 'there should be education lessons to sweep').toBeGreaterThan(30);
+
+    for (const url of pages) {
+        const blocks = builtJsonLd(url);
+        const nodes = [];
+        (function collect(v) {
+            if (Array.isArray(v)) return v.forEach(collect);
+            if (v && typeof v === 'object') { nodes.push(v); Object.values(v).forEach(collect); }
+        })(blocks);
+        // A node "declares" an @id when it says something besides the id.
+        const declared = new Set(nodes
+            .filter(n => n['@id'] && Object.keys(n).some(k => k !== '@id'))
+            .map(n => n['@id']));
+        let refs = 0;
+        for (const n of nodes) {
+            for (const key of ['author', 'publisher']) {
+                if (!(key in n)) continue;
+                for (const ref of [].concat(n[key])) {
+                    refs++;
+                    const ok = (ref && ref.name) || (ref && declared.has(ref['@id']));
+                    expect(ok, `${url}: ${key} must carry a name or an in-document @id`).toBeTruthy();
+                }
+            }
+        }
+        const article = nodes.find(n => n['@type'] === 'TechArticle');
+        expect(article, `${url} should publish a TechArticle`).toBeTruthy();
+        expect(article.author && article.author.name, `${url}: TechArticle author needs a name`).toBeTruthy();
+        expect('publisher' in article, `${url}: TechArticle carries no publisher (owner ruling)`).toBe(false);
+        expect(refs, `${url}: the author reference should be swept`).toBeGreaterThan(0);
+    }
+});
+
+// #321: the guides pages breadcrumb through the Guides section like every
+// other nav section does — Home → Guides → hub, and the landing itself
+// Home → Guides.
+test('guides pages emit a Home → Guides breadcrumb (#321)', () => {
+    const expected = {
+        '/guides/index.html': ['Home', 'Guides'],
+        '/bacnet/index.html': ['Home', 'Guides', null],
+        '/forced-air/index.html': ['Home', 'Guides', null],
+        '/hydronics/index.html': ['Home', 'Guides', null],
+        '/refrigeration/index.html': ['Home', 'Guides', null],
+    };
+    for (const [url, names] of Object.entries(expected)) {
+        const crumb = builtJsonLd(url).find(n => n['@type'] === 'BreadcrumbList');
+        expect(crumb, `${url} should publish a BreadcrumbList`).toBeTruthy();
+        const items = crumb.itemListElement;
+        expect(items, `${url} breadcrumb length`).toHaveLength(names.length);
+        names.forEach((name, i) => {
+            if (name) expect(items[i].name, `${url} crumb ${i + 1}`).toBe(name);
+        });
+        expect(items[1].item, `${url} Guides crumb URL`).toBe(require('../lib/site-config.js').SITE_ORIGIN + '/guides/');
+    }
+});
+
 test('modbus register viewer — single + pair tabs decode bits and bytes correctly', async ({ page }) => {
     const errors = watchErrors(page);
     await page.goto('/tools/modbus-register-viewer.html');
@@ -749,6 +835,26 @@ test('psychrometric chart computes the AHU chain on load', async ({ page }) => {
     await expect(page.locator('#ro-wb')).toHaveText('—');
     await expect(page.locator('#psy-msg')).toContainText('Wet-bulb can');
     expect(errors, 'psychrometric behavioral should log no page / console errors').toEqual([]);
+});
+
+// #238 follow-up: buildState refuses a dry-bulb at or above boiling, so
+// an HC stage driven past 212 °F must take the same not-ok arm the CC
+// stage has — error in #psy-msg, no truthy ok:false state handed on to
+// HUM / SA, and no NaN anywhere on the page.
+test('psychrometric chart — an above-boiling HC leaving DB errors cleanly (#238)', async ({ page }) => {
+    const errors = watchErrors(page);
+    await page.goto('/tools/psychrometric-chart.html');
+    await page.click('.psy-pill[data-step="hc"]');
+    await page.check('#hc-on');
+    await page.selectOption('#hc-mode', 'ldb');
+    await page.fill('#hc-val', '250');
+    await expect(page.locator('#psy-msg')).toContainText('HC: Dry-bulb is at or above the boiling point');
+    await expect(page.locator('#ro-db')).toHaveText('—');
+    await page.click('.psy-pill[data-step="sa"]');
+    await expect(page.locator('#ro-db')).toHaveText('—');
+    const body = await page.locator('main').innerText();
+    expect(body, 'no NaN should reach any readout').not.toContain('NaN');
+    expect(errors, 'psychrometric above-boiling HC should log no page / console errors').toEqual([]);
 });
 
 test.describe('psychrometric chart — Cold range preset', () => {
@@ -992,6 +1098,25 @@ test('coil sizing — capacity and leaving-state tabs compute their cases', asyn
     await expect(page.locator('#cs-lvg-out-db')).toHaveText('—');
 
     expect(errors, 'coil-sizing behavioral should log no page / console errors').toEqual([]);
+});
+
+// #238 follow-up: a heating-coil leaving dry-bulb at or above boiling
+// makes buildState return ok:false; the capacity tab must mute and show
+// the engine's error instead of printing NaN MBH.
+test('coil sizing — an above-boiling heating leaving DB mutes the capacity tab (#238)', async ({ page }) => {
+    const errors = watchErrors(page);
+    await page.goto('/tools/coil-sizing.html');
+    await page.selectOption('#cs-coil-type', 'heat');
+    await page.fill('#cs-cap-lvg-tdb', '250');
+    await expect(page.locator('#cs-cap-status')).toContainText('Leaving air — Dry-bulb is at or above the boiling point');
+    for (const id of ['cs-cap-q-total', 'cs-cap-ddb', 'cs-cap-dh']) {
+        await expect(page.locator('#' + id)).toHaveText('—');
+        await expect(page.locator('#' + id)).toHaveClass(/muted/);
+    }
+    await expect(page.locator('#cs-cap-formula')).toHaveText('');
+    const body = await page.locator('main').innerText();
+    expect(body, 'no NaN should reach any readout').not.toContain('NaN');
+    expect(errors, 'coil-sizing above-boiling heating should log no page / console errors').toEqual([]);
 });
 
 test('power & energy converter — convert, time bridge, and boiler turndown', async ({ page }) => {

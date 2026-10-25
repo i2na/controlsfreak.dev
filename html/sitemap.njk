@@ -12,7 +12,7 @@ eleventyExcludeFromCollections: true
         {% set alternates = collections.sitemapPages | translationAlternates(page.data.canonical) %}
         {% for alternate in alternates %}
         <xhtml:link rel="alternate" hreflang="{{ alternate.locale }}" href="{{ alternate.url }}" />
-        {% if alternate.locale == i18n.defaultLocale %}<xhtml:link rel="alternate" hreflang="x-default" href="{{ alternate.url }}" />{% endif %}
+        {% if alternate.locale == "ko" %}<xhtml:link rel="alternate" hreflang="x-default" href="{{ alternate.url }}" />{% endif %}
         {% endfor %}
     </url>
 {% endfor %}

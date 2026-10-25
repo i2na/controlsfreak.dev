@@ -1,7 +1,7 @@
 ---
 title: BACnet 네트워킹 — controlsfreak.dev
 description: BACnet 주소 지정의 세 계층, BVLL/NPDU/APDU 프레임, BBMD와 외부 장치 등록, EBO 16진수 문자열을 읽는 방법을 설명합니다.
-sourceContentHash: 206026f0d7e6c2b4af90c51f76b03a6dbee577da23a3762dffc1888bb8fc0a19
+sourceContentHash: 010914bd0a5469e90f7b90163781131913f85d762c071cec79f8e5e3dd5ca7b1
 canonical: https://controlsfreak.dev/ko/education/bacnet-networking.html
 nav: education
 category: protocols
@@ -371,14 +371,14 @@ keywords: ms/tp mstp 보드레이트 bbmd 외부 장치 라우터 서브넷 브�
             </svg>
 
             <p>
-                표시되는 16진수에서는 기본 포트(<code>0xBAC0</code> = 47808)를 거의 항상 생략하므로 8자리 문자열이 정상입니다. <code>BAC0</code>으로 끝나는 12자리 문자열은 기본 포트의 IP를 긴 형식으로 쓴 것입니다. 다른 값으로 끝나는 12자리 문자열, 예를 들어 <code>BAC1</code> = 47809는 장치가 기본값이 아닌 BACnet/IP 포트를 사용한다는 뜻입니다. 보통 ASHRAE 135 부속서 J의 순차 포트 관례를 사용해 같은 호스트에 두 번째 논리 BACnet/IP 네트워크를 구성한 경우입니다.
+                표시되는 16진수에서는 기본 포트(<code>0xBAC0</code> = 47808)를 거의 항상 생략하므로 8자리 문자열이 정상입니다. <code>BAC0</code>으로 끝나는 12자리 문자열은 기본 포트의 IP를 긴 형식으로 쓴 것입니다. 다른 값으로 끝나는 12자리 문자열, 예를 들어 <code>BAC1</code> = 47809는 장치가 기본값이 아닌 BACnet/IP 포트를 사용한다는 뜻입니다. 보통 같은 호스트에 두 번째 논리 BACnet/IP 네트워크를 구성한 경우입니다. ASHRAE 135 부속서 J는 <code>0xBAC0</code>을 기본값으로 정하고 추가 네트워크에 다른 포트를 사용할 수 있도록 허용합니다. 그다음 번호인 <code>0xBAC1</code>, 이어서 <code>0xBAC2</code>를 사용하는 것은 현장의 관례입니다.
             </p>
 
             <p>
                 <a href="/ko/tools/bacnet-ip-converter.html">BACnet/IP 16진수 변환기</a> 도구는 같은 디코딩을 양방향으로 수행합니다. EBO 검색 대화상자의 16진수 문자열을 붙여 넣어 IP와 포트를 확인하거나, IP와 포트에서 구성 필드에 붙여 넣을 16진수 문자열을 만들 수 있습니다. 계산 자체는 간단하지만 수작업 때문에 작업 흐름을 끊지 않도록 마련된 도구입니다.
             </p>
 
-            <h2 class="subhead">검색이 아무 오류 없이 실패할 때</h2>
+            <h2 class="subhead" id="discovery-fails">검색이 아무 오류 없이 실패할 때</h2>
 
             <p>
                 BACnet 브로드캐스트에는 "전달하지 못함"이라는 피드백이 없습니다. 검색이 동작하지 않을 때 증상은 거의 항상 "보여야 할 장치가 보이지 않는다"이며 검색할 오류 메시지도 없습니다. 현장에서 자주 발생하는 대략적인 순서대로 다음 항목을 확인하세요.
@@ -395,7 +395,7 @@ keywords: ms/tp mstp 보드레이트 bbmd 외부 장치 라우터 서브넷 브�
                 <li><strong>세그먼트 응답의 Max APDU 불일치.</strong> 클라이언트가 APDU 하나에 담기에는 값이 너무 큰 속성을 요청하고 장치가 세그먼트 응답을 보내려 하지만, 세그먼테이션이 비활성화되어 있거나 클라이언트의 <code>Max APDU</code>가 장치가 I-Am에서 알린 값과 일치하지 않습니다. 통신은 응답 없이 끝납니다. 일상 업무에서는 드물지만 Device 객체에서 매우 큰 객체-속성 목록을 읽을 때 흔합니다.</li>
             </ul>
 
-            <h2 class="subhead">이 페이지에서 다루지 않은 내용</h2>
+            <h2 class="subhead" id="not-covered">이 페이지에서 다루지 않은 내용</h2>
 
             <p>
                 이 사이트의 BACnet 학습 자료는 대부분의 BMS 기술자가 포인트 목록을 읽고, 요청을 구성하고, 라우터를 넘어 메시지를 라우팅하며, 장치가 검색 결과에 나타나지 않는 원인을 추론하는 데 필요한 내용을 다룹니다. 다음 내용은 의도적으로 범위에서 제외했습니다.

@@ -42,6 +42,7 @@ pageMessages:
             dewPointPastSaturation: 'That dew point is past saturation — more moisture than air can hold at this dry-bulb and pressure.'
             humidityRatioPastSaturation: 'That humidity ratio is past saturation — more moisture than air can hold at this dry-bulb and pressure.'
             enthalpyPastSaturation: 'That enthalpy is past saturation — more moisture than air can hold at this dry-bulb and pressure.'
+            boilingPoint: 'Dry-bulb is at or above the boiling point for this pressure — outside the psychrometric range.'
             enteringInvalid: 'Entering-air state is invalid.'
             positiveAirflowEngine: 'Enter a positive airflow.'
             sensibleNegative: 'Sensible load can’t be negative.'
@@ -510,6 +511,7 @@ keywords: cfm gpm delta t mbh btu tons sensible latent shr capacity
         // Exact adapters for solveState() and invertProcess(). Unknown source
         // text fails closed instead of reaching translated status regions.
         const PSYCHRO_ERROR_KEYS = Object.freeze({
+            'Dry-bulb is at or above the boiling point for this pressure — outside the psychrometric range.': 'boilingPoint',
             'Enter numeric values.': 'numeric',
             'Relative humidity can’t be negative.': 'rhNegative',
             'Relative humidity can’t exceed 100%.': 'rhAbove100',
@@ -626,6 +628,10 @@ keywords: cfm gpm delta t mbh btu tons sensible latent shr capacity
                 }
             } else {
                 lvgState = Psychro.buildState(U.toCanonical.temp(lvgState.pendingTdb), entState.W, P_STD);
+                if (!lvgState.ok) {
+                    clearCap(CFI18n.page('errors.leavingPrefix', { message: psychroErrorMessage(lvgState.error) }), 'error');
+                    return;
+                }
             }
 
             const cfm = U.toCanonical.airflow(cfmD);

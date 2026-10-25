@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-    <title>controlsfreak.dev — tools and references for HVAC controls</title>
+    <title>Controls Freak — Independent Korean Edition</title>
 
     <!-- background: site bg colour -->
     <rect width="1200" height="630" fill="#eef1ec"/>
@@ -18,8 +18,10 @@
     </g>
 
     <!-- wordmark: "controlsfreak" in body text colour, ".dev" in accent green, matching the site nav -->
-    <text x="166" y="315" font-family="'IBM Plex Mono', 'Menlo', 'Consolas', 'Courier New', monospace" font-size="96" font-weight="600" fill="#38423a" letter-spacing="1">controlsfreak<tspan fill="#43881c">.dev</tspan></text>
+    <text x="166" y="315" font-family="Menlo, Consolas, monospace" font-size="76" font-weight="600" fill="#38423a">Controls Freak<tspan fill="#43881c"> · KO</tspan></text>
 
     <!-- tagline: dim text, sans -->
-    <text x="600" y="400" text-anchor="middle" font-family="'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="34" font-weight="400" fill="#666e66">tools and references for HVAC controls</text>
+    <text x="600" y="400" text-anchor="middle" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="34" fill="#666e66">HVAC tools and learning · Independent Korean edition</text>
+<text x="600" y="470" text-anchor="middle" font-family="Apple SD Gothic Neo, sans-serif" font-size="24" fill="#666e66">AI-assisted translation · Not professionally reviewed</text>
+    <text x="600" y="558" text-anchor="middle" font-family="Menlo, monospace" font-size="21" fill="#38423a">Original: controlsfreak.dev  /  Korean fork: i2na</text>
 </svg>

@@ -25,7 +25,13 @@ function gitLastCommitDate() {
     }
 }
 
+const fork = require("../../lib/site-config.js");
+
 module.exports = {
+    name: fork.name,
+    origin: fork.SITE_ORIGIN,
+    repository: fork.REPOSITORY,
+    isPreview: fork.isPreview,
     version:   require("../../package.json").version,
     buildDate: gitLastCommitDate(),
     buildYear: String(new Date().getFullYear()),

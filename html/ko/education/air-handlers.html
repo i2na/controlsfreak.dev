@@ -6,7 +6,7 @@ nav: education
 category: forced-air
 pairedQuiz: https://controlsfreak.dev/ko/practice/air-handlers.html
 keywords: 공기조화기 AHU 혼합부 혼합공기 회기 배기 외기 급기 팬 필터 코일 토출공기 MA-T DA-T RTU 댐퍼
-sourceContentHash: 393ebd4a0cceb08e9d278b58ba001a6639c81aa4983afde8e00d1f45d80b6adf
+sourceContentHash: 98e2da51ce266d97ba1d785ac9eeab5f159f3995bd90c879a5be6411664cda94
 sourceMessageHash: dcc1674c396a23954d3cab228682c7273b85bbf9877a63b4bfc0322033acd429
 pageMessages:
   widget:
@@ -117,8 +117,7 @@ pageMessages:
                 <!-- equipment glyphs -->
                 <g id="ah-d1-filter">
                     <rect x="140" y="275" width="30" height="70" fill="var(--surface)" stroke="var(--text-dim)" stroke-width="2"/>
-                    <line x1="143" y1="342" x2="167" y2="278" stroke="var(--border)" stroke-width="1"/>
-                    <line x1="143" y1="322" x2="167" y2="298" stroke="var(--border)" stroke-width="1"/>
+                    <path d="M144 280 L166 292 L144 304 L166 316 L144 328 L166 340" fill="none" stroke="var(--text-dim)" stroke-width="1"/>
                 </g>
                 <g id="ah-d1-htg">
                     <rect x="195" y="275" width="40" height="70" fill="var(--surface)" stroke="var(--heat)" stroke-width="2"/>
@@ -281,7 +280,7 @@ pageMessages:
                 아래에 <em>드레인 팬과 응축수 배관</em>이 있으며, 이 배관이 막히면 두 층 아래 천장에 물자국이 나타나기도 합니다.
                 냉각 코일 출구의 일반적인 설계 목표는 약 <span data-us="55&nbsp;°F" data-metric="12.8&nbsp;°C">55&nbsp;°F</span>입니다.
                 이 지점에서 수배관 측과 연결됩니다. 조립형 유닛에서 이 코일들은 <em>수배관 부하</em>입니다. 기계실에 설치된 장비가
-                아니라 공기를 둘러쌀 뿐, <a href="/ko/education/load-piping.html">부하 배관</a>에서 살펴본 것과 같은 2방 밸브와
+                아니라 공기를 둘러쌀 뿐, <a href="/ko/education/load-piping.html">부하 배관</a>에서 살펴본 것과 같은 2방 또는 3방 밸브와
                 공급·환수 배관을 사용합니다. <a href="/ko/tools/coil-sizing.html">코일 용량 선정 계산기</a>에서 실제 부하에 맞춰
                 코일 용량을 선정해 보세요.
             </p>
@@ -320,8 +319,7 @@ pageMessages:
                 <!-- filter + ΔP taps -->
                 <g id="ah-d3-filter">
                     <rect x="100" y="140" width="34" height="140" fill="var(--surface)" stroke="var(--text-dim)" stroke-width="2"/>
-                    <line x1="104" y1="272" x2="130" y2="148" stroke="var(--border)" stroke-width="1"/>
-                    <line x1="104" y1="230" x2="130" y2="190" stroke="var(--border)" stroke-width="1"/>
+                    <path d="M104 145 L130 158 L104 171 L130 184 L104 197 L130 210 L104 223 L130 236 L104 249 L130 262 L104 275" fill="none" stroke="var(--text-dim)" stroke-width="1"/>
                 </g>
                 <g id="ah-d3-dp">
                     <line x1="85" y1="160" x2="85" y2="95" stroke="var(--text-dim)" stroke-width="1.5"/>
@@ -430,7 +428,7 @@ pageMessages:
             <p style="margin-top:1.25rem;">
                 전체 경로를 정리하면 다음과 같습니다. 회기가 들어오고, 혼합부에서 일부를 외기로 교체하고, 필터로 여과한 뒤,
                 코일에서 가열하거나 냉각하며 필요하면 제습하고, 팬이 다시 밀어냅니다. 이 장의 나머지 내용 대부분은 이 구간 중 하나와
-                연결됩니다. 댐퍼를 최소 개도보다 더 열어야 하는 시점은 <a href="/ko/education/economizers.html">외기냉방</a>, 릴리프
+                연결됩니다. 댐퍼를 최소 개도보다 더 열어야 하는 시점은 <a href="/ko/education/economizers.html">외기냉방</a>, 추운 아침 코일 파열을 막는 수단은 <a href="/ko/education/coil-freeze-protection.html">코일 동결 방지</a>, 릴리프
                 공기의 행선지는 <a href="/ko/education/building-pressure.html">건물 압력</a>, 급기 덕트 끝의 박스가 하는 일은
                 <a href="/ko/education/vav-systems.html">VAV 시스템</a>, 팬이 운전 속도를 결정하는 방식은
                 <a href="/ko/education/duct-static-control.html">덕트 정압</a>, 환기를 전용 유닛에 맡길 때의 변화는
@@ -521,7 +519,7 @@ pageMessages:
                 설명하기 때문입니다. 여기서 중요한 것은 최소 개도가 제공하는 이점입니다. 혼합공기의 80&nbsp;%가
                 <span data-us="75&nbsp;°F" data-metric="23.9&nbsp;°C">75&nbsp;°F</span> 회기이므로 슬라이더에서 가장 추운 아침을
                 선택해도 혼합공기는 충분히 따뜻하게 유지됩니다. 최소 개도는 <em>계산상</em> 겨울철에도 안전합니다. 고장 프리셋은 이
-                계산이 성립하지 않을 때의 모습을 보여 줍니다. (여기서는 온도만 다룹니다. 혼합 과정의 수분 측면은
+                계산이 성립하지 않을 때의 모습을 보여 줍니다. 그때 뒤에서 지켜 주는 장치들은 <a href="/ko/education/coil-freeze-protection.html">코일 동결 방지</a>에서 설명합니다. (여기서는 온도만 다룹니다. 혼합 과정의 수분 측면은
                 <a href="/ko/education/psychrometrics-basics.html#processes">습공기 상태 해석 기초</a>에서 설명합니다.)
             </p>
 
@@ -543,6 +541,7 @@ pageMessages:
         ],
         lessons: [
             {href: '/ko/education/economizers.html', label: '외기냉방'},
+            {href: '/ko/education/coil-freeze-protection.html', label: '코일 동결 방지'},
             {href: '/ko/education/building-pressure.html', label: '건물 압력'},
             {href: '/ko/education/air-unit-identification.html', label: '공조 유닛 식별'},
             {href: '/ko/education/vav-systems.html', label: 'VAV 시스템'},

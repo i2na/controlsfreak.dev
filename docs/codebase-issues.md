@@ -728,7 +728,7 @@ statement inside the IIFE for the 12 page-inline scripts (matching
 balancing.html). CLAUDE.md "JS patterns" now carries an explicit
 `'use strict';` bullet recording the rule.
 
-### 19. Inline style proliferation — design-system items waiting to be born *(patterns 1-4 addressed 2026-05-17; pattern 5 → #23)*
+### 19. Inline style proliferation — design-system items waiting to be born *(patterns 1-4 addressed 2026-05-17; pattern 5 → #23)* *(addressed 2026-07-20 — pattern 5 closed via #23, the sibling-spacing rule via #190)*
 
 Five patterns are inline-styled enough times that they're effectively
 design-system classes that haven't been named:
@@ -5188,7 +5188,7 @@ staging-sequencer halves stay **latent-only** — still fixed-px, still
 no fullscreen mode, so no live bug; apply the same pattern if either
 ever gains one. PR: issue-167/psychro-canvas-type.
 
-### 168. Form-label scan hierarchy: shared `label, .field-label` rule dims the scan targets *(2026-07-17 — STANDING ANSWER 2026-07-20: owner ruled working as designed; marker trued 2026-08-20, addendum below)*
+### 168. Form-label scan hierarchy: shared `label, .field-label` rule dims the scan targets *(2026-07-17 — STANDING ANSWER 2026-07-20: owner ruled working as designed; marker trued 2026-08-20, addendum below)* *(addressed 2026-07-20)*
 
 The shared rule in `styles.css` sets every form label to 0.7rem
 `--text-dim`, so on control-dense pages the captions you scan FOR are
@@ -6726,7 +6726,7 @@ below this line. (Recorded 2026-08-09 after a handoff-verification
 round found open entries — #262, #266, #274, #275 — being classified
 as addressed by readers reasoning from the section header.)
 
-### 185. Quiz `snippet` path: one-way invariant publishes content the page never renders *(2026-07-19; authored-bank exposure CLOSED 2026-08-20 — blocking spec check; engine-side asymmetry remains as defense-in-depth debt, addendum below)*
+### 185. Quiz `snippet` path: one-way invariant publishes content the page never renders *(2026-07-19; authored-bank exposure CLOSED 2026-08-20 — blocking spec check; engine-side asymmetry remains as defense-in-depth debt, addendum below)* *(partially addressed 2026-08-20 — engine-side asymmetry still open)*
 
 Found by the Lane C review during PR #404 (`figure` field), deliberately
 left unfixed there to keep that PR's scope on the new field.
@@ -7511,7 +7511,7 @@ Three things were deliberately **not** done, each with a revisit trigger:
 
 **(c) No shared idle-gate helper.** Four hand-rolled gates now exist, with four genuinely different predicates: `flow-engine.js:285-303` (rAF, IO-visibility + pending pulses), `fbe-editor.js:613-772` (setInterval, `document.hidden` + a desktop media query + `visibilitychange`), `simulators/controller-wiring.html:1146-1169` (setInterval drift, `reduceMotion` + `visibilitychange`), and now this one (rAF, reduced-motion + fan state + tab pane + `document.hidden`). The house rule is extract on the second *identical* instance; these are not identical, and a new file under `html/scripts/` would be a shared script — making the version bump cache-bust-load-bearing and obliging a site-wide sweep, disproportionate for one hidden page. A `// house idiom: flow-engine.js:285-303 (#113)` pointer is in the code instead. *Revisit trigger:* a fifth consumer, or any of the four drifting from its documented predicate.
 
-### 200. Idle animation cost regresses silently — nothing measured it until now *(instrumented 2026-07-24)*
+### 200. Idle animation cost regresses silently — nothing measured it until now *(instrumented 2026-07-24)* *(addressed 2026-07-24)*
 
 *Severity: medium · Category: perf · Confidence: high* — `tests/perf-profile.mjs`
 
@@ -9441,7 +9441,7 @@ prohibited) are itemised in
 `textContent` rewritten unguarded at 10 Hz (item 18) — shipped with (a)
 above; see there for why it could not wait.
 
-### 228. Engineering math is re-implemented per page — air mixing carries three disagreeing forms and no shared helper exists *(noticed 2026-07-27, owner direction — scheduled separately, not this arc)*
+### 228. Engineering math is re-implemented per page — air mixing carries three disagreeing forms and no shared helper exists *(noticed 2026-07-27, owner direction — scheduled separately, not this arc)* *(ruled 2026-10-06 — the design note's §6 defaults accepted; execution lane pending, `docs/engine-standardization.md` §4)* *(partially addressed 2026-10-06 · PR #651 step 0, PR #652 step 1; steps 2+ pending)*
 
 Owner direction, 2026-07-27: *"The air mixing disagreeing seems like an
 issue I'd like to fix, with all these things using it, it may be good to
@@ -9741,6 +9741,45 @@ become the fifth implementation.
 **Not this arc** (owner, 2026-07-27). Recorded here so the AHU brief can
 cite it.
 
+**Design note (2026-10-06): `docs/engine-standardization.md`, PR #631,
+awaiting owner pick.** Written as the proposal the owner reads before
+any extraction begins; it re-measures every form above against the
+engine and carries the helper-family contract, the per-site (a)/(b)/(c)
+verdicts, the migration order and three owner questions. Two lines of
+this entry have aged since it was written and the note supersedes them:
+`Psychro.mixStreams(streams, P)` **exists** (`2f2d556`, hardened by
+#236 / #238) — basis-agnostic weights, not the `(states, weights, opts)`
+signature proposed in the checklist — and it has exactly one consumer,
+the workbench AHU, so the five public surfaces still mix inline. The
+note also adds a divergence this entry could not list: the inline
+"exact" forms on air-mixing and the psych chart still carry the
+pre-#236 cold dry-bulb in the fog branch (10.42 against the engine's
+17.67 °F at its documented corner). Heading status unchanged on
+purpose — this entry stays open until the owner picks. Owner picked the §6 defaults on 2026-10-06 (add `mixAir` /
+`mixFraction`, keep `mixStreams`; no engine caveat text; no workbench
+mass-delta readout); the execution lane is open to schedule.
+
+**Execution, 2026-10-06 (rulings.md §19.12):** step 0 is PR #651 —
+`Psychro.mixAir` / `mixFraction` in `psychro-engine.js`, a private
+`cp(W)` folded into the three `0.240 + 0.444·W` sites and the inversion
+(`:224/:231/:261/:517` on `a2ad39f`, not the `:209/:216/:246/:502` the
+design note cites), `tests/psychro-mixair.spec.js` (17 tests; the mass
+basis reproduces `mixStreams` exactly — a 836-pair × 4-weight
+`Object.is` sweep found 0 mismatches), the §1 table reproduced from the
+engine (all seven rows unchanged) and the minor bump 3.91.0 → 3.92.0.
+Design choices the verifier asks the owner to confirm: a missing `P`
+defaults to `streams[0].state.P` (not `P_STD`) so an altitude state is
+never re-mixed at sea level; a kernel `ok:false` is returned as-is. Step
+1 is PR #652, stacked on #651 — `psychrometric-chart.html` calls
+`mixAir` (basis `'mass'`), the label reads "Outdoor air (% by mass)",
+the MA ref-note names the mass basis and the fog re-solve; the
+before/after fixture (21 cases × US/metric, 1,419 fields) is byte-
+identical except past saturation, where the §1 fog corner moves 10.4 →
+17.7 °F as #236 intended. Steps 2+ (air-mixing, the workbench last,
+display-only) are still to schedule. Two doc follow-ups once these
+merge, left out of the docs PR to avoid colliding with #651's hunk: the
+§2 table's stale cp cites, and a "Landed" line under §4 step 1. By-
+catch: #336.
 
 ### 229. `#fcu-ovr-state` is a live region rewritten on every 10 Hz host tick *(noticed 2026-07-27; the AHU's twin shipped guarded 2026-07-30 — **RESOLVED 2026-08-09 · PR #493**, COV announcer per the owner-decision note; closing record at the end)*
 
@@ -10277,7 +10316,7 @@ equipment-graphics eye. Cheapest honest options, in order of preference:
 2. Restore a short station caption on each coil box (round 1's answer).
 3. Hatch one serpentine's return bends.
 
-### 232. `comparators-and-deadband.html` states a metric band delta the displayed operands do not produce *(noticed 2026-07-28, differential-nod review round — addressed 2026-08-08 · PR #482)*
+### 232. `comparators-and-deadband.html` states a metric band delta the displayed operands do not produce *(noticed 2026-07-28, differential-nod review round — addressed 2026-08-08 · PR #482)* *(addressed 2026-08-08 — PR #482)*
 
 `html/education/comparators-and-deadband.html:419` renders the total band as
 `<span data-us="2 °F" data-metric="1.1 °C">`. The metric worked-example
@@ -10337,7 +10376,7 @@ only against the operands painted two sentences away; that question is the
 report-only arm's, and it is advisory. See CLAUDE.md §*Local preview &
 tests* for the split.
 
-### 233. AHU plant: MAT and the RAT probe are sampled one Euler step apart *(noticed 2026-07-28, shipped knowingly with the AHU physics half — for the graphic lane — RE-DISPOSITIONED 2026-07-30 — deferred again, with the reason written down)*
+### 233. AHU plant: MAT and the RAT probe are sampled one Euler step apart *(noticed 2026-07-28, shipped knowingly with the AHU physics half — for the graphic lane — RE-DISPOSITIONED 2026-07-30 — deferred again, with the reason written down)* *(deferred 2026-07-30)*
 
 **Deferred again at the graphic lane, and this is the argument rather than a
 shrug.** The AHU page made the split VISIBLE for the first time: the point mirror
@@ -10781,7 +10820,7 @@ Guarded by a new row that sweeps fan 5→100 at 1 % steps and asserts the coil
 strictness is the wrong tool there. That shape is why the pre-existing monotone
 row (which sweeps 40/70/100, deliberately clear of the clamp) never saw this.
 
-### 238. `Psychro.buildState` silently returns `W = 0` when the saturation humidity ratio degenerates *(noticed 2026-07-28, AHU physics review round)*
+### 238. `Psychro.buildState` silently returns `W = 0` when the saturation humidity ratio degenerates *(noticed 2026-07-28, AHU physics review round)* *(addressed 2026-10-05 · PR #619)*
 
 `buildState` opens with
 
@@ -10815,7 +10854,53 @@ saturation temperature for the pressure. Every current caller already checks
 1100 °F before this round added `HW_LEAVE_MAX`; the AHU no longer reaches it,
 but the engine is shared and the next caller might.
 
-### 239. The AHU mixing box drops `mixStreams`' fog condensate, so its moisture bookkeeping loses water in the cold-and-open corner *(noticed 2026-07-29, the #236 fix round)*
+**Resolution (2026-10-05, PR #619).** `html/scripts/psychro-engine.js`:
+`buildState` now computes `Wsat = satHumRatio(tdb, P)` once and returns
+`{ ok: false, error: 'Dry-bulb is at or above the boiling point for this
+pressure — outside the psychrometric range.' }` when
+`!(Wsat > 0 && isFinite(Wsat))`. The guard covers the `±Infinity` at
+`satPress = P` as well as the negative branch. The valid path reuses `Wsat`
+in the same clamp, so its numbers are unchanged. `mixStreams`' comment about
+the old clamp was trued up. `tests/psychro-engine.spec.js` adds three cases:
+211.9 °F at `P_STD` → `ok: true` with `satHumRatio` ≈ +584.96 (the measured
+value above), 212 °F → `ok: false`, and 205 °F at 12.2 psia → `ok: false`
+(200 °F is still valid there, since water boils near 202.7 °F at that
+pressure).
+
+**What the entry got wrong:** "the AHU no longer reaches it" is false. The
+AHU heating coil runs `invertProcess` on the *unclamped* fixed load and
+applies the `HW_LEAVE_MAX` ceiling afterwards. At a starved fan (≤ 25 %) the
+intermediate leaving state is above 212 °F, so the coil depended on
+`buildState` returning `ok: true` there. With the guard and no other change,
+the coil stopped heating (`tests/ddcw-ahu-unit.spec.js:438`, fan 25 %:
+afterHeatT == matT). `html/scripts/ddcw-ahu-unit.js` now binds the ceiling on
+`!heated.ok || heated.tdb > leaveMax`, which gives byte-identical output, and
+its `HW_LEAVE_MAX` comment was trued up.
+
+"Every current caller already checks `.ok`" was also not quite right:
+
+- `air-mixing.html` and `economizer-ratio.html` catch `ok:false` through
+  `!isFinite(state.h)`.
+- `coil-sizing.html:474` (heating, user-entered leaving dry-bulb) and
+  `psychrometric-chart.html:728` (HC stage) do not guard at all. Both are
+  tracked as open entry #325 (a PR body is not a ledger).
+- The remaining unguarded sites (AHU ceiling, chart HUM stage, chart drag)
+  can't produce an above-boiling dry-bulb.
+
+Verified: psychro-engine 12/12, psychro-mixstreams 19/19, ddcw-ahu-unit
+56/56, ddcw-fcu-unit 52/52, ddc-workbench-ahu-page + ddcw-shell 100/100,
+and smoke filtered to the nine pages that load the engine (16/16).
+
+**Follow-up (2026-10-05, PR #632).** Both unguarded consumers now handle
+`ok:false`. `html/tools/coil-sizing.html:475`: after the heating-branch
+`buildState` (:474), `if (!lvgState.ok) { clearCap('Leaving air — ' + lvgState.error, 'error'); return; }`,
+the same line the cooling branch uses. `html/tools/psychrometric-chart.html:729-732`:
+the HC stage (:728) now has the CC stage's `!ok` branch (`r.hc` carries
+the error, `setErr('HC: …')`, `current = null`). `tests/smoke.spec.js`
+adds one 250 °F row per page (error text, muted readouts, no NaN, no
+console errors), and both rows fail with the page fixes reverted.
+
+### 239. The AHU mixing box drops `mixStreams`' fog condensate, so its moisture bookkeeping loses water in the cold-and-open corner *(noticed 2026-07-29, the #236 fix round)* *(deferred 2026-07-29)*
 
 With #236 resolved, `Psychro.mixStreams` now returns a `condensate` term
 alongside a saturated fogging state. `html/scripts/ddcw-ahu-unit.js` reads
@@ -11221,7 +11306,7 @@ models — state the measured divergence and let whatever sets the range own the
 "how cold can it get" claim. If the range lands short of −30 °F, the extreme
 corner figures become illustrative-only and should say so.
 
-### 244. The wiresheet's cost scales with the CANVAS, not just its contents *(noticed 2026-07-30, FCU proof sweep — measured, accepted, unfixed)*
+### 244. The wiresheet's cost scales with the CANVAS, not just its contents *(noticed 2026-07-30, FCU proof sweep — measured, accepted, unfixed)* *(deferred 2026-07-30)*
 
 Adding the fan-proof interlock to `cool-2stage-safeties` cost frames on the
 Wiresheet tab, and the split is not where you would guess. Same-machine A/B
@@ -11580,6 +11665,11 @@ it is the same over-claim from the same injected `d.fault`, and the same
 disposition-3 wording would fit. Worth an owner call the next time someone
 is in that ladder.
 
+*(2026-10-05)* The AHU half is now tracked as **#323** (owner ruled the
+hedge the same day).
+
+*(2026-10-05)* The AHU half shipped in PR #618 (#323).
+
 ### 248. The AHU mockup still carries an inline copy of the sensor-glyph CSS that graduated to `styles.css` *(noticed 2026-07-30, AHU page lane — deliberately not fixed then; **RESOLVED 2026-08-12**, PR #561)*
 
 The `.ddcw-sensor*` glyph vocabulary and the `.ddcw-chip-hilite` pulse graduated
@@ -11748,7 +11838,7 @@ is a **per-page decision** and explains why both current pages said no. The
 keydown binding stays — it is inert on a node that never takes focus, and it is
 what a future graphic that drops `role="img"` would use.
 
-### 252. Chromium does not prune a `role="img"` subtree, so #227(b)'s stated mechanism does not hold in the engine the site is tested in *(noticed 2026-07-30, AHU page review — measurement only, no action taken)*
+### 252. Chromium does not prune a `role="img"` subtree, so #227(b)'s stated mechanism does not hold in the engine the site is tested in *(noticed 2026-07-30, AHU page review — measurement only, no action taken)* *(addressed 2026-07-30)*
 
 `#227(b)`'s ruling rests on a mechanism claim: *"`img` is what currently prunes
 the subtree, so swapping un-hides all 19 `<text>` nodes."* Measured on the live
@@ -11986,7 +12076,7 @@ ruling — `Δ` / `≈` / `→` still come from system fallbacks everywhere they
 appear in prose, and the comparator `label`s still do in the palette. Cosmetic
 in every location.
 
-### 256. The wiresheet inspector's form controls sit outside the TOUCH-TARGET FLOOR block *(noticed 2026-07-31, FBE block-name lane — RULED 2026-08-01: written exemption, no code change; this entry is the record)*
+### 256. The wiresheet inspector's form controls sit outside the TOUCH-TARGET FLOOR block *(noticed 2026-07-31, FBE block-name lane — RULED 2026-08-01: written exemption, no code change; this entry is the record)* *(addressed 2026-08-01)*
 
 `styles.css`'s consolidated `TOUCH-TARGET FLOOR` block floors the form-control
 family at 44px under `@media (hover: none)`: `.field input`, `.field select`,
@@ -12025,7 +12115,7 @@ changes**: drop the `(hover: none) and (pointer: coarse)` arm, or relax the
 width arm, and the inspector becomes reachable on a touch-primary device, at
 which point the one-line addition to the form-control family is the fix.
 
-### 257. The AHU's chevron painter picks its ink in JS, and one of the five is a `-fill` token *(noticed 2026-07-31, PR #457's depiction review — raised as its fourth depiction guess and never logged at the time — **BLESSED 2026-08-01**, owner ruling: mechanism and depiction both correct, the mapping flagged for a future pass)*
+### 257. The AHU's chevron painter picks its ink in JS, and one of the five is a `-fill` token *(noticed 2026-07-31, PR #457's depiction review — raised as its fourth depiction guess and never logged at the time — **BLESSED 2026-08-01**, owner ruling: mechanism and depiction both correct, the mapping flagged for a future pass)* *(addressed 2026-08-01)*
 
 `html/scripts/ddcw-ahu-unit.js:1887` — `strokeChevron(el, band)` maps the band a
 chevron run is carrying to an ink by writing the token straight onto the
@@ -12347,7 +12437,7 @@ an AA failure: 2.5.5 is Level AAA, and the site's stated floor
 > height-only and the per-selector width audit has NOT been done. This
 > pass deliberately did not start it.
 
-### 263. The ~120-line param-rail wiring block is duplicated between the two unit scripts *(noticed 2026-08-03, PR #472's lane report — duplicated BY MANDATE, logged for the graduation trigger)*
+### 263. The ~120-line param-rail wiring block is duplicated between the two unit scripts *(noticed 2026-08-03, PR #472's lane report — duplicated BY MANDATE, logged for the graduation trigger)* *(deferred 2026-08-03)*
 
 `html/scripts/ddcw-ahu-unit.js:1915-2044` and
 `html/scripts/ddcw-fcu-unit.js:1243-1372` carry the same rail
@@ -12701,7 +12791,7 @@ review). Because this is `html/simulators/ddc-workbench.html`, a
 comment-only change here is merge-freely today and stops being so at
 graduation.
 
-### 268. `#ahu-desc` is 5,609 characters in a single text node *(noticed 2026-08-03, PR #473's lane report — structure candidate; the CONTENT is owner-ruled and stays)*
+### 268. `#ahu-desc` is 5,609 characters in a single text node *(noticed 2026-08-03, PR #473's lane report — structure candidate; the CONTENT is owner-ruled and stays)* *(deferred 2026-10-05 — leave the single node; revisit trigger in the Ruling)*
 
 `html/simulators/ddc-workbench.html:1464` holds the AHU drawing's
 `<desc>`: **5,609 characters / 986 words**, one text node, no internal
@@ -12729,6 +12819,35 @@ point mirror already went for values. ⚠️ Two counts here have been
 wrong in briefs — one said ~4,600 — so **re-derive from the built page**
 (`grep`-count the `<desc>` in `_site/`) rather than citing this figure
 after any edit.
+
+**Ruling (2026-10-05, owner).** *"Leave it with the trigger."* The
+single node stays. **First, the count — this entry's figure is stale, as
+its own ⚠️ warned it would be.** Measured 2026-10-05 on the live page
+(`html/simulators/ddc-workbench.html:1641`): **6,060 characters / 1,071
+words / 33 sentences**; the FCU's (`ddc-workbench-fcu.html:993`) is still
+**1,729**. The heading's 5,609 is left as written per the ledger's
+append-only convention; cite this paragraph, not the heading.
+
+**Why leave it.** The topology-first ruling stands — the length is the
+content the owner asked for — and the skimming problem this entry names
+is already answered for the part a screen-reader user most needs to
+re-enter: every live value is repeated as real, navigable text in the
+live-points list below the drawing (the `<desc>`'s own closing sentence
+says so). What the single node costs is re-hearing the *topology*, which
+a reader takes in once per visit, not per value change. **Options 2 and 3
+rejected:** nested `<g role="img">` groups each with a short `<desc>`
+(option 2) and any hybrid of it behave differently across screen-reader
+/ browser engines — some prune the children of a `role="img"` node, some
+expose them — so the structure would be real on one stack and invisible
+on another, the #227b/#252 pruning argument again; and restructuring now
+spends a live-page change on a problem no reader has reported.
+
+**Revisit trigger:** screen-reader user feedback on this drawing, **or**
+the next restructure of the AHU drawing itself — whichever comes first.
+At that point the route is the HTML-prose one (the long description moves
+into reflowing HTML below the graphic and the `<desc>` points at it), the
+direction the points mirror already took for values. No code ships; this
+is a docs-only disposition.
 
 ### 269. The FCU point mirror carries none of the AHU's screen-reader provenance glosses *(noticed 2026-08-03, PR #474's lane report — harmonization candidate; **RESOLVED 2026-08-11 · PR #523** — the entry UNDERSTATED it, see the resolution block: the FCU has no commanded register at all, so colour was never the channel here, and one cell needed two glosses)*
 
@@ -12811,7 +12930,7 @@ glosses are **16**, not 17, and after the fold-widening restructure
 (PR #520) they sit at `html/simulators/ddc-workbench.html:2720-2783`,
 not `:2440-2503`. Counted and located at fix time.
 
-### 270. FCU collision-detector baseline: three em-box grazes against the cabinet outline are visually clean *(noticed 2026-08-03, PR #474's lane report — RECORDED AS BASELINE, no action)*
+### 270. FCU collision-detector baseline: three em-box grazes against the cabinet outline are visually clean *(noticed 2026-08-03, PR #474's lane report — RECORDED AS BASELINE, no action)* *(addressed 2026-08-03)*
 
 The browser-side text-bbox-versus-stroke detector reports three
 overlaps on the FCU graphic that are **false positives**, and they are
@@ -12974,7 +13093,7 @@ which is what proves it measures the other branch.
 cannot be made to catch this, since it measures overflow and there is
 none.
 
-### 273. The forced-sensor marker CSS is duplicated per page under page-prefixed classes *(noticed 2026-08-04, the Phase 8 graduation lane — deferred at graduation, wants a `.ddcw-forced-mark` rename)*
+### 273. The forced-sensor marker CSS is duplicated per page under page-prefixed classes *(noticed 2026-08-04, the Phase 8 graduation lane — deferred at graduation, wants a `.ddcw-forced-mark` rename)* *(deferred 2026-08-04 — graduation trigger; on the 2026-10-05 decision agenda)* *(ruled 2026-10-05 — graduate to `.ddcw-forced-mark`; fix pending)* *(addressed 2026-10-05 · PR #612)*
 
 The dashed accent ring that marks a forced sensor glyph is one drawn
 idea with two page-local copies: `.ahu-forced-mark`
@@ -12992,6 +13111,48 @@ a rename across two SVGs and a spec did not belong in the go-live
 diff. The header-clearance pair the graduation also left in place is
 NOT this item — its selectors are site-wide (`.tool-card-header` /
 `.tool-card-title`), so its dedup is #272's open design call.
+
+**Ruling (2026-10-05, owner).** *"Graduate it."* The deferral above
+re-opens for work: one shared `.ddcw-forced-mark` rule in `styles.css`'s
+DDC WORKBENCH SHELL section (`html/styles.css:4959`), and both page-local
+copies go. Concretely: delete the AHU head block
+(`html/simulators/ddc-workbench.html:554-565`) and the FCU head block
+(`html/simulators/ddc-workbench-fcu.html:196-217`, comment included — its
+"deferred, codebase-issues #273" sentence retires with it); rename the
+rects and their comments in both SVGs (`ddc-workbench.html:2047`,
+`:2066/2083/2110/2129/2144`; `ddc-workbench-fcu.html:1203`,
+`:1211/1228/1242`); update the three selectors in
+`tests/ddc-workbench-fcu-sensors.spec.js` (`:240` comment, `:251`, `:260`);
+and a **patch bump 3.90.0 → 3.90.1**, because a `styles.css` change
+without one leaves returning visitors on the cached sheet (#84). The two
+page blocks are verbatim-identical in declarations (fill/stroke none;
+accent, 1.5, `3 2` dash when `.is-forced`), so the shared rule is a move,
+not a merge of two designs. Two live pages + the stylesheet → **owner
+merges**. On merge this heading takes `*(addressed YYYY-MM-DD — graduated
+to .ddcw-forced-mark, PR #NNN)*` after the ruled marker; the status
+script reads that later closing marker as resolved.
+
+**Resolution (2026-10-05, PR #612).** Graduated as ruled. One shared
+pair now sits in `html/styles.css`'s DDC WORKBENCH SHELL section,
+right after the sensor-glyph vocabulary: `.ddcw-forced-mark { fill:
+none; stroke: none; }` plus the `.ddcw-sensor.is-forced` arm (accent,
+1.5, `3 2`). Its comment carries the accent-not-amber rationale from
+the AHU block. `html/simulators/ddc-workbench.html` lost its head
+block, and its 5 rects and SVG comment were renamed.
+`html/simulators/ddc-workbench-fcu.html` lost its head block (and the
+"deferred, #273" sentence with it), and its 3 rects and SVG comment
+were renamed. Each head keeps a one-line pointer comment.
+`tests/ddc-workbench-fcu-sensors.spec.js` follows the rename. The
+version went 3.90.0 → 3.90.1 (#84). Measured: the FCU space-temp
+ring's computed stroke is `none` at rest and `rgb(58, 122, 20)` /
+`1.5px` / `3px, 2px` when forced. The AHU page has 5
+`.ddcw-forced-mark` rects, matching the 5 `.ahu-forced-mark` rects it
+had before, and 0 old-class rects. The FCU sensors spec passes 10/10
+and the two workbench smoke loads pass 2/2. One cite in the original
+body had drifted: the spec's selectors sit at `:251/:260` (as the
+ruling has them), not `:248/:257`. The marker format
+used is the lane's `addressed … · PR` form instead of the ruling's
+suggested wording.
 
 ### 274. The simulators landing crossed its own chips threshold at nine cards *(noticed 2026-08-04, the Phase 8 graduation lane — DESIGN CALL, deliberately not decided at go-live; owner decided the taxonomy 2026-08-10, **RESOLVED 2026-08-11 · PR #519** — resolution block at the end, chip LABELS signed off by the owner 2026-08-12)*
 
@@ -13332,7 +13493,7 @@ pass. Both rows were falsified before being trusted — with the call
 stubbed out each fails on the literal defect string,
 `Received: "Cool SP accepts 65.0–85.0 °F — held at the limit."`
 
-### 277. The display-units guard cannot see a display local hidden inside a call argument *(noticed 2026-08-09, the #229 planning round — guard-coverage note, no shipped defect)*
+### 277. The display-units guard cannot see a display local hidden inside a call argument *(noticed 2026-08-09, the #229 planning round — guard-coverage note, no shipped defect)* *(addressed 2026-08-09)*
 
 `tests/ddcw-display-units.spec.js`'s fixpoint derivation marks every
 name that carries a display value and fails any comparison with one
@@ -13652,7 +13813,7 @@ FCU → AHU → FCU round-trip asserts only `offprog` / `program` /
 `forcedValue` while the AHU side asserts more; partly covered by the
 lane's new snapshot row.
 
-### 285. The older details idioms' closed ink is measured only through a Chromium UA implementation detail *(noticed 2026-08-10, the collapse pilot's guard work — LOW)*
+### 285. The older details idioms' closed ink is measured only through a Chromium UA implementation detail *(noticed 2026-08-10, the collapse pilot's guard work — LOW)* *(ruled 2026-10-05 — closes with #316's widening to bare `details`; fix pending)* *(addressed 2026-10-05 · PR #614)*
 
 The contrast sweep reaches closed-`<details>` ink on the ~30
 `details.tool-preamble` pages and the pid-spoiler only because
@@ -13663,7 +13824,25 @@ deliberately not widened, since force-opening 30+ pages' hidden
 prose could surface latent reds that are not a pilot's call. Widening
 the arm (and triaging what it finds) is its own pass.
 
-### 286. Print never reaches non-active tab panes — site-wide, pre-existing *(noticed 2026-08-10, the print-shim verification — LOW)*
+**Ruling (2026-10-05, owner).** *"Widen with bare details."* (ruled
+jointly with #316) Closes with **#316**'s widening — read
+that entry's Ruling. Widening `settle()`'s third arm to bare `details`
+force-opens every `<details>` idiom before the walk, so no idiom's closed
+ink depends on Chromium's UA shadow-slot detail any more; the mechanism
+this entry describes was correct (the #316 premise was the one that was
+wrong). Same PR as #316; test-only → merge on green. On merge this
+heading takes `*(addressed YYYY-MM-DD — closed by #316's force-open
+widening, PR #NNN)*`.
+
+**Resolution (2026-10-05, PR #614).** Closed by #316's widening, same
+PR. `tests/contrast-sweep.spec.js`'s `settle()` third arm now sets
+`open` on bare `details`, so no idiom's closed ink depends on the UA
+shadow-slot detail this entry names; the header's third-arm paragraph
+and the in-`settle()` comment were rewritten to state that contract.
+The mechanism described here was right. Measured: full contrast sweep
+17/17 green (14/14 WCAG shards, both themes), zero new failures.
+
+### 286. Print never reaches non-active tab panes — site-wide, pre-existing *(noticed 2026-08-10, the print-shim verification — LOW)* *(addressed 2026-10-05 · PR #623)*
 
 `.tab-pane { display: none }` is not lifted in any `@media print`
 block, so tab content off the active tab never prints anywhere on
@@ -13672,6 +13851,34 @@ all four folds sit inside `#tab-wiresheet` — a fold the shim opens
 still cannot reach paper unless the reader prints from that tab. Not
 a #507 regression; recorded so the shim's "paper shows the page"
 contract is understood as tab-scoped.
+
+**Resolution (2026-10-05, PR #623).** Verified first: the premise held
+as written. No `@media print` block in `html/styles.css` touched
+`.tab-pane`. `html/styles.css` now has a print-only block right after
+the `.tab-pane` rules. It sets `.tab-pane { display: block !important }`
+and gives `.tab-pane + .tab-pane` a 1.5rem gap and a 1px
+`var(--border)` top seam. The `.tabs` button row is unchanged. Measured
+under `emulateMedia({ media: 'print' })`, every pane has non-zero
+height: signal-scaling 3/3 (324/332/334 px). The shim's folds inside
+`#tab-wiresheet` can now actually reach paper.
+`tests/details-print.spec.js` passes 6/6.
+The same block also hides `.tab-pane:not(.active) .fbe-live`. The
+workbench's Function-Block Editor mounts lazily, on the first Wiresheet
+open (`ensureEditor()` in `ddcw-shell.js`). Lifting an inactive
+Wiresheet therefore printed its simbar plus about 1000 px of empty
+palette, canvas and inspector frames. Round 1 measured 1037 px for that
+pane, and most of that height was the blank frame, so its "height > 0"
+check passed vacuously. With the editor rule, an inactive Wiresheet
+prints only its intro prose and its folds. Re-probed under print media,
+with full-page screenshots checked: ddc-workbench `#tab-wiresheet` is
+410 px with 8/8 folds, and ddc-workbench-fcu is 253 px with 5/5 folds.
+On both pages `.fbe-live` computes to `display: none`. A reader who
+prints while on the Wiresheet tab has a mounted editor, and it prints as
+rendered (648 px on both pages). So the live wiresheet reaches paper
+only from its own tab.
+One residual gap: a stacked pane carries no heading of its own. On
+paper the pane-to-tab mapping comes only from DOM order against the
+printed tab row.
 
 ### 287. details-print.js: two minor hardening notes *(noticed 2026-08-10, the pilot verification — MINOR; **RESOLVED 2026-08-13 · PR #563** — both reproduced at HEAD first; note (2) was the more serious of the two)*
 
@@ -13847,7 +14054,7 @@ entry alleged could not ship unnoticed today. `styles.css`'s LED
 comment, which repeated the same false claim, was corrected in the
 same PR.
 
-### 290. Simulator prose is set smaller AND dimmer than lesson prose — squint territory *(reported 2026-08-11 by the owner — site-wide legibility, DESIGN CALL; survey measured; treatment ruled 2026-08-12 — both levers; **pass shipped 2026-08-12 · PR #530**)*
+### 290. Simulator prose is set smaller AND dimmer than lesson prose — squint territory *(reported 2026-08-11 by the owner — site-wide legibility, DESIGN CALL; survey measured; treatment ruled 2026-08-12 — both levers; **pass shipped 2026-08-12 · PR #530**)* *(addressed 2026-08-12)*
 
 Owner report, verbatim intent: a lot of the sim prose is almost too
 dark to read, and very small — the two combined make you squint.
@@ -14455,7 +14662,7 @@ with the pipe's and cut the failed-list out of the visible window. A
 test run's exit code and summary must come from the runner itself —
 redirect to a file, never pipe. (Tooling recipe updated the same day.)
 
-### 301. A mouse click on an edge-clipped gloss trigger can dismiss the panel it opens *(noticed 2026-08-12, the #300 diagnosis — page-side residual, DESIGN CALL, log-don't-fix)*
+### 301. A mouse click on an edge-clipped gloss trigger can dismiss the panel it opens *(noticed 2026-08-12, the #300 diagnosis — page-side residual, DESIGN CALL, log-don't-fix)* *(deferred 2026-08-12)*
 
 The narrow real-user shape of #300's mechanism 1, on the live page: a
 trigger sits partially clipped at the viewport's bottom edge, the
@@ -14624,7 +14831,7 @@ page names, which would drift the moment a sixth adopts it. No
 version bump was spent: `styles.css`'s cache-bust bump rides the merge
 captain's close-out batch.
 
-### 305. The SVG diagram alt-text audit lived only in an archived doc *(logged 2026-08-12, the clear-the-decks hygiene pass — deferred SEO audit, LOW)*
+### 305. The SVG diagram alt-text audit lived only in an archived doc *(logged 2026-08-12, the clear-the-decks hygiene pass — deferred SEO audit, LOW)* *(deferred 2026-08-12 — GSC trigger)*
 
 The one still-open item anywhere under `docs/audits/` — the SVG
 diagram alt-text audit, named in
@@ -14648,7 +14855,7 @@ A natural trigger: if a GSC read shows education pages
 underperforming on impressions relative to tools, this is the first
 cheap lever to reach for.
 
-### 306. `.widget-try a` is dead CSS as of the #299 conversion *(noticed 2026-08-12, the #299 lane — cleanup, LOW)*
+### 306. `.widget-try a` is dead CSS as of the #299 conversion *(noticed 2026-08-12, the #299 lane — cleanup, LOW)* *(addressed 2026-10-05 · PR #624)*
 
 The anchor half of the `.widget-try` chip rule (`styles.css`, the
 `WIDGET CHROME` block) plus its `:hover` twin. #281 / #297 / #299
@@ -14674,6 +14881,20 @@ re-introduces a `.widget-try` anchor. That is now a convention rather
 than a guarantee — there is no build guard on it, and the four
 conversions were each caught by a hand-run grep, so re-run the one
 above before deleting.
+
+**Resolution (2026-10-05, PR #624).** Re-ran the check above first: it
+returns nothing, and no shared script, partial or `_data` file builds a
+`.widget-try` row, so the premise held exactly as written.
+`html/styles.css` (WIDGET CHROME): removed `.widget-try a` and
+`.widget-try a:hover`, and reworded the button rule's comment, which
+had described it as the "twin of the anchor row", into a standalone
+note that try-row chips are `<button>`s (#142/#143). No colour or button
+declaration changed, so the contrast sweep was not run; build plus the
+`smoke.spec.js` vfds / pump-control / economizers / load-piping tests
+(14/14) pass. No version bump: the PR is stacked on #623, which rides
+#273's bump. The caveat above still stands — nothing guards against a
+`.widget-try` anchor coming back, which would now render unstyled
+rather than silently styled.
 
 ### 307. The FCU register key's sample wells are hand-authored literals of a computed state *(noticed 2026-08-12, the #219 lane — the mechanism behind that entry's live half; structural, LOW)*
 
@@ -14724,7 +14945,7 @@ component by its own separate rationale. Render-identical, proven
 statically (disjoint selectors, no order interplay) and by live
 computed style on both links.
 
-### 309. The `.tool-card` fadeUp stagger's comment misreads its own selector — `:nth-of-type` counts elements, not classes *(noticed 2026-08-12, the #178 lane — cosmetic, site-wide comment/behavior mismatch)*
+### 309. The `.tool-card` fadeUp stagger's comment misreads its own selector — `:nth-of-type` counts elements, not classes *(noticed 2026-08-12, the #178 lane — cosmetic, site-wide comment/behavior mismatch)* *(addressed 2026-10-05 · PR #627)*
 
 `styles.css`'s entrance-stagger block (`.tool-card:nth-of-type(1)` …
 `(4)` with stepped `animation-delay`s) carries a comment claiming
@@ -14743,7 +14964,23 @@ mechanism (`:nth-child(... of .tool-card)` has the same type-blind
 problem; a real fix probably wants explicit per-page classes or
 accepting the quirk in writing). Log-don't-fix.
 
-### 310. `#ddcw-statusbar` overflows its own box by 15px at a 320px viewport *(noticed 2026-08-12, the #262 lane — below every tested width, LOW)*
+**Resolution (2026-10-05, PR #627).** Took option 1, fixing the comment,
+per the 2026-10-05 ruling that accepts the quirk in writing.
+`html/styles.css`: the comment above `.tool-card:nth-of-type(1…4)` now
+says that `:nth-of-type` counts DIV siblings of any class, that
+interleaved `div.section-header`s shift which cards match, and that the
+stagger is therefore approximate and cosmetic (a 0.5s fade). The
+selector and the four rules are unchanged. The old comment's "4 on
+pid-basics" sizing note was dropped along with the false claim, because
+once indices count every div it no longer measures anything. No
+behaviour change, so no new measurement: build green, and the
+pid-basics smoke load check passes. The entry's core premise held
+(`:nth-of-type` counts div siblings; the old comment was false), but
+its "most of them" scope did not: a single-card page's card sits at
+index 2 and animates, and only multi-card pages such as pid-basics
+leave cards with no fade.
+
+### 310. `#ddcw-statusbar` overflows its own box by 15px at a 320px viewport *(noticed 2026-08-12, the #262 lane — below every tested width, LOW)* *(deferred 2026-08-12)*
 
 Both workbench pages, measured under touch emulation: at a 320px
 viewport the statusbar's content runs 15px past its box — internal
@@ -14816,7 +15053,7 @@ offenders. The transform header's floor paragraph was rewritten in
 the same commit — no quoting variant sits outside the floor now; what
 remains outside is JS-painted prose only.
 
-### 313. `tests/gloss.spec.js` header still counts "seven gloss guard arms" — predates #312's malformed-spelling arm *(noticed 2026-08-20, session-open verification round; comment true-up next time the spec is touched)*
+### 313. `tests/gloss.spec.js` header still counts "seven gloss guard arms" — predates #312's malformed-spelling arm *(noticed 2026-08-20, session-open verification round; comment true-up next time the spec is touched)* *(addressed 2026-10-05 · PR #628)*
 
 The spec header enumerates "all SEVEN gloss guard arms" as
 hand-exercised, and its list does not name the malformed-attribute arm
@@ -14828,7 +15065,25 @@ comment-contradicts-code shape as the arm counts #576 trued up
 elsewhere. One-line comment fix; not worth its own PR. Fold into the
 next PR that touches `tests/gloss.spec.js`.
 
-### 314. Lesson subheads without `id`s can't receive quiz `learnMore` deep links *(noticed 2026-08-20, quiz-growth wave 1 lanes; log-and-fix-opportunistically)*
+**Resolution (2026-10-05, PR #628).** `tests/gloss.spec.js` — the
+header's "all SEVEN gloss guard arms" sentence is replaced by a list
+re-enumerated from `.eleventy.js` and grouped by construct, with no
+bare total. That list covers the `gloss` transform (malformed spelling
+via `MALFORMED_RE` — now at `.eleventy.js:851`, not `:776` — non-button,
+missing `type="button"`, unknown id, owning page, pre-set
+`aria-describedby`, `gloss-tip-<id>` collision, no `</body>`), then
+`glossaryGuard` (non-kebab id, missing `term` / `def`, non-array
+`owners`, stale owners path, and two anti-vacuity probes), then
+`glossaryExcludedGuard` (empty map, row lint, reserved id / reserved
+`term`). The provenance sentence now says which arms were
+hand-exercised on the introducing branch and which were probe-proven by
+their own PRs (#578, #594). The entry undercounted the drift: besides
+the #578 arm, the old list also lacked `glossaryExcludedGuard` (PR
+#594), the pre-set-`aria-describedby` and missing-`</body>` checks, and
+`glossaryGuard`'s shape and anti-vacuity legs. The fix is comment-only.
+`gloss.spec.js` passed 11/11.
+
+### 314. Lesson subheads without `id`s can't receive quiz `learnMore` deep links *(noticed 2026-08-20, quiz-growth wave 1 lanes; log-and-fix-opportunistically)* *(addressed 2026-10-05 · PR #625)*
 
 The quiz engine's `learnMore.href` convention deep-links a lesson's
 `<h2 class="subhead" id="…">` anchors — but only subheads that HAVE an
@@ -14853,6 +15108,37 @@ the id and retargets its bank's links. A guard is NOT proposed — most
 subheads legitimately never need an anchor, so "every subhead has an
 id" would be noise; the invariant that matters (every href resolves)
 is already blocking.
+
+**Resolution (2026-10-05, PR #625).** Ids added, and three questions
+moved to them:
+- `html/education/bacnet-basics.html`: `#who-is-i-am` on the Who-Is /
+  I-Am subhead.
+- `html/education/bacnet-networking.html`: `#discovery-fails` and
+  `#not-covered`.
+- `html/_data/quizzes/bacnet-basics.js`: `whois-outside-range` →
+  `#who-is-i-am`. The header comment no longer describes the
+  workaround.
+- `html/_data/quizzes/bacnet-networking.js`: `network-number-collision`
+  (was `#three-addresses`) and `tcp-firewall-rule` (was
+  `#bvll-npdu-apdu`) → `#discovery-fails`. The checklist is the only
+  place the page states the unique-network-number rule and the UDP
+  47808 firewall check. The header comment now states the rule for
+  routing checklist scenarios.
+
+Measured: `quiz-banks.spec.js` 42/42, `link-integrity.spec.js` 4/4
+(its "every quiz-bank deep link resolves" test covers the new hrefs;
+no new assertion was needed), and smoke for both lessons and both
+practice pages, 4/4.
+
+What the entry got wrong: it says *both* new PR #585 service
+questions anchored `#services` as a workaround. Only
+`whois-outside-range` is a Who-Is question. `cov-subscription-stale`
+tests COV and belongs on `#services`, so it was left there.
+`asymmetric-bdt` and `two-bbmds-one-subnet` match checklist items too,
+but they predate wave 1 and the `#bbmd` section teaches them, so they
+were left alone. BACnet Basics' own "What this page didn't cover"
+subhead also has no id. The entry did not name it, nothing links to
+it, and it was left untouched.
 
 ### 315. Vendor names in two shipped quiz questions — owner ruled GRANDFATHER *(noticed 2026-08-20, wave-1 mstp lane + full-bank sweep; RULED same day — accepted as standing mentions, do not re-flag)*
 
@@ -14880,7 +15166,7 @@ the modbus-decoding constraint: `smoke.spec.js` walks that quiz
 deterministically, so any text edit there must verify the spec's
 assertions in the same PR.
 
-### 316. Contrast sweep never opens the older `<details>` idioms — `details.tool-preamble` / `.pid-spoiler` ink is unmeasured *(noticed 2026-08-21, §4 tools marking lane; decision-class — the spec itself defers this as "a separate call")*
+### 316. Contrast sweep never opens the older `<details>` idioms — `details.tool-preamble` / `.pid-spoiler` ink is unmeasured *(noticed 2026-08-21, §4 tools marking lane; decision-class — the spec itself defers this as "a separate call")* *(ruled 2026-10-05 — widen the force-open to bare `details`; premise corrected; fix pending)* *(addressed 2026-10-05 · PR #614)*
 
 `tests/contrast-sweep.spec.js` force-opens `details.prose-fold` only;
 its own comment (~L459) scopes that deliberately "so the older idioms
@@ -14904,7 +15190,45 @@ extend the third arm's selector to
 (or bare `details`), run the sweep, and disposition whatever it
 finds before merging the widened spec.
 
-### 317. 104 `FAQPage` nodes ship but earn no rich result — Google restricted FAQ to government and health sites in Aug 2023 *(noticed 2026-08-27, SEO research round; decision-class — owner's call, not a bug)*
+**Ruling (2026-10-05, owner).** *"Widen with bare details."* `settle()`'s
+third arm (`tests/contrast-sweep.spec.js:462-464`) changes its selector
+from `details.prose-fold` to bare `details`, and its comment (`:454-461`,
+"widening it is a separate call") plus the header paragraph on the third
+arm (`:125` onward) are updated to say every idiom is force-opened.
+
+**Premise correction — this entry's "unmeasured" claim was wrong.**
+Measured 2026-10-05 in Playwright's Chromium 147: content inside a closed
+`<details>` reports non-zero rects and computed `display: block`, so the
+walker *already* measures it — through the UA shadow-slot detail #285
+describes. #285 had the mechanism right; this entry's title overstates
+it. And the cost the entry told us to budget did not materialise: the
+full sweep run with the widened selector passed **14/14 shards in both
+themes with zero new failures**, so there is **no fix pass to budget**.
+The widening is still worth shipping — it turns an implementation detail
+into a contract, which is what closes #285 too.
+
+Test-only → **merge on green**. On merge this heading takes
+`*(addressed YYYY-MM-DD — force-open widened to bare details; premise
+corrected, PR #NNN)*` after the ruled marker.
+
+**Resolution (2026-10-05, PR #614).** `tests/contrast-sweep.spec.js` —
+`settle()`'s third arm selector changed from `details.prose-fold` to
+bare `details`; the header's third-arm paragraph and the in-`settle()`
+comment ("widening it is a separate call") rewritten to state that
+every disclosure is opened before the walk and to record the
+2026-10-05 measurement. `COLLAPSED_CHROME` untouched. Measured: full
+`contrast-sweep.spec.js` 17/17 passed — all 14 WCAG shards (7 per
+theme) plus the three self-check tests — with zero new failures, so
+no fix pass was needed. Non-vacuity checked: on
+`/tools/psychrometric-chart.html` the `.preamble-rest` disclosure is
+closed at load and `open === true` after the arm runs. **This entry's
+premise was wrong:** the older idioms' ink was never unmeasured —
+Chromium 147 lays out closed-details content (non-zero rects,
+`display: block`), so the walker already reached it through the UA
+detail #285 describes; #285 had the mechanism right. The change turns
+that implementation detail into a contract.
+
+### 317. 52 `FAQPage` nodes ship but earn no rich result — Google restricted FAQ to government and health sites in Aug 2023 *(noticed 2026-08-27, SEO research round; decision-class — owner's call, not a bug)* *(ruled 2026-10-05 — position 2: keep for answer-engine readers, correct the rationale; fix pending)* *(addressed 2026-10-05 · PR #617)*
 
 `head.njk` emits `FAQPage` JSON-LD from the `faqs:` frontmatter and the
 quiz banks; a build count puts it at **104 pages — 52 per locale**. The
@@ -14935,7 +15259,60 @@ FAQ content is not in question either way** — it is useful copy and
 several pages' `faqs:` blocks read as genuine content. This is only
 about the JSON-LD twin.
 
-### 318. Speed Brain is enabled on the zone and 100% inert — every prefetch 503s against `run_worker_first: true` *(measured 2026-08-28; owner dashboard decision)*
+**Ruling (2026-10-05, owner).** *"I agree on position 2, with more
+people finding resources through AI it's useful but should be stated for
+what it is."* **Position 2: the 52 nodes stay, and the repo stops
+describing them as a search win.** The visible FAQ copy was never in
+question. What ships is rationale only — no output changes:
+
+- `.eleventy.js` — the comments above `faqPageJsonLd` (`:1228-1237`,
+  filter at `:1261`) and `faqJsonLd` (`:1282-1291`, filter at `:1292`)
+  say *what* the nodes contain but not *why* they exist; each gains the
+  purpose stated plainly — machine readers (AI answer engines) parse
+  `FAQPage` even where Google renders nothing — plus the August 2023
+  restriction, so nobody re-adds the SEO premise.
+- `html/_includes/faq.njk` — the header (`:1-20`) explains the
+  one-source-two-consumers pattern; it gets the same one-line purpose for
+  the JSON-LD twin. (Its "on-page ranking lever" note is about the `<h3>`
+  questions, not the JSON-LD, and stays.)
+- `docs/site-ideas-and-friction.md` — the mentions that count FAQ markup
+  toward SEO (`:6400`, "grows its FAQPage JSON-LD too, so … the SEO
+  trajectory feed each other"; and `:1436`, FAQPage chosen in place of a
+  DefinedTermSet for "rich-result payoff") get a dated correction note,
+  not a rewrite.
+
+Who merges: comment-only, but `.eleventy.js` and `_includes/` are on the
+needs-approval list regardless of what changes in them → **owner
+merges**. On merge this heading takes `*(addressed YYYY-MM-DD — owner
+ruled position 2: kept for answer-engine readers, rationale corrected)*`
+after the ruled marker.
+
+**Resolution (2026-10-05, PR #617).** Comments and docs only. The built
+site is byte-identical: `npm run build` on `origin/main` (b54a6c8) and on
+the branch, then `diff -rq` across all 182 `_site` files, gave empty
+output.
+
+- `.eleventy.js`: the `faqPageJsonLd` comment gains a *why it exists*
+  paragraph. It names the August 2023 restriction (no SERP treatment on
+  this domain), says the markup is kept because answer engines
+  (Bing/Copilot, Perplexity, ChatGPT search) parse `FAQPage`, and cites
+  this ruling. The `faqJsonLd` comment gets the same purpose in short
+  form.
+- `html/_includes/faq.njk`: the header (a `{# #}` comment, so nothing
+  renders) states the purpose of the JSON-LD twin. The `<h3>` "on-page
+  ranking lever" note stays.
+- `docs/site-ideas-and-friction.md`: a dated `⟨2026-10-05: …⟩` note is
+  appended to the two lines this entry named (`:1436` and `:6400`, both
+  still accurate at fix time). No historical text was rewritten.
+- `CLAUDE.md` was checked and left alone. Its FAQPage mentions describe
+  the one-source-two-consumers mechanism, not an SEO payoff.
+
+The entry's line cites held. The one thing it gets slightly wrong is the
+heading marker it pre-wrote for merge time: the lane convention used
+here is the `addressed … · PR #N` form, so that marker went on in its
+place.
+
+### 318. Speed Brain is enabled on the zone and 100% inert — every prefetch 503s against `run_worker_first: true` *(measured 2026-08-28; owner dashboard decision)* *(addressed 2026-10-05 — owner turned Speed Brain off)*
 
 Measured live, reproduced on three URLs: controlsfreak.dev serves
 `speculation-rules: "/cdn-cgi/speculation"` to every Chromium visitor
@@ -14965,7 +15342,15 @@ state. Note also that Speed Brain is **on by default** on free plans —
 this was never switched on deliberately, which is the general lesson:
 the zone carries vendor defaults the repo has no record of.
 
-### 319. The Cloudflare AI-crawler settings have never been verified on this zone, and one legacy toggle blocks Googlebot *(noticed 2026-08-27; owner dashboard check — cannot be settled from the repo)*
+**Resolution (2026-10-05, owner).** Speed Brain turned OFF in the
+Cloudflare dashboard — Speed → Settings → Content Optimization. The zone
+no longer advertises a `Speculation-Rules` header it cannot honour behind
+`run_worker_first: true`; nothing in the repo changes, and nothing
+user-visible changes either (the refused prefetches were harmless). The
+general lesson stands: the zone carries vendor defaults the repo has no
+record of, which is why #319 was checked in the same sitting.
+
+### 319. The Cloudflare AI-crawler settings have never been verified on this zone, and one legacy toggle blocks Googlebot *(noticed 2026-08-27; owner dashboard check — cannot be settled from the repo)* *(addressed 2026-10-05 — owner verified: AI Crawl Control on, zero refused requests)*
 
 Cloudflare's own words: blocking *Training* — including via the legacy
 one-click **"Block AI Scrapers and Crawlers"** toggle, free on every
@@ -14989,7 +15374,14 @@ silent deindexing. Logged rather than fixed because it is a vendor
 setting, not code. The September 15 2026 default change is *not* the
 risk — it is scoped to pages displaying ads, and this site shows none.
 
-### 320. 80 localized lesson pages declare `author` and `publisher` by dangling reference — each Person node exists only on its locale's home page *(noticed 2026-08-27; DECISION-CLASS — needs an owner answer before any fix, see below)*
+**Resolution (2026-10-05, owner).** Checked in the Cloudflare dashboard:
+**AI Crawl Control is ON**, and its trend data shows many successful
+crawler requests and **zero unsuccessful** — so no training/AI-bot block
+is in place and Googlebot is not being refused. The worst case this entry
+named (silent deindexing via the legacy toggle) is ruled out on this zone.
+Recheck only if that panel is ever changed.
+
+### 320. 40 lesson pages declare `author` and `publisher` by dangling reference — the Person node exists only on the home page *(noticed 2026-08-27; DECISION-CLASS — needs an owner answer before any fix, see below)* *(ruled 2026-10-05 — pseudonym author inlined, publisher deleted; fix pending)* *(addressed 2026-10-05 · PR #613)*
 
 `techArticleJsonLd` (`.eleventy.js:2138-2159`) sets localized `author` and
 `publisher` `@id` references rooted at the current locale. Each pair of target
@@ -15043,7 +15435,48 @@ catch a recurrence: assert that every `application/ld+json` block on an
 education page has, for each of `author`/`publisher` present, either a
 `name` or an `@id` that resolves **within the same document**.
 
-### 321. `nav: guides` has no `SECTION_MAP` entry, so ten localized guides pages emit a two-item breadcrumb *(noticed 2026-08-27 while fixing #86's contact follow-on; low severity)*
+**Ruling (2026-10-05, owner).** *"Pseudonym and delete publisher."*
+**A = the pseudonym `Controls Freak`**, inlined as a `Person` node with
+`name: "Controls Freak"` and `jobTitle: "Controls Programmer"` — the same
+two properties the home page's `@graph` carries (`html/index.html:25-26`).
+**B = delete `publisher`.** Reasoning: the pseudonym is already public in
+the home page's JSON-LD, so 40 lessons repeating it disclose nothing new;
+a real name is the one direction that does not undo cleanly once
+indexed; and `publisher` is not on Google's recommended Article
+properties, so deleting it is the minimal change and asserts no new
+entity.
+
+What ships: one hunk in `techArticleJsonLd` (`.eleventy.js:1382`; the
+`author` / `publisher` lines are `:1393-1394`, and the comment at
+`:1374-1376` that "attributes authorship to the Person entity declared on
+the home page" is trued in the same hunk), plus the **regression spec**
+this entry asked for: every `author` / `publisher` reference in an
+education page's JSON-LD has either a `name` or an `@id` that resolves
+**within the same document**. Live `<head>` output on 40 lessons →
+**owner merges**. Rides one PR with #321 (same file, same filter family).
+On merge this heading takes `*(addressed YYYY-MM-DD — owner ruled
+2026-10-05: pseudonym author inlined, publisher deleted, PR #NNN)*`.
+
+**Resolution (2026-10-05, PR #613).** `.eleventy.js` `techArticleJsonLd`:
+`author` is now an inline `{ "@type": "Person", "@id":
+"https://controlsfreak.dev/#author", "name": "Controls Freak",
+"jobTitle": "Controls Programmer", "url": "https://controlsfreak.dev/" }`
+— keeping the home page's `@id` so it is the same entity, with `name` /
+`jobTitle` / `url` copied from `html/index.html`'s `@graph` Person (the
+ruling named two properties; `url` was added on the lane brief as the
+same entity's home). `publisher` is deleted. The comment above the
+filter now says why the node is inlined (cross-document `@id` is valid
+JSON-LD, but Google reads per document). `tests/smoke.spec.js` gains the
+regression guard this entry asked for: for every `nav: education`
+lesson in the built site (derived from frontmatter, 40 today, floor
+>30), every `author` / `publisher` reference carries a `name` or an
+`@id` declared in the same document, the TechArticle author has a
+`name`, and the TechArticle has no `publisher` key. Measured: rendered
+`/education/pid-basics` TechArticle diffed before/after (the after-node
+is in the PR body). The line cites in this entry had drifted by the
+time of the fix (`:1384-1385` / `:1393-1394`); grep the filter name.
+
+### 321. `nav: guides` has no `SECTION_MAP` entry, so the five guides pages emit a two-item breadcrumb *(noticed 2026-08-27 while fixing #86's contact follow-on; low severity)* *(ruled 2026-10-05 — add `guides` to `SECTION_MAP`; fix pending)* *(addressed 2026-10-05 · PR #613)*
 
 `SECTION_MAP` in `.eleventy.js` covers `tools` / `simulators` /
 `education` / `practice` / `contact`. It has no `guides` key, so
@@ -15059,3 +15492,516 @@ pillar pages that arguably sit directly under Home rather than under a
 rather than fixed because deciding it means deciding whether Guides is a
 real section or a nav lane over the hubs. Found while fixing the contact
 entry (#317-adjacent); deliberately not bundled into that PR.
+
+**Ruling (2026-10-05, owner).** *"Add it to the key, there's enough of a
+case for it just because of how much traffic my BACnet pages have been
+getting."* `SECTION_MAP` (`.eleventy.js:1168-1180`; the lookup is
+`:1185`) gains `guides: { name: "Guides", url:
+"https://controlsfreak.dev/guides/" }`. The taxonomy question this entry
+raised was already answered by the nav: Guides **is** the section there
+— it has its own dropdown (`html/_includes/nav.njk:16`), its own landing
+at `/guides/`, and `nav: guides` drives the active state — so the
+breadcrumb was the one surface disagreeing. Ship with a spec on the five
+`nav: guides` pages (`/bacnet/`, `/forced-air/`, `/hydronics/`,
+`/refrigeration/` emit a 3-item `Home → Guides → <page>` trail; the
+`/guides/` landing emits 2-item `Home → Guides`). Rides the #320 PR.
+Live `<head>` output on 5 pages → **owner merges**. On merge this heading
+takes `*(addressed YYYY-MM-DD — guides added to SECTION_MAP, PR #NNN)*`.
+
+**Resolution (2026-10-05, PR #613).** `.eleventy.js` `SECTION_MAP` gains
+`guides: { name: "Guides", url: "https://controlsfreak.dev/guides/" }`
+with a one-line reason comment. Measured on the built site: the four
+hubs now emit `Home → Guides → <hub>` (3 items; e.g. `/bacnet/`'s third
+crumb is `BACnet — Field Reference, Tools & Lessons`), and `/guides/`
+emits `Home → Guides`. One thing the entry's title got slightly wrong:
+`/guides/` already emitted two items before the fix — its second crumb
+was the page title `Guides — Field Reference by Topic`, now the section
+name `Guides`, the same landing-crumb shape every other section uses.
+`tests/smoke.spec.js` gains `guides pages emit a Home → Guides
+breadcrumb (#321)`, pinning the length, names and the Guides crumb URL
+on all five pages.
+
+### 322. External localization PR #602 (Korean, 358 files) — closed; the conditions a second language would need *(addressed 2026-10-05 — owner ruling, PR closed with a fork suggestion)*
+
+An unsolicited external PR (2026-08-30, author `i2na`) added a complete
+Korean edition: 135 `html/ko/` thin-child pages, translation overlays for
+every quiz bank and glossary entry, hreflang/sitemap plumbing, and a
+string-externalisation refactor across ~120 live English pages and ten
+shared scripts (+49,546/−2,318). The craftsmanship was high and followed
+house style. It was **closed 2026-10-05** on the owner's ruling, for
+reasons that are structural rather than about the work's quality — the
+full assessment is `docs/audits/2026-10-reentry/pr602-assessment.md`:
+
+- **No review path.** A one-person site whose owner does not read Korean
+  cannot stand behind 135 pages of technical content, on a site whose
+  brand is accuracy (refutation rounds, primary-source verification,
+  owner-supplied anecdotes, damage-stakes notes).
+- **Build coupling with no off-switch.** Its guards (route bijection,
+  per-page source hashes, structure signatures, per-bank quiz hashes)
+  FAIL the build — never warn — on any English content edit: every
+  quiz-bank or glossary change, every new page. Measured against the
+  month before the PR, ~half of the merges to `main` touched a guarded
+  surface. Demoting the locale does not disable the per-page checks;
+  only deleting the twins does.
+- **CI never executed.** Both fork-PR runs expired unapproved after 30
+  days with zero jobs (`approval_policy=all_external_contributors`) —
+  so "failing CI" was not, and must never be cited as, a reason.
+
+**What a second language would need before it is reconsidered** (so the
+next offer has a precedent instead of a fresh debate): a native-speaking
+building-controls engineer who owns the terminology; locale demand
+visible in search data; and a **non-blocking** design — staleness warns
+and marks a page stale, the English-only authoring path is unchanged,
+translated pages sit inside the blocking contrast and responsive sweeps,
+and `CLAUDE.md`'s add-a-page checklists say what the locale layer asks
+of a new page. The fork route (MIT, own name/domain, link back) was
+offered in the close comment.
+
+### 323. The AHU low-charge verdict still states the diagnosis the FCU's was hedged away from (#247's unfinished half) *(noticed 2026-08-01 in #247's resolution, carried here 2026-10-05)* *(ruled 2026-10-05 — hedge to the FCU's disposition-3 wording; fix pending)* *(addressed 2026-10-05 · PR #618)*
+
+`html/scripts/ddcw-ahu-unit.js:1998` sets the AHU's `low-charge`
+verdict to *"No ΔT across the machine — low charge, not cooling"*. That
+over-claims in exactly the way #247 corrected on the FCU: the readings on
+the graphic cannot separate low charge from a plugged condenser, a dead
+compressor or a plugged metering device. The verdict only *knows* because
+the scenario button injected `d.fault`, ground truth the drawing never
+renders. #247's resolution named this twin and left it out of scope; it
+was tracked nowhere else until the 2026-10-05 state map surfaced it.
+
+New string: *"No ΔT across the machine — air moving; low charge is one
+candidate, gauges settle it"* — the FCU's disposition-3 shape
+(`html/scripts/ddcw-fcu-unit.js:1188`), keeping **"across the machine"**
+because the AHU's ΔT is discharge minus mixed air across the whole unit,
+fan heat included, not a coil ΔT. **No `.ref-note`:** the FCU's note
+exists to explain the asymmetry between two neighbouring verdicts (the
+blocked-condenser one refuses to name a part); the AHU has no such
+neighbour, so there is nothing to explain. **Add a spec row** pinning the
+string and its `.sr-only` mirror (`#ahu-verdict-sr`, written by the one
+`setVerdict` writer at `ddcw-ahu-unit.js:1624-1630`) — nothing pins it
+today; `tests/ddcw-ahu-unit.spec.js` drives the `low-charge` fault but
+never asserts the verdict text. The FCU row at
+`tests/ddc-workbench-fcu.spec.js:1314` is the model.
+
+**Ruling (2026-10-05, owner).** *"Hedge it."* Option 2 of the hedge: the
+FCU wording, no ref-note. Live script → **owner merges**. On merge this
+heading takes `*(addressed YYYY-MM-DD — hedged to the FCU wording, spec
+row added, PR #NNN)*`.
+
+**Resolution (2026-10-05, PR #618).** Hedged as ruled.
+`html/scripts/ddcw-ahu-unit.js` — the `low-charge` branch (still at
+`:1998` on main when the lane started) now reads *"No ΔT across the
+machine — air moving; low charge is one candidate, gauges settle it"*,
+with a comment above it mirroring the FCU's: the scenario button knows
+which fault was set, the graphic does not; no `.ref-note`, and why.
+`tests/ddc-workbench-ahu-page.spec.js` — a new row in the verdict-ladder
+describe clicks `[data-preset="lowcharge"]`, waits on the condition, and
+pins the exact string, the `error` class and the `#ahu-verdict-sr`
+mirror in one snapshot. Measured: that spec 96/96 green, smoke's
+`ddc workbench ahu` row green. One correction to the entry: the spec row
+landed in `ddc-workbench-ahu-page.spec.js` (the spec that drives the
+built page), not `ddcw-ahu-unit.spec.js`, which is engine-direct.
+
+### 324. The PID tuner's cheat sheet advises "flip acting (direct ↔ reverse)" — a control the tuner does not have *(noticed 2026-10-05, decision sitting — by-catch of the pid-basics direct/reverse aside; LOW, not ruled)* *(ruled 2026-10-06 — reword as field advice)* *(addressed 2026-10-06 · PR #641)*
+
+`html/simulators/pid-tuner.html:423` — the Symptom→Move table's row
+*"PV runs away when the loop acts → flip acting (direct ↔ reverse)"*.
+The tuner's engine is fixed reverse-acting: it has no acting parameter,
+and the only place direction appears is an annotation — the comment at
+`:960` and the readout text at `:965` tell the reader a negative process
+gain means the loop should be set direct-acting, and that the gains use
+the magnitude. So the row is **defensible as advice about the reader's
+real loop** (a PV that runs away when the loop acts is the classic
+wrong-action symptom) but **reads as advice about the tool**, where the
+reader will look for a toggle that is not there.
+
+Options: (1) reword the row so it says it is advice for the field
+controller, not a control on this page — smallest; (2) add an acting
+toggle to the tuner — bigger, touches the engine and every preset;
+(3) leave it. Found while ruling the pid-basics direct/reverse aside
+(friction file, *PID basics — surface direct vs reverse acting?*). Open;
+not on the 2026-10-05 agenda.
+
+**Resolution (2026-10-06, rulings.md §19.4):** option (1). The row now
+reads "wrong action on the real controller — flip direct ↔ reverse
+there", so it is advice about the reader's loop and no longer points at
+a toggle this page lacks. Shipped on PR #641 with content-audit #94 /
+#95 and #329 (one `pid-tuner.html` + `pid-basics.html` lane). Refuter
+note: the cell is now the longest in the terse cheat sheet (four lines
+at 375 px, no overflow).
+
+### 325. `buildState` ok:false reaches two unguarded consumers — coil-sizing heating NaN, psych-chart HC stage *(noticed 2026-10-05, #238 fix round)* *(addressed 2026-10-05 · PR #632)*
+
+#238's guard makes `Psychro.buildState` return `{ ok: false, error }` for a
+dry-bulb at or above boiling for the pressure. Two callers that accept a
+user-entered leaving dry-bulb never check `.ok`:
+
+- **`html/tools/coil-sizing.html:474`** — the heating branch rebuilds
+  `lvgState` with `buildState` and goes straight to `computeProcess`. With
+  Coil type = heat and a leaving dry-bulb of 230 °F, the page now prints
+  *"Heating coil — NaN MBH sensible."* plus `NaN MBH`, `NaN °F` and
+  `NaN Btu/lb` (reproduced on the built site, verifier round 1 of PR #619).
+  Before #238 it printed a bone-dry but finite number, so this is a
+  **regression on a live tool introduced by the #238 fix**. Fix: after the
+  heating-branch `buildState`, add
+  `if (!lvgState.ok) { clearCap('Leaving air — ' + lvgState.error, 'error'); return; }`
+  — the same shape the cooling branch already uses two lines up.
+- **`html/tools/psychrometric-chart.html:728`** — the HC stage spreads the
+  result into `r.hc`, pushes a stage and sets `current = hc`, so an
+  above-boiling HC leaving temperature hands a truthy `ok: false` object to
+  every downstream stage. Fix: an `if (!hc.ok) { r.hc = { ...hc, enabled: true }; setErr('HC: ' + hc.error); current = null; }`
+  arm before the success path, like the other HC guards beside it.
+
+Both are live-page changes (needs approval to merge). Open.
+
+**Resolution (2026-10-05, PR #632).** Both consumers now guard `ok:false`.
+`html/tools/coil-sizing.html:475` runs
+`if (!lvgState.ok) { clearCap('Leaving air — ' + lvgState.error, 'error'); return; }`
+after the heating-branch `buildState`. `html/tools/psychrometric-chart.html:729-732`
+gives the HC stage the CC stage's `!ok` branch (`r.hc` carries the error,
+`setErr('HC: …')`, `current = null`). `tests/smoke.spec.js` adds
+`coil sizing — an above-boiling heating leaving DB mutes the capacity tab (#238)`
+and `psychrometric chart — an above-boiling HC leaving DB errors cleanly (#238)`.
+Both fail with the fixes reverted.
+
+### 326. hydronic-engine.js keeps the pre-#44 pump-curve formula in its catalog comment, and `branchHsrcSlope` scales the slope by spd² (Jacobian only) *(noticed 2026-10-05, re-entry audit refutation lane)* *(addressed 2026-10-05 · PR #626)*
+
+Content-audit #44 corrected the pump curve to *H = H₀·(speed/100)² −
+a·Q²* — only the shutoff head scales with speed, so the operating point
+on a k·Q² system curve moves as Q ∝ speed, matching
+`affinity-laws.html`. The implementation (`branchHsrc`,
+`html/scripts/hydronic-engine.js:628`), the file header (`:58`) and the
+loop-builder prose (`html/simulators/hydronic-loop-builder.html:470`)
+all carry that form. Two leftovers of the old whole-curve form survived:
+
+- the pump catalog comment at `hydronic-engine.js:199` still read
+  *H=(H₀−a·Q²)·(speed/100)²*;
+- `branchHsrcSlope` (`:637-647`) returned `−2a·Q·spd²`, the derivative of
+  the OLD curve. d/dQ of the implemented curve is `−2a·Q`. The comments
+  restating it in `solveHydraulics` (`:692`, `:723`, and the backflow
+  guard's `a·spd² > k` at `:726`) repeated the scaled form.
+
+The error is in the Newton Jacobian only: the branch law and the Norton
+injection use the true `hsrc`, so the converged operating point is
+unaffected; at reduced speed the steps were mis-scaled. Identical at
+100 % speed.
+
+**Resolution (2026-10-05, PR #626).** `html/scripts/hydronic-engine.js`
+only: the catalog comment now reads *H=H₀·(speed/100)² − a·Q²*;
+`branchHsrcSlope` returns `−2a·Q` (clamped-flat `0` branch kept — speed
+still moves that boundary, so `spd` stays in the clamp test); its comment
+and the three `solveHydraulics` comments are de-scaled, the backflow
+guard condition becoming `a > k`. Measured with a Node vm load of the
+engine over the loop builder's three `EXAMPLES` at 100 / 60 / 30 %
+speed, cold `solve()`: converged flows agree before vs after to
+≤ 4.9e-5 gpm (TOL is 1e-4), bit-identical at 100 %; all converge.
+**What the entry's framing got wrong:** "mis-scaled steps" read as a
+convergence cost, but correcting the slope makes the cold solve
+**slower**, not faster, at reduced speed — 28→32 / 26→32 (single,
+60 / 30 %), 31→33 / 29→31 (parallel), 31→33 / 27→30 (threeway), and a
+warm 100→60 % speed step 15/13/16 → 19/19/19 iterations (the following
+warm tick is 1 either way). Mechanism: the solver applies a fixed
+`RELAX = 0.5`; the old under-sized slope inflated `g = 1/f'`, so each
+step overshot the Newton step and partly cancelled the damping. With
+the true slope the relaxed step is exactly half a Newton step. The fix
+is a correctness fix, not a speed win; retuning `RELAX` (or relaxing
+less once the Jacobian is exact) is a separate question, not opened
+here. Specs: `hydronic-engine.spec.js` 44/44, `smoke.spec.js -g
+hydronic` 8/8.
+
+### 327. `privacy.html` names the sessionStorage keys per key but the localStorage values only in prose *(noticed 2026-10-05, re-entry cleanup lane; LOW)* *(addressed 2026-10-05 · PR #630)*
+
+The on-device-storage section of `html/privacy.html` has two paragraphs.
+The sessionStorage one names its keys (`cf_ddcw_ahu`, `cf_ddcw_fcu`) and
+says how long session storage lasts (per tab). The localStorage one only
+lists *what* is remembered (units choice, theme, psychrometric range,
+refrigerant, thermistor type, quiz best/time/attempts/last-played). It
+names no key and never says how long local storage lasts. CLAUDE.md's
+convention (*New `cf_*` browser-storage keys update `privacy.html`*)
+requires the policy to say which area holds each key and what that
+area's lifetime is. So the paragraph that reads as exhaustive was
+exhaustive in substance but not by key, and the localStorage lifetime
+was only implied by "between visits".
+
+Real key set, from a grep of every `localStorage` / `sessionStorage`
+`getItem` / `setItem` / `removeItem` call site under `html/` at `main`
+`b54a6c8`:
+`cf_units` (`scripts/units.js`, `_includes/head.njk`), `cf_theme`
+(`scripts/theme.js`, `head.njk`), `cf_psy_range`
+(`tools/psychrometric-chart.html`), `cf_rf_refrigerant`
+(`tools/refrigerant-pt.html` + `simulators/refrigerant-loop.html`,
+shared), `cf_th_type` (`tools/thermistor-calculator.html`),
+`cf_quiz_<slug>_{best,best_total,best_time_ms,attempts,last_iso}`
+(`scripts/quiz-engine.js`; `practice/index.html` reads `best` /
+`best_total`), and sessionStorage `cf_ddcw_<unit.id>`
+(`scripts/ddcw-session.js`, units `ahu` / `fcu`). Every one was already
+described; none was missing from the policy's substance.
+
+**Resolution (2026-10-05, PR #630).** `html/privacy.html`: the
+localStorage paragraph now gives each key or key family with what it
+stores, in the same voice as the sessionStorage paragraph. It also says
+local storage persists: it survives closing the tab and the browser and
+stays until cleared. The quiz family is spelled
+`cf_quiz_<quiz>_*` with its five suffixes. No other file changed. Smoke
+`privacy loads cleanly` passes. What the entry would otherwise have
+gotten wrong: there was no missing key, so this is a form fix (per key +
+lifetime), not a disclosure gap. Numbering note: #325 and #326 were
+already claimed on other branches when this was written, so this entry
+takes #327.
+
+### 328. `bacnet-networking.html`'s "What this page didn't cover" list promises unbuilt pages in lesson body prose *(noticed 2026-10-05, #314 lane verifier)* *(ruled 2026-10-06 — narrow to scope statements)* *(addressed 2026-10-06 · PR #643)*
+
+`html/education/bacnet-networking.html`, the `What this page didn't
+cover` subhead (`:598`) and its bullet list. Two bullets promise a page
+that does not exist:
+
+- **Segmentation** (`:616-620`) — *"a deeper treatment belongs on its
+  own page."*
+- **BACnet/SC** (`:621-625`) — *"worth its own page once it's common
+  enough in BAS work to justify the depth."*
+
+Three more bullets in the same list carry the same shape in softer
+words: **Capture-driven troubleshooting** (`:626-631`, *"Worth its own
+treatment"*), **Alarms and event notifications** (`:632-638`, *"Their
+own page"*) and **Vendor profile differences** (`:639-645`, *"they
+belong on per-platform pages (Niagara, EBO, …) when those land"* — that
+one also names vendors, see #315 for the grandfathered precedent).
+`html/education/bacnet-basics.html` has the same subhead (`:690`); its
+second paragraph closes the out-of-scope list with *"The rest are their
+own future pages"* (`:715`). The MS/TP bullet and basics' `:684` point at
+a page that now exists and are fine.
+
+CLAUDE.md's *No coming-soon copy* convention bans these, and its
+**2026-10-05 amendment** does not save them: the amendment makes
+PROMINENCE the test — a brief clause at the tail of a scope `.ref-note`
+is acceptable, but *"a promise in body or lesson prose"* and a visible
+list of unbuilt features are not. This is a bulleted list in lesson
+body prose under its own `<h2>`, so it is in scope. The status script's
+coming-soon scan (`npm run status`, §5) reported zero for it — its
+regex did not carry the *"own page"* shapes until it was widened the
+same night (commit `970bef1`, PR #633, open when this was written).
+
+Options: (1) reword each bullet to state the scope boundary and why the
+topic sits outside it, with no page promise — the convention's own
+prescription; the topics stay listed, only the promise goes; (2) accept
+some or all of it as low-key under the amendment. Which one is the
+owner's call, since the amendment is the owner's own ruling on where
+the line sits. If (1), the roadmap side is a `[future:]` marker per
+topic in `site-ideas-and-friction.md`, not page copy. PR #625 (#314's
+lane) gives the same `bacnet-networking.html` subhead an
+`id="not-covered"`; a reword lane should land after it or rebase onto
+it. Open.
+
+**Resolution (2026-10-06, rulings.md §19.3):** option (1), applied to
+all five bullets (segmentation, BACnet/SC, capture-driven
+troubleshooting, alarms and events, vendor profiles) plus `bacnet-
+basics.html`'s "their own future pages" line. Each bullet keeps its
+description of the topic and states why it sits outside this page; no
+page is promised, and the vendor names left with the vendor bullet. `npm
+run status` §5 reports 0 coming-soon candidates on the branch. The
+subhead is `:601` (not `:598`) after PR #625's `id="not-covered"`. Two
+sibling lessons carry the same shape in words the §5 regex does not see
+— logged as #333.
+
+### 329. `pid-basics.html`'s closing "PID block on a wiresheet" paragraph has no `id`, so no quiz `learnMore` can deep-link it *(noticed 2026-10-05, quiz wave-2 pid-basics lane)* *(addressed 2026-10-06 · PR #641)*
+
+`html/education/pid-basics.html:229-231` — the paragraph that opens *"In a
+building-automation controller, the PID you've just been tuning lives
+as a single block on a wiresheet …"* — carries no `id`, and neither
+does anything around it: it sits alone after the last tool-card, under
+only an HTML comment. The pid-basics bank's
+`pid-block-on-wiresheet` question (PR #608, open when this was written)
+tests exactly that paragraph but has to send its `learnMore` to
+`/education/function-blocks.html#families` instead — a different
+lesson.
+
+Same family as #314 (lesson subheads without ids can't receive quiz
+deep links). Note the lesson's anchor surface is thin: the only ids a
+`learnMore` can target are the three term callouts (`#p-term` `:46`,
+`#i-term` `:51`, `#d-term` `:56`) and the three simulator cards
+(`#sim1` `:79`, `#sim2` `:128`, `#sim3` `:178`), besides `#main`. Fix
+shape as #314: one `id` (on the paragraph, or on a subhead added above
+it), plus a retarget of `pid-block-on-wiresheet`'s `learnMore` in the
+same PR. No guard proposed, for #314's reason. Open —
+log-and-fix-opportunistically: any lane already touching
+`pid-basics.html` takes it.
+
+**Resolution (2026-10-06):** `id="pid-on-a-wiresheet"` on the paragraph
+itself (`pid-basics.html:~228`, with a keep-it comment naming it a quiz
+deep-link target; no subhead added), and `pid-block-on-wiresheet`'s
+`learnMore` retargeted to `/education/pid-basics.html#pid-on-a-
+wiresheet` with the label "PID Basics — The PID block on a wiresheet".
+The bank's header comment, which said the paragraph had no anchor, was
+trued up in the same commit. `link-integrity.spec.js`'s fragment arm
+resolves it.
+
+### 330. `publish-preview.mjs`'s destination guard is suffix-only, so a worktree outside the repo's parent publishes to a sibling folder it creates *(noticed 2026-10-06, review-and-merge session; LOW)* *(addressed 2026-10-06 · PR #646, merged)*
+
+`.github/scripts/publish-preview.mjs:80-84` resolves the default
+destination as `../caddy/dashboard/cfdev` relative to the checkout and
+asserts only that the resolved path ends with `/caddy/dashboard/cfdev`.
+Run from a worktree under the session scratchpad, that resolved to
+`<scratchpad>/caddy/dashboard/cfdev`, passed the guard, was created by
+the `mkdirSync({ recursive: true })` branch, received the full rsync,
+and the script printed *"live at https://cfdev.home.arpa/"* — while the
+hub kept serving the August build and the new lesson 404'd. Nothing was
+damaged (the stray tree sat in the scratchpad), but the success message
+was false. `CF_PREVIEW_DIR=/home/ehill/caddy/dashboard/cfdev` works from
+anywhere (CLAUDE.md's LAN-preview bullet now says so).
+
+**Fix shape:** resolve the default against `os.homedir()` — the hub's
+docroot is a home-directory path, not a repo-relative one — and have
+the guard assert the path is under `$HOME` as well as ending with the
+suffix; keep `CF_PREVIEW_DIR` as the override. Script only → merge on
+green.
+
+**Resolution (2026-10-06):** the default destination is now
+`path.join(os.homedir(), 'caddy', 'dashboard', 'cfdev')`
+(`CF_PREVIEW_DIR` still overrides; a relative override still resolves
+against the checkout), and the guard has **three** checks, not the two
+the fix shape named: the suffix, under-`$HOME` (a lexical
+`path.relative` test, no symlink following), and **the `caddy/dashboard`
+parent must already exist** — `mkdirSync(DEST)` no longer creates it.
+The third check is load-bearing, not polish: from an in-home lane
+worktree (`.claude/worktrees/<name>`) the old repo-relative default
+resolves to `<repo>/.claude/worktrees/caddy/dashboard/cfdev`, which
+passes BOTH of the ruled checks and is refused only by the parent check.
+A `--dry-run` flag runs every guard and prints the plan without touching
+the docroot. Six-case guard matrix in the PR body; CLAUDE.md's LAN-
+preview bullet rewritten to match.
+
+### 331. `test.yml` never runs for a stacked PR that GitHub retargets to `main` after its parent merges *(noticed 2026-10-06, review-and-merge session; process gap, owner's call on the fix)* *(ruled 2026-10-06 — both triggers; merge on green granted)* *(addressed 2026-10-06 · PR #645, merged)*
+
+`.github/workflows/test.yml` triggers on `pull_request` with
+`branches: [main]`, and the default activity types are `opened`,
+`synchronize` and `reopened`. A child PR in a stack opens against its
+parent's branch, so nothing runs; when the parent merges and GitHub
+retargets the child to `main`, that is an `edited` event (with
+`changes.base`), which does not run either. The child shows no `test`
+check at all, `mergeStateStatus` reads CLEAN, and `gh pr merge` goes
+through. Two chain A PRs (#632, #630) merged that way on 2026-10-06
+before the gap was noticed *(corrected 2026-10-06 — this entry first
+said three and named #626, whose merged SHA carries a `test` SUCCESS)*. A full local suite on `main`
+afterwards was clean (1223 passed, 1 skipped, 0 failed), and the chain
+B children (#623, #624, #627, #620) were rebased onto `main` and
+force-pushed before merging — the push is a `synchronize`, which runs.
+
+**Fix shape:** add `types: [opened, synchronize, reopened, edited]` and
+gate the job with
+`if: github.event.action != 'edited' || github.event.changes.base != null`,
+so a retarget runs the suite and a title or body edit does not.
+Alternatively (or also) add `push: branches: [main]`, so `main` itself
+is tested after every merge, not only the PR before it. CI config →
+owner picks. CLAUDE.md's Workflow section carries the rebase-push rule
+in the meantime.
+
+**Resolution (2026-10-06, rulings.md §19.2):** both shapes shipped.
+`pull_request` now carries `types: [opened, synchronize, reopened,
+edited]` and the job is gated with the **shipped** expression `if:
+github.event_name != 'pull_request' || github.event.action != 'edited'
+|| github.event.changes.base != null` — the `event_name` clause is not
+in the sketch above and is needed so a `push` event (where `action` is
+null) passes on its own terms, not by accident. `push: branches: [main]`
+runs the suite on `main` after every merge; runs 37556093557 (`6d659c2`,
+after #645) and 37556097855 (`a2ad39f`, after #646) are the first two
+and both passed. Two observed consequences: (a) a title or body edit
+fires `edited`, the gate skips the job, and `gh pr view N --json
+statusCheckRollup` lists a `test` check with conclusion SKIPPED
+**beside** the real run on the same head — read SUCCESS on the head SHA,
+ignore the SKIPPED twin; (b) the automatic retarget `edited` event has
+not yet been observed to dispatch a run (no stacked child has merged
+since) — PR #652 on #651 is the first test; until then the rebase-push
+rule in CLAUDE.md stays as the backstop. CLAUDE.md *Workflow* trued up
+(two PRs, fix landed).
+
+### 332. "freeze-stat" vs "freezestat" — the lessons spell it one way, the widget strings and quiz banks the other *(noticed 2026-10-06, Batch A air-handlers refuter; owner spelling ruling + sweep)*
+
+Every lesson's prose writes **freezestat** (`coil-freeze-protection.html`,
+`air-handlers.html` after PR #640, the glossary entry), while the
+visible widget status string in `air-handlers.html` (`:761`, *"Mixed air
+near freezing — freeze-stat territory"*), the air-handlers bank
+(`html/_data/quizzes/air-handlers.js:196,200`), `economizers.js`,
+`sequencing-scenarios.js`, `boolean-logic-latches.html:229` and comments
+in `glossary.js` write **freeze-stat** — 22 hyphenated hits site-wide at
+`a2ad39f`. PR #640 avoided quoting the widget string in prose so one
+sentence would not spell it both ways. Both forms are current in the
+trade; the site should pick one. **Fix shape:** owner picks the house
+spelling (the lessons' unhyphenated form is the larger set), then one
+sweep PR over strings and banks — `quiz-banks.spec.js` is shape-only, so
+no spec changes. Open.
+
+### 333. Two more lessons promise unbuilt work in body prose, in shapes the §5 coming-soon scan does not carry *(noticed 2026-10-06, Batch A bacnet-scope refuter — same family as #328)*
+
+`html/education/bacnet-services.html:227` — the out-of-scope paragraph
+says segmentation is *"worth its own treatment"*; and
+`html/education/bacnet-mstp.html:238` — the "What this page didn't
+cover" paragraph says a bus simulator is *"on the roadmap as this page's
+practice pair"*, names the Controller Wiring Simulator's NET terminals
+as *"the seam it will plug into"*, and says BACnet/SC *"will eventually
+inherit much of this work"*. Both are plain `<p>` lesson body prose, so
+both sit on the banned side of the 2026-10-05 prominence amendment, and
+`npm run status` §5 reports 0 for both: its regex carries the "own
+page" shapes added 2026-10-05 but not `worth its own treatment` or `on
+the roadmap`. Also pre-existing on `bacnet-networking.html:607-608`: the
+intro above the not-covered list says the topics are *"deliberately out
+of scope across"* the BACnet lessons while the first bullet says MS/TP is
+*"Now its own page"* — one clause ("out of scope on this page") fixes
+it. **Fix shape:** narrow the two paragraphs to scope statements per the
+#328 ruling (the mstp one is a simulator promise rather than a page
+promise, so the owner may want to call it), and add `worth its own
+treatment` and `on the roadmap` to the §5 banned-shape set in
+`.github/scripts/project-status.mjs` so the scan's zero means more than
+it does today. Open.
+
+### 334. The quiz engine grades a numeric answer typed with a thousands separator as its leading digits *(noticed 2026-10-06, Batch B vav-systems lane; engine, LOW)*
+
+`html/scripts/quiz-engine.js` reads numeric answers with `parseFloat`,
+so a reader who types `10,000` is graded as `10` — and marked wrong with
+no hint why. Banks with answers at or above 1,000 are exposed today:
+`bacnet-basics` (47808), `building-pressure` (3000 and the new 3200),
+`field-wiring-sensors`, `surviving-first-months` (10000). The wave-3
+lanes avoided adding more. **Fix shape:** strip `,` (and the thin/narrow
+no-break space a metric reader may paste) before parsing, in one place
+in the engine; a one-line test in `quiz-engine`'s spec. Live script on
+42 practice pages → owner merges. Open.
+
+### 335. Several ten-question banks key every choice on "a", and the keyed choice is usually the longest — the engine does not shuffle choices *(noticed 2026-10-06, Batch B duct-static-control + vav-systems lanes; bank-wide sweep wanted)*
+
+`duct-static-control.js` keys all ten original questions on `a`;
+`vav-systems.js` keys all seven of its original mcq/gotcha questions on
+`a`, and in six of those the key is also the longest choice (e.g.
+`ds-cutout`, 206 characters against 95). `quiz-engine.js` shuffles
+question order but presents choices in authored order, so a test-wise
+reader learns the letter. The wave-3 lanes kept their five new keys off
+`a` and no longer than the longest distractor, which moves the split
+only to a10/b1/c1/d1 and a7/b1/c1/d1. **Fix shape:** a sweep over every
+bank that reorders choices (ids are per-question, nothing references
+them) and trims over-long keys, bank by bank for the owner to read —
+the air-handlers refuter did this for one bank in wave 2. No spec
+change: `quiz-banks.spec.js` does not read letter distribution, and
+`modbus-decoding` is walked deterministically by smoke and must keep its
+order. Open.
+
+### 336. `Psychro.buildState` has no finite/positive-`P` guard, so a bad pressure is reported as "at or above the boiling point" *(noticed 2026-10-06, #228 step 0 verifier; pre-existing, LOW)*
+
+`html/scripts/psychro-engine.js` `buildState(tdb, W, P)` (`~:218`) takes
+`P` positionally and never validates it, while `solveState` does
+(`![tdb, second, P].every(isFinite) || P <= 0`). A caller passing `NaN`,
+`null` or `0` drives `satHumRatio` to `NaN` and gets the #238
+`ok:false` refusal *"Dry-bulb is at or above the boiling point for this
+pressure…"* — a cause-dishonest message in the same family audit-2026-06
+polished out of the over-saturation path. `mixAir` / `mixFraction`
+(PR #651) inherit it: an explicit bad `P` passes their `=== undefined`
+default check and reaches the kernel. No page hits it today (every
+caller `parseFloat`s its inputs first). **Fix shape:** one guard at the
+top of `buildState` returning the engine's "Enter numeric values" shape;
+a spec line in `psychro-engine.spec.js`. Shared script → owner merges.
+Open.
+
+### 337. `building-pressure.html`'s "Not the same pressure" callout has no `id`, so the new bank question links its parent section *(noticed 2026-10-06, Batch B building-pressure lane; #314 family, log-and-fix-opportunistically)*
+
+The callout that separates building static from duct static carries no
+`id`; `bp-duct-static-not-building` (PR #650) tests exactly that beat
+and sends its `learnMore` to `#measuring-it`, the section that hosts it
+(the bank's header comment says so). Same shape and same fix as #314 /
+#329: one `id` on the callout, retarget the `learnMore` in the same PR.
+Any lane touching `building-pressure.html` takes it. Open.
